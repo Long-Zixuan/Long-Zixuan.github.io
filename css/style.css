@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#gameContainer {
+    /*width: 400px;
+    height: 600px;*/
+    width: 67vh;
+    height: 100vh;
+    background: #000033;
+    background-image: url('../src/img/background.gif');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    margin: auto auto;
+}
+#gameBar {
+    /*width: 400px;
+    height: 600px;*/
+    width: 100vw;
+    height: 100vh;
+    background: #293462;
+    position: relative;
+    overflow: hidden;
+    margin: auto auto;
+}
+#player {
+    width: 6.66vh;
+    height: 6.66vh;
+    position: absolute;
+    bottom: 50px;
+    left: 175px;
+    z-index: 11;
+}
+#boss {
+    width: 6.66vh;
+    height: 6.66vh;
+    position: absolute;
+    bottom: 50px;
+    left: 175px;
+    z-index: 9;
+}
+
+.bullet {
+    width: 1.66vh;
+    height: 1.66vh;
+    position: absolute;
+    z-index: 10;
+}
+
+#playerHealth {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 20px;
+    z-index: 100;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+#bossHealth {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    color: white;
+    font-size: 20px;
+    z-index: 100;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+#instructions {
+    text-align: center;
+    margin: 10px;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+#gameEndMsg {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    color: #FFF3C1;
+    font-size: 1hv;
+    z-index: 101;
+    font-weight: bold;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+#gameDialogBar {
+    width: 100%;
+    height: 20%;
+    background: #FF5F57;
+    position: absolute;
+    bottom: -1000px;
+    left: -1000px;
+    margin: auto auto;
+    z-index: 100;
+}
+#gameDialogBarImg {
+    width: 30vh;
+    height: 45vh;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 101;
+}
+
+#restart-button {
+    position: absolute; /* 绝对定位 */
+    bottom: 10px;
+    left: 50%; 
+    transform: translateX(-50%); /* 水平居中 */
+    padding: 1% 2%; /* 内边距 */
+    background-color: #A84943; /* 背景颜色 */
+    color: #FFF3C1; /* 文字颜色 */
+    border: none; /* 无边框 */
+    border-radius: 5px; /* 圆角 */
+    cursor: pointer; /* 鼠标指针样式 */
+    font-size: 18px; /* 字体大小 */
+    font-weight: bold; /* 加粗字体 */
+    z-index: 100;
+}
+ 
+#restart-button:hover {
+    background-color: #746655; /* 鼠标悬停时的背景颜色 */
+}
+
+#pause-button {
+    position: absolute; /* 绝对定位 */
+    top: 10px;
+    left: 95%; 
+    transform: translateX(-50%); /* 水平居中 */
+    padding: 0.6% 1.2%; /* 内边距 */
+    background-color: #66ccff; /* 背景颜色 */
+    color: #4C5A58; /* 文字颜色 */
+    border: none; /* 无边框 */
+    border-radius: 5px; /* 圆角 */
+    cursor: pointer; /* 鼠标指针样式 */
+    font-size: 14px; /* 字体大小 */
+    font-weight: bold; /* 加粗字体 */
+    z-index: 100;
+}
+
+#pause-button:hover {
+    background-color: #ed65ff; /* 鼠标悬停时的背景颜色 */
+}
