@@ -64,7 +64,7 @@
         <h2>感激不尽感激不尽感激不尽</h2>
         <img class="payImg" src="../src/img/pay/wechat.png" alt="微信支付二维码">
         <img class="payImg" src="../src/img/pay/alipay.jpg" alt="支付宝支付二维码">
-        <img class="LSImg" src="../src/img/pay/LS2.svg" alt="LS">
+        <img class="LSImg" id = "LS" src="../src/img/pay/LS2.svg" alt="LS">
         <a href="../index.html"></a>
     </div>
         
@@ -74,8 +74,9 @@
         const container = document.getElementById('container');
         const h1 = document.querySelector('h1');
         const h2 = document.querySelector('h2');
-        const payImg = document.getElementsByClassName('payImg');
-        const lsImg = document.getElementsByClassName('LSImg');
+        //const payImg = document.getElementsByClassName('payImg');
+        const payImg = document.querySelectorAll('payImg');
+        const lsImg = document.getElementById('LS');
         let i = 1;
         let colMax = 255;
         let colMin = 200;
@@ -98,38 +99,51 @@
         let windowHeight = window.innerHeight;
 
         // 输出初始窗口的宽度和高度
-        console.log(`初始窗口宽度: ${windowWidth}px`);
-        console.log(`初始窗口高度: ${windowHeight}px`);
+        //console.log(`初始窗口宽度: ${windowWidth}px`);
+        //console.log(`初始窗口高度: ${windowHeight}px`);
 
         // 添加窗口大小改变事件监听器
         window.addEventListener('resize', () => {
             windowWidth = window.innerWidth;
             windowHeight = window.innerHeight;
+            windowLogic(windowHeight,windowWidth);
+            //console.log(`新的窗口宽度: ${windowWidth}px`);
+            //console.log(`新的窗口高度: ${windowHeight}px`);
+        });
+        function windowLogic(windowHeight,windowWidth)
+        {
             if(windowWidth > windowHeight)
             {
                 h1.style.fontSize = "2.5dvw";
                 h2.style.fontSize = "1.5dvw";
                 container.style.width = "36vw";
                 container.style.height = "auto";
-                payImg.style.width = "45%";
-                payImg.style.height = "auto";
-                lsImg.style.width = "100%";
-                lsImg.style.height = "auto";
+                for(let i = 0; i < payImg.length; i++)
+                {
+                    payImg[i].style.width = "45%";
+                    payImg[i].style.height = "auto";
+                }
+                
+                /*lsImg.style.width = "100%";
+                lsImg.style.height = "auto";*/
             }
             else
             {
-                h1.style.fontSize = "5dvh";
-                h2.style.fontSize = "3dvh";
-                container.style.width = "auto";
-                container.style.height = "60vh";
-                payImg.style.width = "auto";
-                payImg.style.height = "5%";
-                lsImg.style.width = "auto";
-                lsImg.style.height = "5%";
+                h1.style.fontSize = "4dvh";
+                h2.style.fontSize = "2.5dvh";
+                container.style.width = "60vw";
+                container.style.height = "auto";
+                for(let i = 0; i < payImg.length; i++)
+                {
+                    payImg[i].style.width = "60%";
+                    payImg[i].style.height = "auto";
+                }
+               
+                /*lsImg.style.width = "auto";
+                lsImg.style.height = "5%";*/
             }
-            console.log(`新的窗口宽度: ${windowWidth}px`);
-            console.log(`新的窗口高度: ${windowHeight}px`);
-        });
+        }
+        windowLogic(windowHeight,windowWidth);
         setInterval(loop, 80);
     </script>
 </body>
