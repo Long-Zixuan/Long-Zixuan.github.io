@@ -79,7 +79,7 @@
         <!--<img class="payImg" src="../src/img/pay/alipay.jpg" alt="支付宝支付二维码" width="252" height="400">--><br>
         <a href="../index.html">      </a>
     </div>
-    <p>⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣦⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
+    <p id = "baka">⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣦⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
         ⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀
         ⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡶⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀
         ⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀
@@ -152,22 +152,23 @@
         const h1 = document.querySelector('h1');
         const h2 = document.querySelector('h2');
         const body = document.querySelector('body');
-        const p = document.querySelector('p');
+        //const p = document.querySelector('p');
+        const baka = document.getElementById('baka');
         let colCount = 255;
         let i = 1;
-        let j = 0.1;
-        let pFontSize = 0.8;
+        let j = 0.01;
+        let bakaFontSize = 0.8;
 
-        /*function loopFontSize()
+        function loopFontSize()
         {
-            p.style.fontSize= pFontSize +'dvm';
-            pFontSize += j;
+            baka.style.fontSize= bakaFontSize +'dvw';
+            bakaFontSize += j;
 
-            if (pFontSize >= 10.5 || pFontSize <= 0.1) 
+            if (bakaFontSize >= 1 || bakaFontSize <= 0.7) 
             {
                 j *= -1;
             }
-        }*/
+        }
 
         function loopCol()
         {
@@ -177,7 +178,7 @@
             h1.style.color = `rgb(${255 - colCount}, ${255 - colCount}, ${colCount})`;
             h2.style.color = `rgb(${colCount}, ${colCount}, ${255 - colCount})`;
             body.style.backgroundColor = `rgb(${255 - colCount}, ${255 - colCount}, ${255 - colCount})`;
-            p.style.color = `rgb(${colCount}, ${colCount}, ${colCount})`;
+            baka.style.color = `rgb(${colCount}, ${colCount}, ${colCount})`;
            
             if (colCount == 255 || colCount == 0) 
             {
@@ -186,7 +187,7 @@
             colCount += i;
         }
         setInterval(loopCol, 10);
-        //setInterval(loopFontSize, 10);
+        setInterval(loopFontSize, 10);
         //别看了，屎山代码
         //LZX-VSCode-2025-01-24-001
     </script>
