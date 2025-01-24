@@ -120,7 +120,11 @@
 
     if(isPhone())
     {
-        alert('本页面未适配移动端，建议使用电脑访问。');
+        var res=confirm("本页面未适配手机端，是否要跳转到手机端页面？");
+		if (res==true)
+        {
+            window.open("./support_me_old.html");
+		}
     }
         const container1 = document.getElementById('container1');
         const container2 = document.getElementById('container2');
