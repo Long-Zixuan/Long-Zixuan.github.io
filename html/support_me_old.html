@@ -16,21 +16,25 @@
         }
         #container {
             text-align: center;
-            height: 100vh;
-            width: 100vw;
+            height: auto;
+            width: 100%;
+            max-width: 36vw;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         .payImg {
             margin: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-             width: 14vw;
-            /*height: 38.5vh;*/
-            height: 18vw;
+            width: 45%;
+            height: auto;
         }
-        .LSImg
-        {
-            width: 30vw;
-            height: 7.5vw;
+        .LSImg {
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
         }
         a {
             display: inline-block;
@@ -46,9 +50,11 @@
             background-color: #ed65ff;
         }
         h1 {
+            font-size: 2.5dvw;
             color: #000000; /* 修改为所需的固定颜色 */
         }
         h2 {
+            font-size: 1.5dvw;
             color: #000000; /* 修改为所需的固定颜色 */
         }
     </style>
@@ -57,37 +63,38 @@
     <div id="container">
         <h1>请我喝杯奶茶吧！</h1>
         <h2>感激不尽感激不尽感激不尽</h2>
-        <img class = "payImg" src="../src/img/pay/wechat.png" alt="微信支付二维码">
-        <img class="payImg" src="../src/img/pay/alipay.jpg" alt="支付宝支付二维码"><br>
-        <br>
-        <img class = "LSImg" src="../src/img/pay/LS2.svg" alt="LS"><br>
-        <a href="../index.html">      </a>
+        <img class="payImg" src="../src/img/pay/wechat.png" alt="微信支付二维码">
+        <img class="payImg" src="../src/img/pay/alipay.jpg" alt="支付宝支付二维码">
+        <img class="LSImg" src="../src/img/pay/LS2.svg" alt="LS">
+        <a href="../index.html"></a>
     </div>
         
     <script>
         //const container = document.getElementById('container');
         const body = document.body;
+        const container = document.getElementById('container');
         const h1 = document.querySelector('h1');
         const h2 = document.querySelector('h2');
-        let colCount = 255;
+        
         let i = 1;
+        let colMax = 255;
+        let colMin = 200;
+        let colCount = colMax;
         function loop()
         {
-            body.style.backgroundColor = `rgb(${colCount}, ${colCount}, ${colCount})`;
-            h1.style.color = `rgb(${255 - colCount}, ${255 - colCount}, ${255 - colCount})`;
-            h2.style.color = `rgb(${255 - colCount}, ${255 - colCount}, ${255 - colCount})`;
+            container.style.backgroundColor = `rgb(${colCount}, ${colCount}, 255)`;
+            body.style.backgroundColor = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            h1.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            h2.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
 
-            if (colCount == 255) 
+            if (colCount == colMax || colCount == colMin) 
             {
-                i = -1;
+                i = -i;
             } 
-            else if (colCount == 0) 
-            {
-                i = 1;
-            }
             colCount += i;
         }
-        setInterval(loop, 10);
+        setInterval(loop, 80);
     </script>
 </body>
 </html>
+
