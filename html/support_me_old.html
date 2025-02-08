@@ -13,6 +13,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            position: relative; /* 添加相对定位 */
+            overflow: hidden; /* 隐藏溢出的内容 */
         }
         #container {
             text-align: center;
@@ -22,6 +24,7 @@
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            z-index: 1;
         }
         .payImg {
             margin: 10px;
@@ -56,6 +59,19 @@
             font-size: 1.5dvw;
             color: #000000; /* 修改为所需的固定颜色 */
         }
+        .danmu {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 16px;
+            color: white;
+
+            height: 20vh;
+            width: 150vw;
+            
+            padding: 5px 10px;
+            
+            z-index: 0;
+        }
     </style>
 </head>
 <body>
@@ -64,88 +80,114 @@
         <h2>感激不尽感激不尽感激不尽</h2>
         <img class="payImg" src="../src/img/pay/wechat.png" alt="微信支付二维码">
         <img class="payImg" src="../src/img/pay/alipay.jpg" alt="支付宝支付二维码">
-        <img class="LSImg" id = "LS" src="../src/img/pay/LS2.svg" alt="LS">
+        <img class="LSImg" id="LS" src="../src/img/pay/LS2.svg" alt="LS">
         <a href="../index.html"></a>
     </div>
         
     <script>
-        //const container = document.getElementById('container');
         const body = document.body;
+
+        //let danmuTop = 0;
+
+        function createDanmu() {
+            //const danmu = document.createElement('div');
+            for (let danmuTop = 0; danmuTop < 100; danmuTop += 20) 
+            {
+            
+                const danmu = document.createElement('img');
+                danmu.className = 'danmu';
+                danmu.src = '../src/img/pay/LS2.svg';
+                // danmu.style.top = `${Math.random() * 100}vh`; // 随机垂直位置
+                danmu.style.top = `${danmuTop}vh`; 
+                //danmuTop += 20;
+                //danmuTop = danmuTop % 100;
+                let flag = (danmuTop / 20) % 2;
+                let left = -300;
+                let speed = 1;
+                if(flag == 0)
+                {
+                    danmu.style.left = `${100}vw`; //
+                    left = 100;
+                    speed = -speed;
+                }
+                else
+                {
+                    danmu.style.left = `${-300}vw`; //
+                }
+                body.appendChild(danmu);
+
+                // 移动弹幕
+                
+                const interval = setInterval(() => {
+                    left += speed; // 调整速度
+                    danmu.style.left = `${left}vw`;
+                    /*if (left > 200) { // 当弹幕移出屏幕时移除
+                        clearInterval(interval);
+                        body.removeChild(danmu);
+                    }*/
+                }, 20);
+                setTimeout(() => {
+                    clearInterval(interval);
+                    body.removeChild(danmu);
+                }, 10000);
+            }
+        }
+
+        //let creatDanmuTime = (windowWidth / windowHeight) * 1000 ;
+
+        // 定时生成弹幕
+        let creatDanmuFunc = setInterval(createDanmu, 3300);
+
         const container = document.getElementById('container');
         const h1 = document.querySelector('h1');
         const h2 = document.querySelector('h2');
-        //const payImg = document.getElementsByClassName('payImg');
-        const payImg = document.querySelectorAll('payImg');
+        const payImg = document.querySelectorAll('.payImg'); // 修正选择器
         const lsImg = document.getElementById('LS');
         let i = 1;
         let colMax = 255;
         let colMin = 200;
         let colCount = colMax;
-        function loop()
-        {
+        function loop() {
             container.style.backgroundColor = `rgb(${colCount}, ${colCount}, 255)`;
             body.style.backgroundColor = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
             h1.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
             h2.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
 
-            if (colCount == colMax || colCount == colMin) 
-            {
+            if (colCount == colMax || colCount == colMin) {
                 i = -i;
-            } 
+            }
             colCount += i;
         }
-        // 获取窗口的初始宽度和高度
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
-
-        // 输出初始窗口的宽度和高度
-        //console.log(`初始窗口宽度: ${windowWidth}px`);
-        //console.log(`初始窗口高度: ${windowHeight}px`);
-
-        // 添加窗口大小改变事件监听器
         window.addEventListener('resize', () => {
             windowWidth = window.innerWidth;
             windowHeight = window.innerHeight;
-            windowLogic(windowHeight,windowWidth);
-            //console.log(`新的窗口宽度: ${windowWidth}px`);
-            //console.log(`新的窗口高度: ${windowHeight}px`);
+            windowLogic(windowHeight, windowWidth);
         });
-        function windowLogic(windowHeight,windowWidth)
-        {
-            if(windowWidth > windowHeight)
-            {
+        function windowLogic(windowHeight, windowWidth) {
+            if (windowWidth > windowHeight) {
                 h1.style.fontSize = "2.5dvw";
                 h2.style.fontSize = "1.5dvw";
                 container.style.width = "36vw";
                 container.style.height = "auto";
-                for(let i = 0; i < payImg.length; i++)
-                {
+                for (let i = 0; i < payImg.length; i++) {
                     payImg[i].style.width = "45%";
                     payImg[i].style.height = "auto";
                 }
-                
-                /*lsImg.style.width = "100%";
-                lsImg.style.height = "auto";*/
-            }
-            else
-            {
+            } else {
                 h1.style.fontSize = "4dvh";
                 h2.style.fontSize = "2.5dvh";
                 container.style.width = "60vw";
                 container.style.height = "auto";
-                for(let i = 0; i < payImg.length; i++)
-                {
+                for (let i = 0; i < payImg.length; i++) {
                     payImg[i].style.width = "60%";
                     payImg[i].style.height = "auto";
                 }
-               
-                /*lsImg.style.width = "auto";
-                lsImg.style.height = "5%";*/
             }
         }
-        windowLogic(windowHeight,windowWidth);
+        windowLogic(windowHeight, windowWidth);
         setInterval(loop, 80);
     </script>
 </body>
 </html>
-
