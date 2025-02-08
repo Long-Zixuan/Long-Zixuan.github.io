@@ -83,9 +83,12 @@
         <img class="LSImg" id="LS" src="../src/img/pay/LS2.svg" alt="LS">
         <a href="../index.html"></a>
     </div>
+
+    <div id = "DanmuContainer"></div>
         
     <script>
-        const body = document.body;
+       const body = document.body;
+       const danmuCon = document.getElementById('DanmuContainer');
 
         var system ={
             win : false,
@@ -116,14 +119,9 @@
             
                 const danmu = document.createElement('img');
                 danmu.className = 'danmu';
-                if(isPC())
-                {
-                    danmu.src = '../src/img/pay/LS2.svg';
-                }
-                else
-                {
-                    danmu.src = '../src/img/pay/LS2.png';
-                }
+
+                danmu.src = '../src/img/pay/LS2.svg';
+                
                 // danmu.style.top = `${Math.random() * 100}vh`; // 随机垂直位置
                 danmu.style.top = `${danmuTop}vh`; 
                 //danmuTop += 20;
@@ -141,7 +139,7 @@
                 {
                     danmu.style.left = `${-200}vw`; //
                 }
-                body.appendChild(danmu);
+                danmuCon.appendChild(danmu);
 
                 // 移动弹幕
                 
@@ -155,7 +153,7 @@
                 }, 20);
                 setTimeout(() => {
                     clearInterval(interval);
-                    body.removeChild(danmu);
+                    danmuCon.removeChild(danmu);
                 }, 10000);
             }
         }
@@ -163,7 +161,10 @@
         //let creatDanmuTime = (windowWidth / windowHeight) * 1000 ;
 
         // 定时生成弹幕
-        let creatDanmuFunc = setInterval(createDanmu, 3300);
+       // if(isPC())
+       // {
+            let creatDanmuFunc = setInterval(createDanmu, 3300);
+       // }
 
         const container = document.getElementById('container');
         const h1 = document.querySelector('h1');
