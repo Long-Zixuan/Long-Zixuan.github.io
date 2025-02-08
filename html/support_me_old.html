@@ -87,6 +87,26 @@
     <script>
         const body = document.body;
 
+        var system ={
+            win : false,
+            mac : false,
+            xll : false
+        };
+        //检测平台
+        var p = navigator.platform;
+        system.win = p.indexOf("Win") == 0;
+        system.mac = p.indexOf("Mac") == 0;
+        system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+
+        function isPC()
+        {
+            if (system.win || system.mac || system.xll) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         //let danmuTop = 0;
 
         function createDanmu() {
@@ -96,7 +116,14 @@
             
                 const danmu = document.createElement('img');
                 danmu.className = 'danmu';
-                danmu.src = '../src/img/pay/LS2.svg';
+                if(isPC())
+                {
+                    danmu.src = '../src/img/pay/LS2.svg';
+                }
+                else
+                {
+                    danmu.src = '../src/img/pay/LS2.png';
+                }
                 // danmu.style.top = `${Math.random() * 100}vh`; // 随机垂直位置
                 danmu.style.top = `${danmuTop}vh`; 
                 //danmuTop += 20;
