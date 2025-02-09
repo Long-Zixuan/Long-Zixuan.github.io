@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>设备测试</title>
+    <link rel="shortcut icon" href="../src/img/zi.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative; /* 添加相对定位 */
+            overflow: hidden; /* 隐藏溢出的内容 */
+        }
+        #container {
+            text-align: center;
+            height: auto;
+            width: 36vw;
+            padding: 20px;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            position: absolute;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            z-index: 1;
+        }
+        .payImg {
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            height: auto;
+        }
+        .LSImg {
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #66ccff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #ed65ff;
+        }
+        div {
+            font-size: 3dvw;
+            color: #4D5B58; 
+            font-weight: bold;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+        }
+        h1 {
+            font-size: 5dvw;
+            color: #4D5B58; 
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+        }
+        .danmu {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 16px;
+            color: white;
+
+            height: 20vh;
+            width: 150vw;
+            
+            padding: 5px 10px;
+            
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Device</h1>
+        <div>Is Mobile:<span id="isMobile">No</span></div>
+        <div>Is Ipad:<span id="isIpad">No</span></div>
+        <div>Is MacOS:<span id="isMacOS">No</span></div>
+        <div>Is Linux:<span id="isLinux">No</span></div>
+        <div>Is Windows:<span id="isWindows">No</span></div>
+        <div>Is Andriod:<span id="isAndroid">No</span></div>
+        <div>Is Iphone:<span id="isIphone">No</span></div>
+        <div>Is WindowsCE:<span id="isWindowsCE">No</span></div>
+        <div>Is WindowsMD:<span id="isWindowsMD">No</span></div>
+        
+        <h1>Browser</h1>
+        <div>Is IE:<span id="isIE">Yes(We are unable to test devices in the IE environment)</span></div>
+        <div>Is Chrome:<span id="isChrome">No</span></div>
+        <div>Is Firefox:<span id="isFirefox">No</span></div>
+        <div>Is Safari:<span id="isSafari">No</span></div>
+        <div>Is Opera:<span id="isOpera">No</span></div>
+        <div>Is UC:<span id="isUC">No</span></div>
+        <div>Is Uc7:<span id="isUc7">No</span></div>
+        <div>Is Midp:<span id="isMidp">No</span></div>
+        
+        <a href="../index.html"></a>
+    </div>
+
+    <div id = "DanmuContainer"></div>
+
+    <script>
+       const body = document.body;
+       const danmuCon = document.getElementById('DanmuContainer');
+
+       const isMobileEle = document.getElementById('isMobile');
+       const isIpadEle = document.getElementById('isIpad');
+       const isPCEle = document.getElementById('isPC');
+       const isMacOSEle = document.getElementById('isMacOS');
+       const isLinuxEle = document.getElementById('isLinux');
+       const isWindowsEle = document.getElementById('isWindows');
+       const isAndroidEle = document.getElementById('isAndroid');
+       const isIphoneEle = document.getElementById('isIphone');
+       const isWindowsCEEle = document.getElementById('isWindowsCE');
+       const isWindowsMDEle = document.getElementById('isWindowsMD');
+
+       const isIEEle = document.getElementById('isIE');
+       const isChromeEle = document.getElementById('isChrome');
+       const isFirefoxEle = document.getElementById('isFirefox');
+       const isSafariEle = document.getElementById('isSafari');
+       const isOperaEle = document.getElementById('isOpera');
+       const isUCEle = document.getElementById('isUC');
+       const isMidpEle = document.getElementById('isMidp');
+
+       isIEEle.textContent = "No";
+
+        var system ={
+            win : false,
+            mac : false,
+            xll : false
+        };
+        //检测平台
+        var p = navigator.platform;
+        system.win = p.indexOf("Win") == 0;
+        system.mac = p.indexOf("Mac") == 0;
+        system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+        
+        if (system.win) 
+        {
+            isWindowsEle.textContent = "Yes";
+        }
+
+        if (system.mac) 
+        {
+            isMacOSEle.textContent = "Yes";
+        }
+
+        if (system.xll) 
+        {
+            isLinuxEle.textContent = "Yes";
+        }
+
+        var uA = navigator.userAgent.toLowerCase();
+            var ipad = uA.match(/ipad/i) == "ipad";
+            var iphone = uA.match(/iphone os/i) == "iphone os";
+            var midp = uA.match(/midp/i) == "midp";
+            var uc7 = uA.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            var uc = uA.match(/ucweb/i) == "ucweb";
+            var android = uA.match(/android/i) == "android";
+            var windowsce = uA.match(/windows ce/i) == "windows ce";
+            var windowsmd = uA.match(/windows mobile/i) == "windows mobile"; 
+        
+        if(ipad)
+        {
+            isIpadEle.textContent = "Yes";
+        }
+
+        if(iphone)
+        {
+            isIpadEle.textContent = "Yes";
+        }
+
+        if(android)
+        {
+            isAndroidEle.textContent = "Yes";
+        }
+
+        if(windowsce)
+        {
+            isWindowsCEEle.textContent = "Yes";
+        }
+
+        if(windowsmd)
+        {
+            isWindowsMDEle.textContent = "Yes";
+        }
+        if(midp)
+        {
+            isMidpEle.textContent = "Yes";
+        }
+        if(uc)
+        {
+            isUCEle.textContent = "Yes";
+        }
+        if(uc7)
+        {
+            isUc7Ele.textContent = "Yes";
+        }
+        
+       // var ua = navigator.userAgent.toLowerCase();
+        if (/msie/i.test(uA) && !/opera/.test(uA)) {
+           // alert("IE");
+            isIEEle.textContent = "Yes";
+        }
+        if (/firefox/i.test(uA)) {
+            //alert("Firefox");
+            isFirefoxEle.textContent = "Yes";
+        }
+        if (/chrome/i.test(uA) && /webkit/i.test(uA) && /mozilla/i.test(uA)) {
+           // alert("Chrome");
+            isChromeEle.textContent = "Yes";
+        } 
+        if (/opera/i.test(uA)) {
+            //alert("Opera");
+            isOperaEle.textContent = "Yes";
+        }
+        if (/webkit/i.test(uA) && !(/chrome/i.test(uA) && /webkit/i.test(uA) && /mozilla/i.test(uA))) {
+           // alert("Safari");
+            isSafariEle.textContent = "Yes";
+        } 
+
+       if (/\(i[^;]+;( U;)? CPU.+Mac OS X/gi.test(uA)) {
+            isMacOSEle.textContent = "Yes";
+        }
+
+
+        let canCreatDanmu = true;
+
+        document.addEventListener("visibilitychange", function() {
+        var string = document.visibilityState
+        console.log(string)
+        if (string === 'hidden') {  // 当页面由前端运行在后端时，出发此代码
+            console.log('网页处于后台运行');
+            canCreatDanmu = false;
+            
+        }
+        if (string === 'visible') {   // 当页面由隐藏至显示时
+            console.log('网页处于前台运行');
+            canCreatDanmu = true;
+        }
+      });
+
+        //let danmuTop = 0;
+
+        function createDanmu() {
+            if(!canCreatDanmu) return;
+            //const danmu = document.createElement('div');
+            for (let danmuTop = 0; danmuTop < 100; danmuTop += 20) 
+            {
+            
+                const danmu = document.createElement('img');
+                danmu.className = 'danmu';
+
+                danmu.src = '../src/img/pay/LS2.svg';
+                
+                // danmu.style.top = `${Math.random() * 100}vh`; // 随机垂直位置
+                danmu.style.top = `${danmuTop}vh`; 
+                //danmuTop += 20;
+                //danmuTop = danmuTop % 100;
+                let flag = (danmuTop / 20) % 2;
+                let left = -200;
+                let speed = 1;
+                if (navigator.userAgent.indexOf('Firefox') >= 0)
+                {
+                    speed = 1.5;
+                    console.log("Firefox");
+                }
+                if(flag == 0)
+                {
+                    danmu.style.left = `${100}vw`; //
+                    left = 100;
+                    speed = -speed;
+                }
+                else
+                {
+                    danmu.style.left = `${-200}vw`; //
+                }
+                danmuCon.appendChild(danmu);
+
+                // 移动弹幕
+                
+                const interval = setInterval(() => {
+                    left += speed; // 调整速度
+                    danmu.style.left = `${left}vw`;
+                    /*if (left > 200) { // 当弹幕移出屏幕时移除
+                        clearInterval(interval);
+                        body.removeChild(danmu);
+                    }*/
+                }, 20);
+                setTimeout(() => {
+                    clearInterval(interval);
+                    danmuCon.removeChild(danmu);
+                }, 10000);
+            }
+        }
+
+        //let creatDanmuTime = (windowWidth / windowHeight) * 1000 ;
+
+        // 定时生成弹幕
+        if(system.win)//只在win生成弹幕
+        {
+            let creatDanmuFunc = setInterval(createDanmu, 3300);
+        }
+
+        const container = document.getElementById('container');
+        //const h1 = document.querySelector('h1');
+        //const h2 = document.querySelector('h2');
+        const h1 = document.querySelectorAll('h1'); // 修正选择器
+        const div = document.querySelectorAll('div');
+        let i = 1;
+        let colMax = 255;
+        let colMin = 200;
+        let colCount = colMax;
+        function loop() {
+            container.style.backgroundColor = `rgb(${colCount}, ${colCount}, 255)`;
+            body.style.backgroundColor = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            /*h1.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            h2.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;*/
+            for(let i = 0; i < h1.length; i++)
+            {
+                h1[i].style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            }
+            for(let i = 0 ; i < div.length; i++)
+            {
+                div[i].style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            }
+
+            if (colCount == colMax || colCount == colMin) {
+                i = -i;
+            }
+            colCount += i;
+        }
+
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            windowWidth = window.innerWidth;
+            windowHeight = window.innerHeight;
+            windowLogic(windowHeight, windowWidth);
+        });
+        function windowLogic(windowHeight, windowWidth) {
+           if (windowWidth > windowHeight) {
+                for(let i = 0; i < h1.length; i++)
+                {
+                    h1[i].style.fontSize = "5dvh";
+                }
+                for(let i = 0 ; i < div.length; i++)
+                {
+                    div[i].style.fontSize = "3.0dvh";
+                }
+    
+                container.style.width = "36vw";
+                container.style.height = "auto";
+               
+            } else {
+                for(let i = 0; i < h1.length; i++)
+                {
+                    h1[i].style.fontSize = "6dvw";
+                }
+                for(let i = 0 ; i < div.length; i++)
+                {
+                    div[i].style.fontSize = "3.5dvw";
+                }
+                container.style.width = "60vw";
+                container.style.height = "auto";
+                
+            }
+        }
+        windowLogic(windowHeight, windowWidth);
+        setInterval(loop, 80);
+    </script>
+</body>
+</html>
