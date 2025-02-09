@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>请我喝杯奶茶吧！</title>
+    <title>设备测试</title>
     <link rel="shortcut icon" href="../src/img/zi.ico">
     <style>
         body {
@@ -16,20 +16,6 @@
             position: relative; /* 添加相对定位 */
             overflow: hidden; /* 隐藏溢出的内容 */
         }
-        #container {
-            text-align: center;
-            height: auto;
-            width: 36vw;
-            padding: 20px;
-            top:50%;
-            left:50%;
-            transform: translate(-50%,-50%);
-            position: absolute;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            z-index: 1;
-        }
         #DanmuContainer {
             position: absolute;
             top: 0;
@@ -37,39 +23,6 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-        }
-        .payImg {
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 45%;
-            height: auto;
-        }
-        .LSImg {
-            width: 100%;
-            height: auto;
-            margin-top: 20px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #66ccff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        a:hover {
-            background-color: #ed65ff;
-        }
-        h1 {
-            font-size: 2.5dvw;
-            color: #000000; /* 修改为所需的固定颜色 */
-        }
-        h2 {
-            font-size: 1.5dvw;
-            color: #000000; /* 修改为所需的固定颜色 */
         }
         .danmu {
             position: absolute;
@@ -87,40 +40,14 @@
     </style>
 </head>
 <body>
-    <div id="container">
-        <h1>请我喝杯奶茶吧！</h1>
-        <h2>感激不尽感激不尽感激不尽</h2>
-        <img class="payImg" src="../src/img/pay/wechat.png" alt="微信支付二维码">
-        <img class="payImg" src="../src/img/pay/alipay.jpg" alt="支付宝支付二维码">
-        <img class="LSImg" id="LS" src="../src/img/pay/LS2.svg" alt="LS">
-        <a href="../index.html"></a>
-    </div>
 
     <div id = "DanmuContainer"></div>
-        
+
     <script>
+        //import {isMobile} from 'react-device-detect';
        const body = document.body;
        const danmuCon = document.getElementById('DanmuContainer');
 
-        var system ={
-            win : false,
-            mac : false,
-            xll : false
-        };
-        //检测平台
-        var p = navigator.platform;
-        system.win = p.indexOf("Win") == 0;
-        system.mac = p.indexOf("Mac") == 0;
-        system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
-
-        function isPC()
-        {
-            if (system.win || system.mac || system.xll) {
-                return true;
-            } else {
-                return false;
-            }
-        }
         let canCreatDanmu = true;
 
         document.addEventListener("visibilitychange", function() {
@@ -194,58 +121,38 @@
         //let creatDanmuTime = (windowWidth / windowHeight) * 1000 ;
 
         // 定时生成弹幕
-       // if(isPC())//只在pc生成弹幕
+       // if(system.win)//只在win生成弹幕
        // {
             let creatDanmuFunc = setInterval(createDanmu, 3300);
        // }
 
         const container = document.getElementById('container');
-        const h1 = document.querySelector('h1');
-        const h2 = document.querySelector('h2');
-        const payImg = document.querySelectorAll('.payImg'); // 修正选择器
-        const lsImg = document.getElementById('LS');
+       
         let i = 1;
         let colMax = 255;
         let colMin = 200;
         let colCount = colMax;
         function loop() {
-            container.style.backgroundColor = `rgb(${colCount}, ${colCount}, 255)`;
+           
             body.style.backgroundColor = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
-            h1.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
-            h2.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            
 
             if (colCount == colMax || colCount == colMin) {
                 i = -i;
             }
             colCount += i;
         }
+
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
+
         window.addEventListener('resize', () => {
             windowWidth = window.innerWidth;
             windowHeight = window.innerHeight;
             windowLogic(windowHeight, windowWidth);
         });
         function windowLogic(windowHeight, windowWidth) {
-            if (windowWidth > windowHeight) {
-                h1.style.fontSize = "2.5dvw";
-                h2.style.fontSize = "1.5dvw";
-                container.style.width = "36vw";
-                container.style.height = "auto";
-                for (let i = 0; i < payImg.length; i++) {
-                    payImg[i].style.width = "45%";
-                    payImg[i].style.height = "auto";
-                }
-            } else {
-                h1.style.fontSize = "4dvh";
-                h2.style.fontSize = "2.5dvh";
-                container.style.width = "60vw";
-                container.style.height = "auto";
-                for (let i = 0; i < payImg.length; i++) {
-                    payImg[i].style.width = "60%";
-                    payImg[i].style.height = "auto";
-                }
-            }
+           
         }
         windowLogic(windowHeight, windowWidth);
         setInterval(loop, 80);
