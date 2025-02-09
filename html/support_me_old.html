@@ -113,10 +113,26 @@
                 return false;
             }
         }
+        let canCreatDanmu = true;
+
+        document.addEventListener("visibilitychange", function() {
+        var string = document.visibilityState
+        console.log(string)
+        if (string === 'hidden') {  // 当页面由前端运行在后端时，出发此代码
+            console.log('网页处于后台运行');
+            canCreatDanmu = false;
+            
+        }
+        if (string === 'visible') {   // 当页面由隐藏至显示时
+            console.log('网页处于前台运行');
+            canCreatDanmu = true;
+        }
+      });
 
         //let danmuTop = 0;
 
         function createDanmu() {
+            if(!canCreatDanmu) return;
             //const danmu = document.createElement('div');
             for (let danmuTop = 0; danmuTop < 100; danmuTop += 20) 
             {
@@ -133,6 +149,11 @@
                 let flag = (danmuTop / 20) % 2;
                 let left = -200;
                 let speed = 1;
+                if (navigator.userAgent.indexOf('Firefox') >= 0)
+                {
+                    speed = 1.5;
+                    console.log("Firefox");
+                }
                 if(flag == 0)
                 {
                     danmu.style.left = `${100}vw`; //
