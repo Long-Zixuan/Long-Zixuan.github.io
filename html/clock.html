@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>LoongLySoft</title>
+    <title>设备测试</title>
     <link rel="shortcut icon" href="../src/img/zi.ico">
     <style>
         body {
@@ -15,6 +15,22 @@
             margin: 0;
             position: relative; /* 添加相对定位 */
             overflow: hidden; /* 隐藏溢出的内容 */
+        }
+        #container {
+            text-align: center;
+            height: auto;
+            width: 36vw;
+            padding: 20px;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.2); /* 半透明背景 */
+            backdrop-filter: blur(10px); /* 背景模糊 */
+            -webkit-backdrop-filter: blur(10px); /* 兼容老版本 Safari */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            z-index: 1;
         }
         #DanmuContainer {
             position: absolute;
@@ -37,9 +53,37 @@
             
             z-index: 0;
         }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #66ccff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #ed65ff;
+        }
+        h1 {
+            font-size: 4.5dvw;
+            color: #000000; /* 修改为所需的固定颜色 */
+        }
+        h2 {
+            font-size: 2dvw;
+            color: #000000; /* 修改为所需的固定颜色 */
+        }
     </style>
 </head>
 <body>
+    <div id="container">
+        <h1><span id = "hour">00</span>:<span id = "min">00</span>:<span id = "sec">00</span></h1>
+        <h2><span id = "year">2004</span>-<span id = "month">04</span>-<span id = "day">04</span>  <span id = "week"></span></h2>
+        <p><span id = "error">You broswer is too old!</span></p>
+        
+        <a href="../index.html"></a>
+    </div>
 
     <div id = "DanmuContainer"></div>
 
@@ -127,15 +171,50 @@
        // }
 
         const container = document.getElementById('container');
+        const yearEle = document.getElementById('year');
+        const monthEle = document.getElementById('month');
+        const dayEle = document.getElementById('day');
+        const weekEle = document.getElementById('week');
+        const hourEle = document.getElementById('hour');
+        const minEle = document.getElementById('min');
+        const secEle = document.getElementById('sec');
+        const errorEle = document.getElementById('error');
+        
+        
+        const h1 = document.querySelector('h1');
+        const h2 = document.querySelector('h2');
        
         let i = 1;
         let colMax = 255;
         let colMin = 200;
         let colCount = colMax;
+        const weeks = new Array ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        errorEle.textContent = "";
+        
+
         function loop() {
-           
+            container.style.backgroundColor = `rgba(${colCount}, ${colCount}, 255, 0.8)`;
             body.style.backgroundColor = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
-            
+            h1.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            h2.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+
+             let now = new Date();
+            let year = now.getFullYear();
+            let month = ('0' + (now.getMonth() + 1)).slice(-2);
+            let day = ('0' + now.getDate()).slice(-2);
+            let hours = ('0' + now.getHours()).slice(-2);
+            let minutes = ('0' + now.getMinutes()).slice(-2);
+            let seconds = ('0' + now.getSeconds()).slice(-2);
+            let week = weeks[now.getDay()];
+
+            yearEle.textContent = year;
+            monthEle.textContent = month;
+            dayEle.textContent = day;
+          //  weekEle.textContent = getWeek(now.getDay());
+            hourEle.textContent = hours;
+            minEle.textContent = minutes;
+            secEle.textContent = seconds;
+            weekEle.textContent = week;
 
             if (colCount == colMax || colCount == colMin) {
                 i = -i;
@@ -152,7 +231,19 @@
             windowLogic(windowHeight, windowWidth);
         });
         function windowLogic(windowHeight, windowWidth) {
-           
+            if (windowWidth > windowHeight) {
+                h1.style.fontSize = "4.5dvw";
+                h2.style.fontSize = "2dvw";
+                container.style.width = "36vw";
+                container.style.height = "auto";
+                
+            } else {
+                h1.style.fontSize = "5dvh";
+                h2.style.fontSize = "2.5dvh";
+                container.style.width = "60vw";
+                container.style.height = "auto";
+               
+            }
         }
         windowLogic(windowHeight, windowWidth);
         setInterval(loop, 80);
