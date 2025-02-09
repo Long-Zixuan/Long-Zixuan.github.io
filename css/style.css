@@ -78,6 +78,16 @@
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
+#checkDevice
+{
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    color: #F9E4C5;
+    font-size: 20px;
+    z-index: 100;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
 #instructions {
     text-align: center;
     margin: 10px;

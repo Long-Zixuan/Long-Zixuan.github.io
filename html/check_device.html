@@ -84,7 +84,7 @@
 <body>
     <div id="container">
         <h1>Device</h1>
-        <div>Is Mobile:<span id="isMobile">No</span></div>
+        <!--<div>Is Mobile:<span id="isMobile">No</span></div>-->
         <div>Is Ipad:<span id="isIpad">No</span></div>
         <div>Is MacOS:<span id="isMacOS">No</span></div>
         <div>Is Linux:<span id="isLinux">No</span></div>
@@ -93,6 +93,7 @@
         <div>Is Iphone:<span id="isIphone">No</span></div>
         <div>Is WindowsCE:<span id="isWindowsCE">No</span></div>
         <div>Is WindowsMD:<span id="isWindowsMD">No</span></div>
+        <div>Can Touch:<span id="canTouch">No</span></div>
         
         <h1>Browser</h1>
         <div>Is IE:<span id="isIE">Yes(We are unable to test devices in the IE environment)</span></div>
@@ -110,6 +111,7 @@
     <div id = "DanmuContainer"></div>
 
     <script>
+        //import {isMobile} from 'react-device-detect';
        const body = document.body;
        const danmuCon = document.getElementById('DanmuContainer');
 
@@ -131,8 +133,15 @@
        const isOperaEle = document.getElementById('isOpera');
        const isUCEle = document.getElementById('isUC');
        const isMidpEle = document.getElementById('isMidp');
+       const canTouchEle = document.getElementById('canTouch');
 
        isIEEle.textContent = "No";
+       /*if (isMobile) 
+       {
+        // 当前设备是移动设备
+            isMobileEle.textContent = "Yes";
+
+        }*/
 
         var system ={
             win : false,
@@ -158,6 +167,19 @@
         if (system.xll) 
         {
             isLinuxEle.textContent = "Yes";
+        }
+
+        function isCanTouch() {
+            try {
+                document.createEvent("TouchEvent"); return true;
+            } catch(e) {
+                return false; 
+            }
+        }
+
+        if(isCanTouch())
+        {
+            canTouchEle.textContent = "Yes";
         }
 
         var uA = navigator.userAgent.toLowerCase();
