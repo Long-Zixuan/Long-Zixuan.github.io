@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>设备测试</title>
+    <title>Clock</title>
     <link rel="shortcut icon" href="../src/img/zi.ico">
     <style>
         body {
@@ -206,6 +206,10 @@
             let minutes = ('0' + now.getMinutes()).slice(-2);
             let seconds = ('0' + now.getSeconds()).slice(-2);
             let week = weeks[now.getDay()];
+            if(month == '04' && day == '04')
+            {
+                week = week + "   🎂";
+            }
 
             yearEle.textContent = year;
             monthEle.textContent = month;
