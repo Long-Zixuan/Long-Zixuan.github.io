@@ -7,8 +7,8 @@
     height: 600px;*/
     width: 67vh;
     height: 100vh;
-    background: #000033;
-    background-image: url('../src/img/background.gif');
+    background: #121236;
+    /*background-image: url('../src/img/background.jpg');*/
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -41,6 +41,13 @@
     bottom: 50px;
     left: 175px;
     z-index: 9;
+}
+.backgroundImg
+{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 0;
 }
 
 .bullet {
@@ -161,3 +168,27 @@
 #pause-button:hover {
     background-color: #ed65ff; /* 鼠标悬停时的背景颜色 */
 }
+
+#gameRuleMSG
+{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: #F9E4C5;
+    font-size: 20px;
+    z-index: 100;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+
+#UnSupportBroswerMSG
+{
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    color: #F9E4C5;
+    font-size: 60px;
+    z-index: 100;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+
+

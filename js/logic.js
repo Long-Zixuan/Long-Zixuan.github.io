@@ -13,6 +13,9 @@ const playerElement = document.getElementById('player');
 
     const bgm = document.getElementById("bgMusic");
 
+    const unSupportBroswerMSGEle = document.getElementById('UnSupportBroswerMSG');
+    unSupportBroswerMSGEle.textContent = "";
+
     //const bossBulletsCount = document.getElementById('bossBulletsCount');//Debug
 
     let playerLeft = 50;
@@ -383,10 +386,6 @@ const playerElement = document.getElementById('player');
                 return;
             }
         }
-
-        
-
-
         // 更新敌人子弹位置
         for(let i = bossBullets.length - 1; i >= 0; i--)
         {
@@ -463,6 +462,36 @@ const playerElement = document.getElementById('player');
         }
 
         typeWriter();
+    }
+    function backgroundCreateAndMoveLogic()
+    {
+        if(gameStateMachine != GAME_RUNNING)
+        {
+            return;
+        }
+        const bkImg = document.createElement('img');
+        bkImg.className = "backgroundImg";
+        bkImg.src = "./src/img/background_move.png";
+        bkImg.style.top = "-200vh";
+        let speed = 3;
+        gameContainer.appendChild(bkImg);
+        let top = -200;
+        const interval = setInterval(() => {
+            /*if(gameStateMachine != GAME_RUNNING)
+            {
+                return;
+            }*/
+            top += speed; // 调整速度
+            bkImg.style.top = `${top}vh`;
+            /*if (left > 200) { // 当弹幕移出屏幕时移除
+                clearInterval(interval);
+                body.removeChild(danmu);
+            }*/
+        }, 20);
+        setTimeout(() => {
+            clearInterval(interval);
+            gameContainer.removeChild(bkImg);
+        }, 5000);
     }
 
     function hideDialogBar()
@@ -613,6 +642,9 @@ const playerElement = document.getElementById('player');
         }
     });
     pauseButton.addEventListener('click',pauseButtonLogic);
+
+    setInterval(backgroundCreateAndMoveLogic, 3000);
+    backgroundCreateAndMoveLogic();
 
     //setInterval(updateBullets, 10);
     
