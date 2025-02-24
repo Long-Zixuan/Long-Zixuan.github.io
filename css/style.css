@@ -78,7 +78,7 @@
 #supposeMe
 {
     position: absolute;
-    bottom: 10px;
+    bottom: 60px;
     left: 10px;
     color: #F9E4C5;
     font-size: 20px;
@@ -173,7 +173,7 @@
 {
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    left: 10px;
     color: #F9E4C5;
     font-size: 20px;
     z-index: 100;
@@ -189,6 +189,16 @@
     font-size: 60px;
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+
+#LSIMG
+{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 20vw;
+    font-size: 20px;
+    z-index: 100;
 }
 
 
