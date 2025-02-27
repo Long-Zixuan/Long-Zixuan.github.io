@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>LoongLySoft</title>
+    <link rel="shortcut icon" href="../src/img/zi.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative; /* 添加相对定位 */
+            overflow: hidden; /* 隐藏溢出的内容 */
+        }
+        #DanmuContainer {
+            position: absolute;
+            
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #backgroundImg
+        {
+            position: absolute;
+            top: -350wh;
+            left: -350vw;
+            width: 1500vw;
+            height: 1500vh;
+            z-index: -1;
+        }
+        .danmu {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 16px;
+            color: white;
+            left: -200vw;
+
+            height: 5vh;
+            width: auto;
+            
+            padding: 5px 10px;
+            
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <img id="backgroundImg" src="https://gitee.com/zixuan_long/Img/raw/master/WorldMapINF.png" alt="背景图片">
+
+    <div id = "DanmuContainer"></div>
+
+    <script>
+        //import {isMobile} from 'react-device-detect';
+       const body = document.body;
+       const danmuCon = document.getElementById('DanmuContainer');
+       const bkImg = document.getElementById('backgroundImg');
+
+        let canCreatDanmu = true;
+
+        document.addEventListener("visibilitychange", function() {
+        var string = document.visibilityState
+        console.log(string)
+        if (string === 'hidden') {  // 当页面由前端运行在后端时，出发此代码
+            console.log('网页处于后台运行');
+            canCreatDanmu = false;
+            
+        }
+        if (string === 'visible') {   // 当页面由隐藏至显示时
+            console.log('网页处于前台运行');
+            canCreatDanmu = true;
+        }
+      });
+
+        //let danmuTop = 0;
+
+        function createDanmu() {
+            if(!canCreatDanmu) return;
+            //const danmu = document.createElement('div');
+
+            
+                const danmu = document.createElement('img');
+                danmu.className = 'danmu';
+
+                danmu.src = 'https://gitee.com/zixuan_long/Img/raw/master/LS3.png';
+                let left = -200;
+                danmu.style.top = `${Math.random() * 100}vh`; // 随机垂直位置
+                //danmu.style.top = `${danmuTop}vh`; 
+                //danmuTop += 20;
+                //danmuTop = danmuTop % 100;
+                
+                let speed = 0.5;
+                if (navigator.userAgent.indexOf('Firefox') >= 0)
+                {
+                    speed = 0.7;
+                    //console.log("Firefox");
+                }
+        
+                danmuCon.appendChild(danmu);
+
+                // 移动弹幕
+                
+                const interval = setInterval(() => {
+                    left += speed; // 调整速度
+                    danmu.style.left = `${left}vw`;
+                    /*if (left > 200) { // 当弹幕移出屏幕时移除
+                        clearInterval(interval);
+                        body.removeChild(danmu);
+                    }*/
+                }, 20);
+                setTimeout(() => {
+                    clearInterval(interval);
+                    danmuCon.removeChild(danmu);
+                }, 20000);
+            
+        }
+
+        //let creatDanmuTime = (windowWidth / windowHeight) * 1000 ;
+
+        // 定时生成弹幕
+       // if(system.win)//只在win生成弹幕
+       // {
+            let creatDanmuFunc = setInterval(createDanmu, 1000);
+       // }
+
+        const container = document.getElementById('container');
+       
+        let i = 1;
+        let colMax = 255;
+        let colMin = 200;
+        let colCount = colMax;
+        let bkImgSize = 1500;
+        let bkImgPos = -350;
+        function loop() {
+            bkImg.style.top = `${bkImgPos}vh`;
+            bkImg.style.left = `${bkImgPos}vw`;
+            bkImg.style.width = `${bkImgSize}vw`;
+            bkImg.style.height = `${bkImgSize}vh`;
+            if(bkImgPos != 0)
+            {
+                bkImgPos += 2;
+            }
+            if(bkImgSize != 100)
+            {
+                bkImgSize -= 10;
+            }
+            
+            
+           
+            body.style.backgroundColor = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            
+
+            if (colCount == colMax || colCount == colMin) {
+                i = -i;
+            }
+            colCount += i;
+        }
+
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            windowWidth = window.innerWidth;
+            windowHeight = window.innerHeight;
+            windowLogic(windowHeight, windowWidth);
+        });
+        function windowLogic(windowHeight, windowWidth) {
+           
+        }
+        windowLogic(windowHeight, windowWidth);
+        setInterval(loop, 80);
+    </script>
+</body>
+</html>
