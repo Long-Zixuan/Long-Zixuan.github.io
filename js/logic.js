@@ -653,17 +653,17 @@ const playerElement = document.getElementById('player');
     });
     pauseButton.addEventListener('click',pauseButtonLogic);
 
-    lKeyBtn.addEventListener('mousedown', function() {keys['ArrowLeft'] = true; });
-    rKeyBtn.addEventListener('mousedown', function() {keys['ArrowRight'] = true; });
-    fKeyBtn.addEventListener('mousedown', function() {keys['ArrowUp'] = true; });
-    bKeyBtn.addEventListener('mousedown', function() {keys['ArrowDown'] = true; });
+    lKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowLeft'] = true; e.preventDefault();});
+    rKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowRight'] = true; e.preventDefault();});
+    fKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowUp'] = true; e.preventDefault();});
+    bKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowDown'] = true; e.preventDefault();});
 
-    lKeyBtn.addEventListener('mouseup', function() {keys['ArrowLeft'] = false; });
-    rKeyBtn.addEventListener('mouseup', function() {keys['ArrowRight'] = false; });
-    fKeyBtn.addEventListener('mouseup', function() {keys['ArrowUp'] = false; });
-    bKeyBtn.addEventListener('mouseup', function() {keys['ArrowDown'] = false; });
-    sKeyBtn.addEventListener('mousedown', function() {isSpacePressed = true; });
-    sKeyBtn.addEventListener('mouseup', function() {isSpacePressed = false; });
+    lKeyBtn.addEventListener('touchend', function(e) {keys['ArrowLeft'] = false; e.preventDefault();});
+    rKeyBtn.addEventListener('touchend', function(e) {keys['ArrowRight'] = false; e.preventDefault();});
+    fKeyBtn.addEventListener('touchend', function(e) {keys['ArrowUp'] = false; e.preventDefault();});
+    bKeyBtn.addEventListener('touchend', function(e) {keys['ArrowDown'] = false; e.preventDefault();});
+    sKeyBtn.addEventListener('touchstart', function(e) {isSpacePressed = true; e.preventDefault();});
+    sKeyBtn.addEventListener('touchend', function(e) {isSpacePressed = false; e.preventDefault();});
 
     setInterval(backgroundCreateAndMoveLogic, 3000);
     backgroundCreateAndMoveLogic();
