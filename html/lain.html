@@ -128,11 +128,11 @@
         function blur()
         {
             lain.style.whiteSpace = 'normal';
-            setInterval(function(){lain.style.whiteSpace = 'pre'}, 20);
+            setTimeout(function(){lain.style.whiteSpace = 'pre'}, 200);
         }
         
         setInterval(loopCol, 10);
-        setInterval(blur,100)
+        setInterval(blur,1000)
         //setInterval(loopFontSize, 10);
         //别看了，屎山代码
         //LZX-VSCode-2025-11-01-001
