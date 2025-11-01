@@ -125,6 +125,23 @@
             } 
             colCount += i;
         }
+
+        function changeColToDark()
+        {
+            container1.style.backgroundColor = `rgb(${0}, ${0}, ${0})`;
+            body.style.backgroundColor = `rgb(${0}, ${0}, ${0})`;
+            lain.style.color = `rgb(${255}, ${255}, ${255})`;
+            let nextTime = Math.ceil(Math.random()*20000 + 1000); 
+            setTimeout(changeColToLight,nextTime)
+        }
+
+        function changeColToLight(){
+            container1.style.backgroundColor = `rgb(${255}, ${255}, ${255})`;
+            body.style.backgroundColor = `rgb(${255}, ${255}, ${255})`;
+            lain.style.color = `rgb(${0}, ${0}, ${0})`;
+            let nextTime = Math.ceil(Math.random()*20000 + 10000); 
+            setTimeout(changeColToDark,nextTime)
+        }
         
         function blur()
         {
@@ -134,7 +151,8 @@
             setTimeout(blur,nextTime)
         }
         
-        setInterval(loopCol, 10);
+        //setInterval(loopCol, 10);
+        changeColToLight()
         blur()
         setInterval(function(){bgm.play()},1)// 用户进行交互后才有bgm，别问，问就是HTML特性
         //setInterval(loopFontSize, 10);
