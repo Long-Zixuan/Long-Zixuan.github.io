@@ -16,6 +16,12 @@ const playerElement = document.getElementById('player');
     const unSupportBroswerMSGEle = document.getElementById('UnSupportBroswerMSG');
     unSupportBroswerMSGEle.textContent = "";
 
+    const lKeyBtn = document.getElementById('lKeyBtn');
+    const rKeyBtn = document.getElementById('rKeyBtn');
+    const fKeyBtn = document.getElementById('fKeyBtn');
+    const bKeyBtn = document.getElementById('bKeyBtn');
+    const sKeyBtn = document.getElementById('sKeyBtn');
+
     //const bossBulletsCount = document.getElementById('bossBulletsCount');//Debug
 
     let playerLeft = 50;
@@ -628,7 +634,11 @@ const playerElement = document.getElementById('player');
 
     if(isPhone())
     {
-        alert('本游戏未适配移动端，建议使用电脑访问。');
+        alert('请把手机横过来');
+    }
+    else
+    {
+        //hideAllPhoneBtn()
     }
 
     restartButton.addEventListener('click', function() {
@@ -643,8 +653,38 @@ const playerElement = document.getElementById('player');
     });
     pauseButton.addEventListener('click',pauseButtonLogic);
 
+    lKeyBtn.addEventListener('mousedown', function() {keys['ArrowLeft'] = true; });
+    rKeyBtn.addEventListener('mousedown', function() {keys['ArrowRight'] = true; });
+    fKeyBtn.addEventListener('mousedown', function() {keys['ArrowUp'] = true; });
+    bKeyBtn.addEventListener('mousedown', function() {keys['ArrowDown'] = true; });
+
+    lKeyBtn.addEventListener('mouseup', function() {keys['ArrowLeft'] = false; });
+    rKeyBtn.addEventListener('mouseup', function() {keys['ArrowRight'] = false; });
+    fKeyBtn.addEventListener('mouseup', function() {keys['ArrowUp'] = false; });
+    bKeyBtn.addEventListener('mouseup', function() {keys['ArrowDown'] = false; });
+    sKeyBtn.addEventListener('mousedown', function() {isSpacePressed = true; });
+    sKeyBtn.addEventListener('mouseup', function() {isSpacePressed = false; });
+
     setInterval(backgroundCreateAndMoveLogic, 3000);
     backgroundCreateAndMoveLogic();
+
+    function hideAllPhoneBtn()
+    {
+        lKeyBtn.style.left = '-1000px'
+        lKeyBtn.style.bottom = '-1000px'
+
+        rKeyBtn.style.left = '-1000px'
+        rKeyBtn.style.bottom = '-1000px'
+
+        fKeyBtn.style.left = '-1000px'
+        fKeyBtn.style.bottom = '-1000px'
+
+        bKeyBtn.style.left = '-1000px'
+        bKeyBtn.style.bottom = '-1000px'
+
+        sKeyBtn.style.left = '-1000px'
+        sKeyBtn.style.bottom = '-1000px'
+    }
 
     //setInterval(updateBullets, 10);
     
