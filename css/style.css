@@ -206,8 +206,11 @@
     color: #1C1925;
     bottom: 70px;
     right: 10px;
-    width: 20vw;
+    width: 5vw;
     height: 5vw;
     z-index: 100;
 }
 
+audio::-webkit-media-controls-timeline {
+    display: none;
+}
