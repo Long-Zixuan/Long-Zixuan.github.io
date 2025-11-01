@@ -129,10 +129,12 @@
         {
             lain.style.whiteSpace = 'normal';
             setTimeout(function(){lain.style.whiteSpace = 'pre'}, 200);
+            let nextTime = Math.ceil(Math.random()*10000 + 1000); 
+            setTimeout(blur,nextTime)
         }
         
         setInterval(loopCol, 10);
-        setInterval(blur,1000)
+        blur()
         //setInterval(loopFontSize, 10);
         //别看了，屎山代码
         //LZX-VSCode-2025-11-01-001
