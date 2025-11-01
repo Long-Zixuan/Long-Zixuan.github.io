@@ -671,19 +671,19 @@ const playerElement = document.getElementById('player');
     function hideAllPhoneBtn()
     {
         lKeyBtn.style.left = '-1000px'
-        lKeyBtn.style.bottom = '-1000px'
+        lKeyBtn.style.top = '-1000px'
 
         rKeyBtn.style.left = '-1000px'
-        rKeyBtn.style.bottom = '-1000px'
+        rKeyBtn.style.top = '-1000px'
 
         fKeyBtn.style.left = '-1000px'
-        fKeyBtn.style.bottom = '-1000px'
+        fKeyBtn.style.top = '-1000px'
 
         bKeyBtn.style.left = '-1000px'
-        bKeyBtn.style.bottom = '-1000px'
+        bKeyBtn.style.top = '-1000px'
 
         sKeyBtn.style.left = '-1000px'
-        sKeyBtn.style.bottom = '-1000px'
+        sKeyBtn.style.top = '-1000px'
     }
 
     //setInterval(updateBullets, 10);
