@@ -638,7 +638,7 @@ const playerElement = document.getElementById('player');
     }
     else
     {
-        //hideAllPhoneBtn()
+        hideAllPhoneBtn()
     }
 
     restartButton.addEventListener('click', function() {
