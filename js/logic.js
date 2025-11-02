@@ -75,6 +75,7 @@ const playerElement = document.getElementById('player');
       
 
     document.addEventListener('keydown', (e) => {
+        hideAllPhoneBtn()
         keys[e.key] = true;
         if(e.key === ' ') {
             isSpacePressed = true;
@@ -665,25 +666,53 @@ const playerElement = document.getElementById('player');
     sKeyBtn.addEventListener('touchstart', function(e) {isSpacePressed = true; e.preventDefault();},{ passive: false });
     sKeyBtn.addEventListener('touchend', function(e) {isSpacePressed = false; });
 
+    document.addEventListener('touchstart',function(e){showAllPhoneBtn();});
+
     setInterval(backgroundCreateAndMoveLogic, 3000);
     backgroundCreateAndMoveLogic();
 
     function hideAllPhoneBtn()
     {
-        lKeyBtn.style.left = '-1000px'
-        lKeyBtn.style.top = '-1000px'
+        if(lKeyBtn.style.left == "-1000px")
+        {
+            return;
+        }
+        lKeyBtn.style.left = "-1000px";
+        lKeyBtn.style.top = "-1000px";
 
-        rKeyBtn.style.left = '-1000px'
-        rKeyBtn.style.top = '-1000px'
+        rKeyBtn.style.left = "-1000px";
+        rKeyBtn.style.top = "-1000px";
 
-        fKeyBtn.style.left = '-1000px'
-        fKeyBtn.style.top = '-1000px'
+        fKeyBtn.style.left = "-1000px";
+        fKeyBtn.style.top = "-1000px";
 
-        bKeyBtn.style.left = '-1000px'
-        bKeyBtn.style.top = '-1000px'
+        bKeyBtn.style.left = "-1000px";
+        bKeyBtn.style.top = "-1000px";
 
-        sKeyBtn.style.left = '-1000px'
-        sKeyBtn.style.top = '-1000px'
+        sKeyBtn.style.right = "-1000px";
+        sKeyBtn.style.top = "-1000px";
+    }
+
+    function showAllPhoneBtn()
+    {
+        if(lKeyBtn.style.left == "50px")
+        {
+            return;
+        }
+        lKeyBtn.style.left = "50px";
+        lKeyBtn.style.top = "50%";
+
+        rKeyBtn.style.left = "150px";
+        rKeyBtn.style.top = "50%";
+
+        fKeyBtn.style.left = "100px";
+        fKeyBtn.style.top = "45%";
+
+        bKeyBtn.style.left = "100px";
+        bKeyBtn.style.top = "50%";
+
+        sKeyBtn.style.right = "50px";
+        sKeyBtn.style.top = "50%";
     }
 
     //setInterval(updateBullets, 10);
