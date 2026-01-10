@@ -47,6 +47,12 @@ const playerElement = document.getElementById('player');
 
     const keys = {};
 
+    const keyUpFuncs = {};
+
+    const keyDownFuncs = {
+        'Escape' : pauseLogic
+    };
+
     let isSpacePressed = false;
     const shootCooldown = 150;
 
@@ -81,12 +87,20 @@ const playerElement = document.getElementById('player');
             isSpacePressed = true;
             e.preventDefault();
         }
+        if(keyDownFuncs.hasOwnProperty(e.key))
+        {
+            keyDownFuncs[e.key]();
+        }
     });
 
     document.addEventListener('keyup', (e) => {
         keys[e.key] = false;
         if(e.key === ' ') {
             isSpacePressed = false;
+        }
+        if(keyUpFuncs.hasOwnProperty(e.key))
+        {
+            keyUpFuncs[e.key]();
         }
     });
 
@@ -598,7 +612,7 @@ const playerElement = document.getElementById('player');
     function gameLoop() 
     {        
         updateDeltaTime();
-        pauseLogic();
+        //pauseLogic();
 
         if(gameStateMachine == GAME_RUNNING)
         {
