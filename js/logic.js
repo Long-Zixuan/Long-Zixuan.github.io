@@ -126,7 +126,7 @@ const playerElement = document.getElementById('player');
 
     gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN);
     gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE,() => {console.log("----------暂停----------");});
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE);
     gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
 
 
@@ -769,17 +769,20 @@ const playerElement = document.getElementById('player');
         }
         for(let i = 0; i < gameStateTrans[gameStateMachine].length; i++)
         {
-            if(gameStateTrans[gameStateMachine][i][1] == event)
+            if(gameStateTrans[gameStateMachine][i]["event"] == event)
             {
-                isChange = gameStateMechineChangeState(gameStateTrans[gameStateMachine][i][0]);
+                isChange = gameStateMechineChangeState(gameStateTrans[gameStateMachine][i]["toState"]);
                 if(!isChange)
                 {
                     return false;
                 }
-                try{
-                    gameStateTrans[gameStateMachine][i][2];
+                try
+                {
+                    func = gameStateTrans[gameStateMachine][i]["action"];
+                    func();
                 }
-                catch(err){
+                catch(err)
+                {
                     console.log(err);
                 }
                 return true;
@@ -815,18 +818,13 @@ const playerElement = document.getElementById('player');
         gameStates[stateId] = state;
     }
 
-    function gameStateMechineAddTrans(fromState,toState,event,act = function() {})
+    function gameStateMechineAddTrans(fromState, toState, event, act = ()=>{})
     {
         if(!gameStateTrans.hasOwnProperty(fromState))
         {
             gameStateTrans[fromState] = [];
         }
-        let tmpArr = [];
-        tmpArr[0] = toState;
-        tmpArr[1] = event;
-        tmpArr[2] = act;
-        gameStateTrans[fromState].push(tmpArr);
-        //gameStateTrans[fromState].push([toState,event,act]);
+        gameStateTrans[fromState].push({"toState":toState,"event":event,"action":act});
     }
 
     //setInterval(updateBullets, 10);
