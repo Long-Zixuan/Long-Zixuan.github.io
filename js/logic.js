@@ -527,6 +527,7 @@ const playerElement = document.getElementById('player');
         //requestAnimationFrame(showDialogBar);
         showDialogBar("游戏已暂停",null,false);
         //gameEndTextElement.textContent = "游戏已暂停";     
+        pauseButtonTextElement.textContent = "继续";
         bgm.pause();
     }
 
@@ -534,6 +535,7 @@ const playerElement = document.getElementById('player');
     {
         gameStateMachine = GAME_RUNNING;
         requestAnimationFrame(hideDialogBar);
+        pauseButtonTextElement.textContent = "暂停";
         bgm.play();
     }
 
@@ -551,24 +553,13 @@ const playerElement = document.getElementById('player');
 
     function pauseLogic()
     {
-        if(keys['Escape'] && gameStateMachine == GAME_RUNNING)
+        if(gameStateMachine == GAME_RUNNING)
         {
             pauseGame();
         }
-        else if(keys['Escape'] && gameStateMachine == GAME_PAUSE)
+        else if(gameStateMachine == GAME_PAUSE)
         {
             resumeGame();
-        }
-
-        if(gameStateMachine == GAME_PAUSE)
-        {
-            pauseButtonTextElement.textContent = "继续";
-            //gameEndTextElement.textContent = "游戏已暂停";     
-        }
-        else if(gameStateMachine == GAME_RUNNING)
-        {
-            pauseButtonTextElement.textContent = "暂停";
-            //gameEndTextElement.textContent = "";
         }
     }
 
@@ -598,6 +589,7 @@ const playerElement = document.getElementById('player');
     {
         //gameEndTextElement.textContent = "坚持住，Boss只剩下半血了！我一定要战胜她。";
         gameStateMachine = GAME_PAUSE;
+        pauseButtonTextElement.textContent = "继续";
         showDialogBar("坚持住，Boss只剩下半血了！我一定要战胜她。");
     }
 
@@ -612,7 +604,6 @@ const playerElement = document.getElementById('player');
     function gameLoop() 
     {        
         updateDeltaTime();
-        //pauseLogic();
 
         if(gameStateMachine == GAME_RUNNING)
         {
