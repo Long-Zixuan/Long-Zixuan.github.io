@@ -76,6 +76,10 @@ const playerElement = document.getElementById('player');
         },
         "onExit":()=>{
             
+        },
+        "onUpdate":()=>{
+            update();
+            sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
         }
     }
 
@@ -85,6 +89,9 @@ const playerElement = document.getElementById('player');
         },
         "onExit":()=>{
             
+        },
+        "onUpdate":()=>{
+            requestAnimationFrame(winLogic);
         }
     }
 
@@ -94,6 +101,9 @@ const playerElement = document.getElementById('player');
         },
         "onExit":()=>{
             
+        },
+        "onUpdate":()=>{
+             requestAnimationFrame(dieLogic);
         }
     }
 
@@ -103,6 +113,9 @@ const playerElement = document.getElementById('player');
         },
         "onExit":()=>{
             
+        },
+        "onUpdate":()=>{
+            sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
         }
     }
 
@@ -653,29 +666,7 @@ const playerElement = document.getElementById('player');
     function gameLoop() 
     {        
         updateDeltaTime();
-
-        if(gameStateMachine == GAME_STATE_RUNNING)
-        {
-            update();
-        }
-
-        if(gameStateMachine == GAME_STATE_PAUSE || gameStateMachine == GAME_STATE_RUNNING)
-        {
-            sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
-            //requestAnimationFrame(gameLoop);
-        }
-
-        if(gameStateMachine == GAME_STATE_WIN)
-        {
-            requestAnimationFrame(winLogic);
-            //alert('游戏结束！\n你赢了！敌人剩余血量：' + playerHealth);
-            //location.reload();
-        }
-
-        if(gameStateMachine == GAME_STATE_DIE)
-        {
-            requestAnimationFrame(dieLogic);
-        }
+        gameStates[gameStateMachine]['onUpdate']();
     }
 
     function isPhone() {
@@ -786,7 +777,7 @@ const playerElement = document.getElementById('player');
                     return false;
                 }
                 try{
-                    gameStateTrans[gameStateMachine][i][2]();
+                    gameStateTrans[gameStateMachine][i][2];
                 }
                 catch(err){
                     console.log(err);
@@ -830,7 +821,12 @@ const playerElement = document.getElementById('player');
         {
             gameStateTrans[fromState] = [];
         }
-        gameStateTrans[fromState].push([toState,event,act]);
+        let tmpArr = [];
+        tmpArr[0] = toState;
+        tmpArr[1] = event;
+        tmpArr[2] = act;
+        gameStateTrans[fromState].push(tmpArr);
+        //gameStateTrans[fromState].push([toState,event,act]);
     }
 
     //setInterval(updateBullets, 10);
