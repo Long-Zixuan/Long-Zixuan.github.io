@@ -58,10 +58,10 @@ const playerElement = document.getElementById('player');
 
 
     let gameStateMachine = 0;
-    const GAME_RUNNING = 0;
-    const GAME_WIN = 1;
-    const GAME_DIE = -1;
-    const GAME_PAUSE = 2;
+    const GAME_STATE_RUNNING = 0;
+    const GAME_STATE_WIN = 1;
+    const GAME_STATE_DIE = -1;
+    const GAME_STATE_PAUSE = 2;
 
     const GAME_FRAME_RATE = 60;
 
@@ -106,7 +106,7 @@ const playerElement = document.getElementById('player');
 
     function bossAttackModeChangeLogic()
     {
-        if(gameStateMachine != GAME_RUNNING){return;}
+        if(gameStateMachine != GAME_STATE_RUNNING){return;}
         bossAttackMode = Math.random();
     }
 
@@ -174,7 +174,7 @@ const playerElement = document.getElementById('player');
         attack()
         {
             this.attackModeChange();
-            if(gameStateMachine != GAME_RUNNING){return;}
+            if(gameStateMachine != GAME_STATE_RUNNING){return;}
 
             let currentTime = Date.now();
             if(currentTime - this.lastAttackTime < this.attackTime){return;}
@@ -362,7 +362,7 @@ const playerElement = document.getElementById('player');
         console.log(" ");
         /*Debug End*/
 
-        if(gameStateMachine != GAME_RUNNING) {return;}
+        if(gameStateMachine != GAME_STATE_RUNNING) {return;}
         // 更新子弹位置
         for(let i = bullets.length - 1; i >= 0; i--) {
             const bullet = bullets[i];
@@ -403,7 +403,7 @@ const playerElement = document.getElementById('player');
             }
             if(boss.health <= 0) 
             {
-                setGameState(GAME_WIN);
+                setGameState(GAME_STATE_WIN);
                 return;
             }
         }
@@ -436,7 +436,7 @@ const playerElement = document.getElementById('player');
             }
             if(player.health <= 0) 
             {
-                setGameState(GAME_DIE);
+                setGameState(GAME_STATE_DIE);
                 return;
             }
         }
@@ -445,11 +445,11 @@ const playerElement = document.getElementById('player');
 
     function showDialogBar(text,bottomText,textMode)
     {
-        if(gameStateMachine == GAME_PAUSE && bottomText == null)
+        if(gameStateMachine == GAME_STATE_PAUSE && bottomText == null)
         {
             restartButtonTextElement.textContent = "继续游戏";
         }
-        if((gameStateMachine == GAME_WIN || gameStateMachine == GAME_DIE) && bottomText == null )
+        if((gameStateMachine == GAME_STATE_WIN || gameStateMachine == GAME_STATE_DIE) && bottomText == null )
         {
             restartButtonTextElement.textContent = "重新开始";
         }
@@ -458,7 +458,7 @@ const playerElement = document.getElementById('player');
         gameDiaLogElement.style.bottom = "0px";
         gameDiaLogElement.style.left = "0px";
 
-        if(gameStateMachine == GAME_PAUSE && text == '')
+        if(gameStateMachine == GAME_STATE_PAUSE && text == '')
         {
             gameEndTextElement.textContent = "游戏已暂停";
             return;
@@ -486,7 +486,7 @@ const playerElement = document.getElementById('player');
     }
     function backgroundCreateAndMoveLogic()
     {
-        if(gameStateMachine != GAME_RUNNING)
+        if(gameStateMachine != GAME_STATE_RUNNING)
         {
             return;
         }
@@ -523,25 +523,25 @@ const playerElement = document.getElementById('player');
 
     function pauseGame()
     {
-        setGameState(GAME_PAUSE);
+        setGameState(GAME_STATE_PAUSE);
         showDialogBar("游戏已暂停",null,false);
         bgm.pause();
     }
 
     function resumeGame()
     {
-        setGameState(GAME_RUNNING);
+        setGameState(GAME_STATE_RUNNING);
         requestAnimationFrame(hideDialogBar);
         bgm.play();
     }
 
     function pauseButtonLogic()
     {
-        if(gameStateMachine == GAME_PAUSE)
+        if(gameStateMachine == GAME_STATE_PAUSE)
         {
             resumeGame();
         }
-        else if(gameStateMachine == GAME_RUNNING)
+        else if(gameStateMachine == GAME_STATE_RUNNING)
         {
             pauseGame();
         }
@@ -549,11 +549,11 @@ const playerElement = document.getElementById('player');
 
     function pauseLogic()
     {
-        if(gameStateMachine == GAME_RUNNING)
+        if(gameStateMachine == GAME_STATE_RUNNING)
         {
             pauseGame();
         }
-        else if(gameStateMachine == GAME_PAUSE)
+        else if(gameStateMachine == GAME_STATE_PAUSE)
         {
             resumeGame();
         }
@@ -584,7 +584,7 @@ const playerElement = document.getElementById('player');
     function bossHalfHealthLogic()
     {
         //gameEndTextElement.textContent = "坚持住，Boss只剩下半血了！我一定要战胜她。";
-        setGameState(GAME_PAUSE);
+        setGameState(GAME_STATE_PAUSE);
         showDialogBar("坚持住，Boss只剩下半血了！我一定要战胜她。");
     }
 
@@ -600,25 +600,25 @@ const playerElement = document.getElementById('player');
     {        
         updateDeltaTime();
 
-        if(gameStateMachine == GAME_RUNNING)
+        if(gameStateMachine == GAME_STATE_RUNNING)
         {
             update();
         }
 
-        if(gameStateMachine == GAME_PAUSE || gameStateMachine == GAME_RUNNING)
+        if(gameStateMachine == GAME_STATE_PAUSE || gameStateMachine == GAME_STATE_RUNNING)
         {
             sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
             //requestAnimationFrame(gameLoop);
         }
 
-        if(gameStateMachine == GAME_WIN)
+        if(gameStateMachine == GAME_STATE_WIN)
         {
             requestAnimationFrame(winLogic);
             //alert('游戏结束！\n你赢了！敌人剩余血量：' + playerHealth);
             //location.reload();
         }
 
-        if(gameStateMachine == GAME_DIE)
+        if(gameStateMachine == GAME_STATE_DIE)
         {
             requestAnimationFrame(dieLogic);
         }
@@ -643,11 +643,11 @@ const playerElement = document.getElementById('player');
     }
 
     restartButton.addEventListener('click', function() {
-        if(gameStateMachine == GAME_DIE || gameStateMachine == GAME_WIN)
+        if(gameStateMachine == GAME_STATE_DIE || gameStateMachine == GAME_STATE_WIN)
         {
             location.reload();
         }
-        if(gameStateMachine == GAME_PAUSE)
+        if(gameStateMachine == GAME_STATE_PAUSE)
         {
             resumeGame();
         }
@@ -719,16 +719,16 @@ const playerElement = document.getElementById('player');
     function setGameState(state)
     {
         gameStateMachine = state;
-        if(state == GAME_PAUSE)
+        if(state == GAME_STATE_PAUSE)
         {
             pauseButtonTextElement.textContent = "继续";
         }
-        if(state == GAME_RUNNING)
+        if(state == GAME_STATE_RUNNING)
         {
             pauseButtonTextElement.textContent = "暂停";
         }
-        if(state == GAME_WIN){}
-        if(state == GAME_DIE){}
+        if(state == GAME_STATE_WIN){}
+        if(state == GAME_STATE_DIE){}
     }
 
     //setInterval(updateBullets, 10);
