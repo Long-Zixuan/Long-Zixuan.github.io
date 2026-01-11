@@ -767,7 +767,7 @@ const playerElement = document.getElementById('player');
         {
             return false;
         }
-        for(let i = 0; i < gameStateTrans[gameStateMachine].length; i++)
+        for(var i in gameStateTrans[gameStateMachine])
         {
             if(gameStateTrans[gameStateMachine][i]["event"] == event)
             {
