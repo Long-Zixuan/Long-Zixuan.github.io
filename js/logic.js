@@ -403,7 +403,7 @@ const playerElement = document.getElementById('player');
             }
             if(boss.health <= 0) 
             {
-                gameStateMachine = GAME_WIN;
+                setGameState(GAME_WIN);
                 return;
             }
         }
@@ -436,7 +436,7 @@ const playerElement = document.getElementById('player');
             }
             if(player.health <= 0) 
             {
-                gameStateMachine = GAME_DIE;
+                setGameState(GAME_DIE);
                 return;
             }
         }
@@ -521,27 +521,17 @@ const playerElement = document.getElementById('player');
         gameDiaLogElement.style.left = "-1000px";
     }
 
-    function pauseGame(showPauseMSG = true,pauseBGM = true)
+    function pauseGame()
     {
-        gameStateMachine = GAME_PAUSE;
-        //requestAnimationFrame(showDialogBar);
-        if(showPauseMSG)
-        {
-            showDialogBar("游戏已暂停",null,false);
-        }
-        //gameEndTextElement.textContent = "游戏已暂停";     
-        pauseButtonTextElement.textContent = "继续";
-        if(pauseBGM)
-        {
-            bgm.pause();
-        }
+        setGameState(GAME_PAUSE);
+        showDialogBar("游戏已暂停",null,false);
+        bgm.pause();
     }
 
     function resumeGame()
     {
-        gameStateMachine = GAME_RUNNING;
+        setGameState(GAME_RUNNING);
         requestAnimationFrame(hideDialogBar);
-        pauseButtonTextElement.textContent = "暂停";
         bgm.play();
     }
 
@@ -594,7 +584,7 @@ const playerElement = document.getElementById('player');
     function bossHalfHealthLogic()
     {
         //gameEndTextElement.textContent = "坚持住，Boss只剩下半血了！我一定要战胜她。";
-        pauseGame(false,false);
+        setGameState(GAME_PAUSE);
         showDialogBar("坚持住，Boss只剩下半血了！我一定要战胜她。");
     }
 
@@ -725,10 +715,26 @@ const playerElement = document.getElementById('player');
         sKeyBtn.style.top = "50%";
     }
 
+    //一个极其简陋的状态机
+    function setGameState(state)
+    {
+        gameStateMachine = state;
+        if(state == GAME_PAUSE)
+        {
+            pauseButtonTextElement.textContent = "继续";
+        }
+        if(state == GAME_RUNNING)
+        {
+            pauseButtonTextElement.textContent = "暂停";
+        }
+        if(state == GAME_WIN){}
+        if(state == GAME_DIE){}
+    }
+
     //setInterval(updateBullets, 10);
     
     gameLoop();
 
-
+    //别看了，屎山，小时候不懂事写的
     //LZX completed this script on 2025/01/10
     //LZX-TC-VSCode-2025-01-10-001
