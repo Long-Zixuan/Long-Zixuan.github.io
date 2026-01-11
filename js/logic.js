@@ -58,10 +58,64 @@ const playerElement = document.getElementById('player');
 
 
     let gameStateMachine = 0;
+    let gameStates = {};
+    let gameStateTrans = {};
     const GAME_STATE_RUNNING = 0;
     const GAME_STATE_WIN = 1;
     const GAME_STATE_DIE = -1;
     const GAME_STATE_PAUSE = 2;
+
+    const GAME_EVENT_RUN = 0;
+    const GAME_EVENT_WIN = 1;
+    const GAME_EVENT_DIE = -1;
+    const GAME_EVENT_PAUSE = 2;
+
+    const RUNNING = {
+        "onEnter":()=>{
+            pauseButtonTextElement.textContent = "暂停";
+        },
+        "onExit":()=>{
+            
+        }
+    }
+
+    const WIN = {
+        "onEnter":()=>{
+
+        },
+        "onExit":()=>{
+            
+        }
+    }
+
+    const DIE = {
+        "onEnter":()=>{
+
+        },
+        "onExit":()=>{
+            
+        }
+    }
+
+    const PAUSE = {
+       "onEnter":()=>{
+            pauseButtonTextElement.textContent = "继续";
+        },
+        "onExit":()=>{
+            
+        }
+    }
+
+    gameStateMechineAddState(GAME_STATE_RUNNING, RUNNING);
+    gameStateMechineAddState(GAME_STATE_WIN, WIN);
+    gameStateMechineAddState(GAME_STATE_DIE, DIE);
+    gameStateMechineAddState(GAME_STATE_PAUSE, PAUSE);
+
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN);
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE,() => {console.log("----------暂停----------");});
+    gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
+
 
     const GAME_FRAME_RATE = 60;
 
@@ -106,7 +160,7 @@ const playerElement = document.getElementById('player');
 
     function bossAttackModeChangeLogic()
     {
-        if(gameStateMachine != GAME_STATE_RUNNING){return;}
+        if(gameStateMachine != GAME_EVENT_RUN){return;}
         bossAttackMode = Math.random();
     }
 
@@ -174,7 +228,7 @@ const playerElement = document.getElementById('player');
         attack()
         {
             this.attackModeChange();
-            if(gameStateMachine != GAME_STATE_RUNNING){return;}
+            if(gameStateMachine != GAME_EVENT_RUN){return;}
 
             let currentTime = Date.now();
             if(currentTime - this.lastAttackTime < this.attackTime){return;}
@@ -362,7 +416,7 @@ const playerElement = document.getElementById('player');
         console.log(" ");
         /*Debug End*/
 
-        if(gameStateMachine != GAME_STATE_RUNNING) {return;}
+        if(gameStateMachine != GAME_EVENT_RUN) {return;}
         // 更新子弹位置
         for(let i = bullets.length - 1; i >= 0; i--) {
             const bullet = bullets[i];
@@ -403,7 +457,7 @@ const playerElement = document.getElementById('player');
             }
             if(boss.health <= 0) 
             {
-                setGameState(GAME_STATE_WIN);
+                gameStateMachineInput(GAME_EVENT_WIN);
                 return;
             }
         }
@@ -436,7 +490,7 @@ const playerElement = document.getElementById('player');
             }
             if(player.health <= 0) 
             {
-                setGameState(GAME_STATE_DIE);
+                gameStateMachineInput(GAME_EVENT_DIE);
                 return;
             }
         }
@@ -486,7 +540,7 @@ const playerElement = document.getElementById('player');
     }
     function backgroundCreateAndMoveLogic()
     {
-        if(gameStateMachine != GAME_STATE_RUNNING)
+        if(gameStateMachine != GAME_EVENT_RUN)
         {
             return;
         }
@@ -523,14 +577,14 @@ const playerElement = document.getElementById('player');
 
     function pauseGame()
     {
-        setGameState(GAME_STATE_PAUSE);
+        gameStateMachineInput(GAME_EVENT_PAUSE);
         showDialogBar("游戏已暂停",null,false);
         bgm.pause();
     }
 
     function resumeGame()
     {
-        setGameState(GAME_STATE_RUNNING);
+        gameStateMachineInput(GAME_EVENT_RUN);
         requestAnimationFrame(hideDialogBar);
         bgm.play();
     }
@@ -584,7 +638,7 @@ const playerElement = document.getElementById('player');
     function bossHalfHealthLogic()
     {
         //gameEndTextElement.textContent = "坚持住，Boss只剩下半血了！我一定要战胜她。";
-        setGameState(GAME_STATE_PAUSE);
+        gameStateMachineInput(GAME_EVENT_PAUSE);
         showDialogBar("坚持住，Boss只剩下半血了！我一定要战胜她。");
     }
 
@@ -716,19 +770,67 @@ const playerElement = document.getElementById('player');
     }
 
     //一个极其简陋的状态机
-    function setGameState(state)
+    function gameStateMachineInput(event)
     {
-        gameStateMachine = state;
-        if(state == GAME_STATE_PAUSE)
+        if(!gameStates.hasOwnProperty(gameStateMachine))
         {
-            pauseButtonTextElement.textContent = "继续";
+            return false;
         }
-        if(state == GAME_STATE_RUNNING)
+        for(let i = 0; i < gameStateTrans[gameStateMachine].length; i++)
         {
-            pauseButtonTextElement.textContent = "暂停";
+            if(gameStateTrans[gameStateMachine][i][1] == event)
+            {
+                isChange = gameStateMechineChangeState(gameStateTrans[gameStateMachine][i][0]);
+                if(!isChange)
+                {
+                    return false;
+                }
+                try{
+                    gameStateTrans[gameStateMachine][i][2]();
+                }
+                catch(err){
+                    console.log(err);
+                }
+                return true;
+            }
         }
-        if(state == GAME_STATE_WIN){}
-        if(state == GAME_STATE_DIE){}
+        return false;
+    }
+
+    function gameStateMechineChangeState(toStateId)
+    {
+        if(gameStateMachine == toStateId)
+        {
+            return false;
+        }
+        if(!gameStates.hasOwnProperty(gameStateMachine))
+        {
+            return false;
+        }
+        oldState = gameStates[gameStateMachine];
+        if (!gameStates.hasOwnProperty(toStateId))
+        {
+            return false;
+        }
+        newState = gameStates[toStateId];
+        oldState["onExit"]();
+        newState["onEnter"]();
+        gameStateMachine = toStateId;
+        return true;
+    }
+
+    function gameStateMechineAddState(stateId,state)
+    {
+        gameStates[stateId] = state;
+    }
+
+    function gameStateMechineAddTrans(fromState,toState,event,act = function() {})
+    {
+        if(!gameStateTrans.hasOwnProperty(fromState))
+        {
+            gameStateTrans[fromState] = [];
+        }
+        gameStateTrans[fromState].push([toState,event,act]);
     }
 
     //setInterval(updateBullets, 10);
