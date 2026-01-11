@@ -521,14 +521,20 @@ const playerElement = document.getElementById('player');
         gameDiaLogElement.style.left = "-1000px";
     }
 
-    function pauseGame()
+    function pauseGame(showPauseMSG = true,pauseBGM = true)
     {
         gameStateMachine = GAME_PAUSE;
         //requestAnimationFrame(showDialogBar);
-        showDialogBar("游戏已暂停",null,false);
+        if(showPauseMSG)
+        {
+            showDialogBar("游戏已暂停",null,false);
+        }
         //gameEndTextElement.textContent = "游戏已暂停";     
         pauseButtonTextElement.textContent = "继续";
-        bgm.pause();
+        if(pauseBGM)
+        {
+            bgm.pause();
+        }
     }
 
     function resumeGame()
@@ -588,8 +594,7 @@ const playerElement = document.getElementById('player');
     function bossHalfHealthLogic()
     {
         //gameEndTextElement.textContent = "坚持住，Boss只剩下半血了！我一定要战胜她。";
-        gameStateMachine = GAME_PAUSE;
-        pauseButtonTextElement.textContent = "继续";
+        pauseGame(false,false);
         showDialogBar("坚持住，Boss只剩下半血了！我一定要战胜她。");
     }
 
