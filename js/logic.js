@@ -65,6 +65,7 @@ const playerElement = document.getElementById('player');
     const GAME_EVENT_WIN = 1;
     const GAME_EVENT_DIE = -1;
     const GAME_EVENT_PAUSE = 2;
+    const GAME_EVENT_RESTART = 3;
 
     const RUNNING = {
         "onEnter":()=>{
@@ -124,6 +125,8 @@ const playerElement = document.getElementById('player');
     gameStateMachine.addTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
     gameStateMachine.addTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE);
     gameStateMachine.addTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
+    gameStateMachine.addTrans(GAME_STATE_DIE,GAME_STATE_RUNNING,GAME_EVENT_RESTART,reStart);
+    gameStateMachine.addTrans(GAME_STATE_WIN,GAME_STATE_RUNNING,GAME_EVENT_RESTART,reStart);
 
     const GAME_FRAME_RATE = 60;
 
@@ -303,6 +306,12 @@ const playerElement = document.getElementById('player');
             this.lastAttackModeChangeTime = currentTime;
             this.attackMode = Math.random();
         }
+
+        setPos(top,left)
+        {
+            this.left = left;
+            this.top = top;
+        }
     }
 
     let boss = new Boss(bossElement, bossLeft, bossTop, startBossHealth, bossVerticalSpeed, bossHorizontalSpeed, verticalSpeedRate, horizontalSpeedRate, 150, 5000 ,1000);
@@ -326,6 +335,12 @@ const playerElement = document.getElementById('player');
         {
             this.move();
             this.attack();
+        }
+
+        setPos(top,left)
+        {
+            this.left = left;
+            this.top = top;
         }
 
         createBullets() 
@@ -548,7 +563,7 @@ const playerElement = document.getElementById('player');
     }
     function backgroundCreateAndMoveLogic()
     {
-        if(gameStateMachine.getCurState() != GAME_EVENT_RUN)
+        if(gameStateMachine.getCurState() != GAME_STATE_RUNNING)
         {
             return;
         }
@@ -686,7 +701,8 @@ const playerElement = document.getElementById('player');
     restartButton.addEventListener('click', function() {
         if(gameStateMachine.getCurState() == GAME_STATE_DIE || gameStateMachine.getCurState() == GAME_STATE_WIN)
         {
-            location.reload();
+            gameStateMachine.input(GAME_EVENT_RESTART)
+            //location.reload();
         }
         if(gameStateMachine.getCurState() == GAME_STATE_PAUSE)
         {
@@ -756,10 +772,24 @@ const playerElement = document.getElementById('player');
         sKeyBtn.style.top = "50%";
     }
 
+    function reStart()
+    {
+        //这个封装真的是。。。。当年真的是脑子瓦特了
+        player.setPos(playerTop,playerLeft);
+        player.health = startPlayerHealth;
+        boss.setPos(bossTop,bossLeft);
+        boss.health = startBossHealth;
+        requestAnimationFrame(hideDialogBar);
+        boss.element.src = './src/img/boss.gif';
+        playerElement.scr = './src/img/character1.gif';
+        bgm.load();
+    }
+
     //setInterval(updateBullets, 10);
     
     gameLoop();
 
     //别看了，屎山，小时候不懂事写的
+    //MD Boss类和Player类写的和shit一样
     //LZX completed this script on 2025/01/10
     //LZX-TC-VSCode-2025-01-10-001
