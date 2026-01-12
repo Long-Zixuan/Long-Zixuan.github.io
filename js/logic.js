@@ -656,7 +656,7 @@ const playerElement = document.getElementById('player');
 
     function update()
     {
-        bgm.play();// 用户进行交互后才有bgm，别问，问就是HTML特性
+        bgm.play().then(data=>{}).catch(err=>{});// 用户进行交互后才有bgm，别问，问就是HTML特性
         player.update();
         boss.update();
         updateBullets();
