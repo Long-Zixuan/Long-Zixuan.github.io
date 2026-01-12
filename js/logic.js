@@ -789,6 +789,18 @@ const playerElement = document.getElementById('player');
         boss.element.src = './src/img/boss.gif';
         playerElement.scr = './src/img/character1.gif';
         bgm.load();
+        for(let i = bullets.length - 1; i >= 0; i--) 
+        {
+            let bullet = bullets[i];
+            bullet.element.remove();
+            bullets.splice(i, 1);
+        }
+        for(let i = bossBullets.length - 1; i >= 0; i--) 
+        {
+            let bullet = bossBullets[i];
+            bullet.element.remove();
+            bossBullets.splice(i, 1);
+        }
     }
 
     function cancelDialogAni() //这个函数其实对修复游戏播放对话强制退出后，暂停一下依然会继续播放对话这个bug没什么用，但是留着也许未来有用
