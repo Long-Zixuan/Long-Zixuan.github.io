@@ -125,7 +125,7 @@ const playerElement = document.getElementById('player');
 
     gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN);
     gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE,function(){console.log("LZX");});
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE);
     gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
 
 
