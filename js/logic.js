@@ -56,10 +56,118 @@ const playerElement = document.getElementById('player');
     let isSpacePressed = false;
     const shootCooldown = 150;
 
+    //一个极其简陋的状态机
+    class StateMachine
+    {
+        
+        constructor(initState = null)
+        {
+            this._curState = initState;
+            this._stateTrans = {};
+            this._states = {};
+        }
 
-    let gameStateMachineCurState = 0;
-    let gameStates = {};
-    let gameStateTrans = {};
+        setState(stateId)
+        {
+            this._curState = stateId;
+        }
+        input(event)
+        {
+            if(!this._states.hasOwnProperty(this._curState))
+            {
+                console.log("ERROR!:Invalid state");
+                return false;
+            }
+            for(var i in this._stateTrans[this._curState])
+            {
+                if(this._stateTrans[this._curState][i]["event"] == event)
+                {
+                    var isChange = this._changeState(this._stateTrans[this._curState][i]);
+                    if(!isChange)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        _changeState(trans)
+        {
+            if(!trans.hasOwnProperty("toState"))
+            {
+                console.log("ERROR!:Invalid transition");
+                return false;
+            }
+            let toStateId = trans["toState"];
+            if(this._curState == toStateId)
+            {
+                return false;
+            }
+            if(!this._states.hasOwnProperty(this._curState))
+            {
+                return false;
+            }
+            let oldState = this._states[this._curState];
+            if (!this._states.hasOwnProperty(toStateId))
+            {
+                return false;
+            }
+            let newState = this._states[toStateId];
+            oldState["onExit"]();
+            newState["onEnter"]();
+            try
+            {
+                var func = trans["action"];
+                if(func)
+                {
+                    func();
+                }
+            }
+            catch(err)
+            {
+                console.log(err);
+            }
+            this._curState = toStateId;
+            return true;
+        }
+
+        addState(stateId,state)
+        {
+            this._states[stateId] = state;
+        }
+
+        addTrans(fromState, toState, event, act = null)
+        {
+            if(!this._stateTrans.hasOwnProperty(fromState))
+            {
+                this._stateTrans[fromState] = [];
+            }
+            this._stateTrans[fromState].push(
+                {
+                    "toState":toState,
+                    "event":event,
+                    "action":act
+                }
+            );
+        }
+
+        getCurState()
+        {
+            return this._curState;
+        }
+
+        update()
+        {
+            if(!this._states.hasOwnProperty(this._curState))
+            {
+                return false;
+            }
+            this._states[this._curState]["onUpdate"]();
+            return true;
+        }
+    }
     const GAME_STATE_RUNNING = 0;
     const GAME_STATE_WIN = 1;
     const GAME_STATE_DIE = -1;
@@ -118,16 +226,16 @@ const playerElement = document.getElementById('player');
         }
     }
 
-    gameStateMechineAddState(GAME_STATE_RUNNING, RUNNING);
-    gameStateMechineAddState(GAME_STATE_WIN, WIN);
-    gameStateMechineAddState(GAME_STATE_DIE, DIE);
-    gameStateMechineAddState(GAME_STATE_PAUSE, PAUSE);
-
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN);
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE);
-    gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
-
+    let gameStateMachine = new StateMachine(GAME_STATE_RUNNING);
+    gameStateMachine.addState(GAME_STATE_RUNNING, RUNNING);
+    gameStateMachine.addState(GAME_STATE_WIN, WIN);
+    gameStateMachine.addState(GAME_STATE_DIE, DIE);
+    gameStateMachine.addState(GAME_STATE_PAUSE, PAUSE);
+    
+    gameStateMachine.addTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN);
+    gameStateMachine.addTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
+    gameStateMachine.addTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE);
+    gameStateMachine.addTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
 
     const GAME_FRAME_RATE = 60;
 
@@ -172,7 +280,7 @@ const playerElement = document.getElementById('player');
 
     function bossAttackModeChangeLogic()
     {
-        if(gameStateMachineCurState != GAME_EVENT_RUN){return;}
+        if(gameStateMachine.getCurState() != GAME_EVENT_RUN){return;}
         bossAttackMode = Math.random();
     }
 
@@ -240,7 +348,7 @@ const playerElement = document.getElementById('player');
         attack()
         {
             this.attackModeChange();
-            if(gameStateMachineCurState != GAME_EVENT_RUN){return;}
+            if(gameStateMachine.getCurState() != GAME_EVENT_RUN){return;}
 
             let currentTime = Date.now();
             if(currentTime - this.lastAttackTime < this.attackTime){return;}
@@ -428,7 +536,7 @@ const playerElement = document.getElementById('player');
         console.log(" ");
         /*Debug End*/
 
-        if(gameStateMachineCurState != GAME_EVENT_RUN) {return;}
+        if(gameStateMachine.getCurState() != GAME_EVENT_RUN) {return;}
         // 更新子弹位置
         for(let i = bullets.length - 1; i >= 0; i--) {
             const bullet = bullets[i];
@@ -469,7 +577,7 @@ const playerElement = document.getElementById('player');
             }
             if(boss.health <= 0) 
             {
-                gameStateMachineInput(GAME_EVENT_WIN);
+                gameStateMachine.input(GAME_EVENT_WIN);
                 return;
             }
         }
@@ -502,7 +610,7 @@ const playerElement = document.getElementById('player');
             }
             if(player.health <= 0) 
             {
-                gameStateMachineInput(GAME_EVENT_DIE);
+                gameStateMachine.input(GAME_EVENT_DIE);
                 return;
             }
         }
@@ -511,11 +619,11 @@ const playerElement = document.getElementById('player');
 
     function showDialogBar(text,bottomText,textMode)
     {
-        if(gameStateMachineCurState == GAME_STATE_PAUSE && bottomText == null)
+        if(gameStateMachine.getCurState() == GAME_STATE_PAUSE && bottomText == null)
         {
             restartButtonTextElement.textContent = "继续游戏";
         }
-        if((gameStateMachineCurState == GAME_STATE_WIN || gameStateMachineCurState == GAME_STATE_DIE) && bottomText == null )
+        if((gameStateMachine.getCurState() == GAME_STATE_WIN || gameStateMachine.getCurState() == GAME_STATE_DIE) && bottomText == null )
         {
             restartButtonTextElement.textContent = "重新开始";
         }
@@ -524,7 +632,7 @@ const playerElement = document.getElementById('player');
         gameDiaLogElement.style.bottom = "0px";
         gameDiaLogElement.style.left = "0px";
 
-        if(gameStateMachineCurState == GAME_STATE_PAUSE && text == '')
+        if(gameStateMachine.getCurState() == GAME_STATE_PAUSE && text == '')
         {
             gameEndTextElement.textContent = "游戏已暂停";
             return;
@@ -552,7 +660,7 @@ const playerElement = document.getElementById('player');
     }
     function backgroundCreateAndMoveLogic()
     {
-        if(gameStateMachineCurState != GAME_EVENT_RUN)
+        if(gameStateMachine.getCurState() != GAME_EVENT_RUN)
         {
             return;
         }
@@ -564,7 +672,7 @@ const playerElement = document.getElementById('player');
         gameContainer.appendChild(bkImg);
         let top = -200;
         const interval = setInterval(() => {
-            /*if(gameStateMachineCurState != GAME_RUNNING)
+            /*if(gameStateMachine.getCurState() != GAME_RUNNING)
             {
                 return;
             }*/
@@ -589,25 +697,25 @@ const playerElement = document.getElementById('player');
 
     function pauseGame()
     {
-        gameStateMachineInput(GAME_EVENT_PAUSE);
+        gameStateMachine.input(GAME_EVENT_PAUSE);
         showDialogBar("游戏已暂停",null,false);
         bgm.pause();
     }
 
     function resumeGame()
     {
-        gameStateMachineInput(GAME_EVENT_RUN);
+        gameStateMachine.input(GAME_EVENT_RUN);
         requestAnimationFrame(hideDialogBar);
         bgm.play();
     }
 
     function pauseButtonLogic()
     {
-        if(gameStateMachineCurState == GAME_STATE_PAUSE)
+        if(gameStateMachine.getCurState() == GAME_STATE_PAUSE)
         {
             resumeGame();
         }
-        else if(gameStateMachineCurState == GAME_STATE_RUNNING)
+        else if(gameStateMachine.getCurState() == GAME_STATE_RUNNING)
         {
             pauseGame();
         }
@@ -615,11 +723,11 @@ const playerElement = document.getElementById('player');
 
     function pauseLogic()
     {
-        if(gameStateMachineCurState == GAME_STATE_RUNNING)
+        if(gameStateMachine.getCurState() == GAME_STATE_RUNNING)
         {
             pauseGame();
         }
-        else if(gameStateMachineCurState == GAME_STATE_PAUSE)
+        else if(gameStateMachine.getCurState() == GAME_STATE_PAUSE)
         {
             resumeGame();
         }
@@ -650,7 +758,7 @@ const playerElement = document.getElementById('player');
     function bossHalfHealthLogic()
     {
         //gameEndTextElement.textContent = "坚持住，Boss只剩下半血了！我一定要战胜她。";
-        gameStateMachineInput(GAME_EVENT_PAUSE);
+        gameStateMachine.input(GAME_EVENT_PAUSE);
         showDialogBar("坚持住，Boss只剩下半血了！我一定要战胜她。");
     }
 
@@ -665,7 +773,7 @@ const playerElement = document.getElementById('player');
     function gameLoop() 
     {        
         updateDeltaTime();
-        gameStates[gameStateMachineCurState]['onUpdate']();
+        gameStateMachine.update();
         sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
     }
 
@@ -688,11 +796,11 @@ const playerElement = document.getElementById('player');
     }
 
     restartButton.addEventListener('click', function() {
-        if(gameStateMachineCurState == GAME_STATE_DIE || gameStateMachineCurState == GAME_STATE_WIN)
+        if(gameStateMachine.getCurState() == GAME_STATE_DIE || gameStateMachine.getCurState() == GAME_STATE_WIN)
         {
             location.reload();
         }
-        if(gameStateMachineCurState == GAME_STATE_PAUSE)
+        if(gameStateMachine.getCurState() == GAME_STATE_PAUSE)
         {
             resumeGame();
         }
@@ -758,83 +866,6 @@ const playerElement = document.getElementById('player');
 
         sKeyBtn.style.right = "50px";
         sKeyBtn.style.top = "50%";
-    }
-
-    //一个极其简陋的状态机
-    function gameStateMachineInput(event)
-    {
-        if(!gameStates.hasOwnProperty(gameStateMachineCurState))
-        {
-            return false;
-        }
-        for(var i in gameStateTrans[gameStateMachineCurState])
-        {
-            if(gameStateTrans[gameStateMachineCurState][i]["event"] == event)
-            {
-                isChange = gameStateMechineChangeState(gameStateTrans[gameStateMachineCurState][i]);
-                if(!isChange)
-                {
-                    return false;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function gameStateMechineChangeState(trans)
-    {
-        toStateId = trans["toState"]
-        if(gameStateMachineCurState == toStateId)
-        {
-            return false;
-        }
-        if(!gameStates.hasOwnProperty(gameStateMachineCurState))
-        {
-            return false;
-        }
-        oldState = gameStates[gameStateMachineCurState];
-        if (!gameStates.hasOwnProperty(toStateId))
-        {
-            return false;
-        }
-        newState = gameStates[toStateId];
-        oldState["onExit"]();
-        newState["onEnter"]();
-        try
-        {
-            func = trans["action"];
-            if(func)
-            {
-                func();
-            }
-        }
-        catch(err)
-        {
-            console.log(err);
-        }
-        gameStateMachineCurState = toStateId;
-        return true;
-    }
-
-    function gameStateMechineAddState(stateId,state)
-    {
-        gameStates[stateId] = state;
-    }
-
-    function gameStateMechineAddTrans(fromState, toState, event, act = null)
-    {
-        if(!gameStateTrans.hasOwnProperty(fromState))
-        {
-            gameStateTrans[fromState] = [];
-        }
-        gameStateTrans[fromState].push(
-            {
-                "toState":toState,
-                "event":event,
-                "action":act
-            }
-        );
     }
 
     //setInterval(updateBullets, 10);
