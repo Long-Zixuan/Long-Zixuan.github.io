@@ -123,10 +123,10 @@ const playerElement = document.getElementById('player');
     gameStateMechineAddState(GAME_STATE_DIE, DIE);
     gameStateMechineAddState(GAME_STATE_PAUSE, PAUSE);
 
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN, null);
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE, null);
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN);
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
     gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE,function(){console.log("LZX");});
-    gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN, null);
+    gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
 
 
     const GAME_FRAME_RATE = 60;
@@ -822,7 +822,7 @@ const playerElement = document.getElementById('player');
         gameStates[stateId] = state;
     }
 
-    function gameStateMechineAddTrans(fromState, toState, event, act)
+    function gameStateMechineAddTrans(fromState, toState, event, act = null)
     {
         if(!gameStateTrans.hasOwnProperty(fromState))
         {
