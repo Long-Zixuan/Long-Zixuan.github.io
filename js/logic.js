@@ -60,7 +60,6 @@ const playerElement = document.getElementById('player');
     let gameStateMachine = 0;
     let gameStates = {};
     let gameStateTrans = {};
-    let gameStateMechCall = {};
     const GAME_STATE_RUNNING = 0;
     const GAME_STATE_WIN = 1;
     const GAME_STATE_DIE = -1;
