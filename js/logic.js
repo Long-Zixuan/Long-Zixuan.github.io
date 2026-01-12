@@ -803,9 +803,9 @@ const playerElement = document.getElementById('player');
         newState["onEnter"]();
         try
         {
-            if(trans.hasOwnProperty("action"))
+            func = trans["action"];
+            if(func)
             {
-                func = trans["action"];
                 func();
             }
         }
@@ -828,12 +828,13 @@ const playerElement = document.getElementById('player');
         {
             gameStateTrans[fromState] = [];
         }
-        args = {"toState":toState,"event":event};
-        if(act != null)
-        {
-            args["action"] = act;
-        }
-        gameStateTrans[fromState].push(args);
+        gameStateTrans[fromState].push(
+            {
+                "toState":toState,
+                "event":event,
+                "action":act
+            }
+        );
     }
 
     //setInterval(updateBullets, 10);
