@@ -79,31 +79,30 @@ const playerElement = document.getElementById('player');
         },
         "onUpdate":()=>{
             update();
-            sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
         }
     }
 
     const WIN = {
         "onEnter":()=>{
-
+            requestAnimationFrame(winLogic);
         },
         "onExit":()=>{
             
         },
         "onUpdate":()=>{
-            requestAnimationFrame(winLogic);
+            
         }
     }
 
     const DIE = {
         "onEnter":()=>{
-
+            requestAnimationFrame(dieLogic);
         },
         "onExit":()=>{
             
         },
         "onUpdate":()=>{
-             requestAnimationFrame(dieLogic);
+             
         }
     }
 
@@ -115,7 +114,7 @@ const playerElement = document.getElementById('player');
             
         },
         "onUpdate":()=>{
-            sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
+
         }
     }
 
@@ -667,6 +666,7 @@ const playerElement = document.getElementById('player');
     {        
         updateDeltaTime();
         gameStates[gameStateMachine]['onUpdate']();
+        sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
     }
 
     function isPhone() {
