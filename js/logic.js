@@ -56,6 +56,8 @@ const playerElement = document.getElementById('player');
     let isSpacePressed = false;
     const shootCooldown = 150;
 
+    let dialogNniFrameId = null;
+
     const GAME_STATE_RUNNING = 0;
     const GAME_STATE_WIN = 1;
     const GAME_STATE_DIE = -1;
@@ -81,10 +83,10 @@ const playerElement = document.getElementById('player');
 
     const WIN = {
         "onEnter":()=>{
-            requestAnimationFrame(winLogic);
+            dialogNniFrameId = requestAnimationFrame(winLogic);
         },
         "onExit":()=>{
-            
+            cancelDialogAni();
         },
         "onUpdate":()=>{
             
@@ -93,10 +95,10 @@ const playerElement = document.getElementById('player');
 
     const DIE = {
         "onEnter":()=>{
-            requestAnimationFrame(dieLogic);
+            dialogNniFrameId = requestAnimationFrame(dieLogic);
         },
         "onExit":()=>{
-            
+            cancelDialogAni();
         },
         "onUpdate":()=>{
              
@@ -108,7 +110,7 @@ const playerElement = document.getElementById('player');
             pauseButtonTextElement.textContent = "继续";
         },
         "onExit":()=>{
-            
+            cancelDialogAni();
         },
         "onUpdate":()=>{
 
@@ -475,7 +477,7 @@ const playerElement = document.getElementById('player');
                 hadTellPlayer = true;
                 alert("坚持住，Boss只剩下半血了！");
                 updateDeltaTime();*/
-                requestAnimationFrame(bossHalfHealthLogic);
+                dialogNniFrameId = requestAnimationFrame(bossHalfHealthLogic);
                 hadTellPlayer = true;
             }
             if(boss.health <= 0) 
@@ -552,6 +554,10 @@ const playerElement = document.getElementById('player');
         gameEndTextElement.textContent = "";
 
         function typeWriter() {
+            if(gameStateMachine.getCurState() == GAME_STATE_RUNNING)
+            {
+                return;
+            }
             if (index < text.length) {
                 gameEndTextElement.textContent += text.charAt(index);
                 index++;
@@ -608,7 +614,7 @@ const playerElement = document.getElementById('player');
     function resumeGame()
     {
         gameStateMachine.input(GAME_EVENT_RUN);
-        requestAnimationFrame(hideDialogBar);
+        hideDialogBar();
         bgm.play();
     }
 
@@ -779,10 +785,19 @@ const playerElement = document.getElementById('player');
         player.health = startPlayerHealth;
         boss.setPos(bossTop,bossLeft);
         boss.health = startBossHealth;
-        requestAnimationFrame(hideDialogBar);
+        hideDialogBar();
         boss.element.src = './src/img/boss.gif';
         playerElement.scr = './src/img/character1.gif';
         bgm.load();
+    }
+
+    function cancelDialogAni() //这个函数其实对修复游戏播放对话强制退出后，暂停一下依然会继续播放对话这个bug没什么用，但是留着也许未来有用
+    {
+        if(dialogNniFrameId)
+        {
+            cancelAnimationFrame(dialogNniFrameId);
+            dialogNniFrameId = null;
+        }
     }
 
     //setInterval(updateBullets, 10);
