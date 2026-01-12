@@ -60,6 +60,7 @@ const playerElement = document.getElementById('player');
     let gameStateMachine = 0;
     let gameStates = {};
     let gameStateTrans = {};
+    let gameStateMechCall = {};
     const GAME_STATE_RUNNING = 0;
     const GAME_STATE_WIN = 1;
     const GAME_STATE_DIE = -1;
@@ -123,10 +124,10 @@ const playerElement = document.getElementById('player');
     gameStateMechineAddState(GAME_STATE_DIE, DIE);
     gameStateMechineAddState(GAME_STATE_PAUSE, PAUSE);
 
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN);
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE);
-    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE);
-    gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN);
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_WIN, GAME_EVENT_WIN, null);
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_DIE, GAME_EVENT_DIE, null);
+    gameStateMechineAddTrans(GAME_STATE_RUNNING, GAME_STATE_PAUSE, GAME_EVENT_PAUSE,function(){console.log("LZX");});
+    gameStateMechineAddTrans(GAME_STATE_PAUSE, GAME_STATE_RUNNING, GAME_EVENT_RUN, null);
 
 
     const GAME_FRAME_RATE = 60;
@@ -771,19 +772,10 @@ const playerElement = document.getElementById('player');
         {
             if(gameStateTrans[gameStateMachine][i]["event"] == event)
             {
-                isChange = gameStateMechineChangeState(gameStateTrans[gameStateMachine][i]["toState"]);
+                isChange = gameStateMechineChangeState(gameStateTrans[gameStateMachine][i]);
                 if(!isChange)
                 {
                     return false;
-                }
-                try
-                {
-                    func = gameStateTrans[gameStateMachine][i]["action"];
-                    func();
-                }
-                catch(err)
-                {
-                    console.log(err);
                 }
                 return true;
             }
@@ -791,8 +783,9 @@ const playerElement = document.getElementById('player');
         return false;
     }
 
-    function gameStateMechineChangeState(toStateId)
+    function gameStateMechineChangeState(trans)
     {
+        toStateId = trans["toState"]
         if(gameStateMachine == toStateId)
         {
             return false;
@@ -809,6 +802,18 @@ const playerElement = document.getElementById('player');
         newState = gameStates[toStateId];
         oldState["onExit"]();
         newState["onEnter"]();
+        try
+        {
+            if(trans.hasOwnProperty("action"))
+            {
+                func = trans["action"];
+                func();
+            }
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
         gameStateMachine = toStateId;
         return true;
     }
@@ -818,13 +823,18 @@ const playerElement = document.getElementById('player');
         gameStates[stateId] = state;
     }
 
-    function gameStateMechineAddTrans(fromState, toState, event, act = ()=>{})
+    function gameStateMechineAddTrans(fromState, toState, event, act)
     {
         if(!gameStateTrans.hasOwnProperty(fromState))
         {
             gameStateTrans[fromState] = [];
         }
-        gameStateTrans[fromState].push({"toState":toState,"event":event,"action":act});
+        args = {"toState":toState,"event":event};
+        if(act != null)
+        {
+            args["action"] = act;
+        }
+        gameStateTrans[fromState].push(args);
     }
 
     //setInterval(updateBullets, 10);
