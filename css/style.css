@@ -183,11 +183,11 @@
 #UnSupportBroswerMSG
 {
     position: absolute;
-    bottom: 50%;
-    right: 50%;
+    bottom: 40%;
+    right: 35%;
     color: #F9E4C5;
     font-size: 60px;
-    z-index: 100;
+    z-index: 1000;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
 
