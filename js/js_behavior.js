@@ -1,9 +1,9 @@
 class JSBehavior extends GameObject
 {
     _collEventAndFuncs = [];
-    constructor(left, top, width, height, element = null)
+    constructor(element = null)
     {
-        super(left, top, width, height, element);
+        super(element);
         JSBehaviors.push(this);
     }
 

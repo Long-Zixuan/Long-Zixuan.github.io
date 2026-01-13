@@ -1,11 +1,18 @@
 class Character extends JSBehavior
 {
-    constructor(left, top, width, height, stateMachine, element)
+    constructor(element,stateMachine = null)
     {
-        super(left, top, width, height, element);
+        super(element);
         this._isDead = false;
         this._health = 100;
-        this._stateMachine = stateMachine;
+        if(stateMachine)
+        {
+            this._stateMachine = stateMachine;
+        }
+        else
+        {
+            this._stateMachine = new StateMachine();
+        }
         this._dieDelegates = [];
     }
 
@@ -25,11 +32,12 @@ class Character extends JSBehavior
         this._stateMachine.update();
     }
 
-    setState(state){ this._stateMachine.input(state);}
+    setState(state)
+    { 
+        this._stateMachine.input(state);
+    }
 
-    get isDead() { return this._isDead; }
-
-    get getHealth() { return this._health; }
+    setStateMechine(stateMachine) { this._stateMachine = stateMachine; }
 
     addDieDelegate(delegate) { this._dieDelegates.push(delegate); }
 
@@ -38,7 +46,11 @@ class Character extends JSBehavior
         this._isDead = true;
         for(i in this._dieDelegates)
         {
-            this._dieDelegates[i]();
+            this._dieDelegates[i](this);
         }
     }
+
+    get isDead() { return this._isDead; }
+
+    get getHealth() { return this._health; }
 }
