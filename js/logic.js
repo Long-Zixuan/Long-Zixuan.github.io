@@ -801,6 +801,8 @@ const playerElement = document.getElementById('player');
             bullet.element.remove();
             bossBullets.splice(i, 1);
         }
+        bossHealthElement.textContent = boss.health;
+        playerHealthElement.textContent = player.health;
     }
 
     function cancelDialogAni() //这个函数其实对修复游戏播放对话强制退出后，暂停一下依然会继续播放对话这个bug没什么用，但是留着也许未来有用
