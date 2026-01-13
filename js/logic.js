@@ -3,6 +3,7 @@ const playerElement = document.getElementById('player');
     const gameContainer = document.getElementById('gameContainer');
     const bossHealthElement = document.getElementById('bossHealthValue');
     const playerHealthElement = document.getElementById('playerHealthValue');
+    const fpsDisplayElement = document.getElementById('fpsValue');
     const restartButton = document.getElementById('restart-button');
     const pauseButton = document.getElementById('pause-button');
     const restartButtonTextElement = document.getElementById('ButtonText');
@@ -677,6 +678,7 @@ const playerElement = document.getElementById('player');
         player.update();
         boss.update();
         updateBullets();
+        fpsDisplayElement.textContent = (1 / deltaTime).toFixed(2);
     }
 
     function gameLoop() 

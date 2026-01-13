@@ -75,6 +75,15 @@
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
+#fps {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    color: #F9E4C5;
+    font-size: 10px;
+    z-index: 100;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+}
 #supposeMe
 {
     position: absolute;
