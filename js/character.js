@@ -14,6 +14,7 @@ class Character extends JSBehavior
             this._stateMachine = new StateMachine();
         }
         this._dieDelegates = [];
+        this._initStateMachine();
     }
 
     setHealth(health) { this._health = health; }
@@ -53,4 +54,6 @@ class Character extends JSBehavior
     get isDead() { return this._isDead; }
 
     get getHealth() { return this._health; }
+
+    _initStateMachine(){}
 }
