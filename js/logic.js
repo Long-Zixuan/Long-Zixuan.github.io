@@ -172,6 +172,16 @@ const playerElement = document.getElementById('player');
             rect1.top > rect2.bottom);
     }
 
+    playerBulColEvent = [(bullet)=>{
+                            return isColliding(bullet.GameObj.Rect, boss.GameObj.Rect);
+                        },(bullet)=>{
+                            boss.hurt(1);
+                            MainMgr.Instance.setBossHealth(boss.Health);
+                            bullet.GameObj.destroy();
+                        }
+                    ];
+    player.setBulletColEvent(playerBulColEvent);
+
     function sleep(ms) 
     {
         return new Promise(resolve => setTimeout(resolve, ms));

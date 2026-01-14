@@ -184,6 +184,22 @@ class GameObject extends BaseObject
         return true;
     }
 
+    setSrc(src)
+    {
+        if(this._element)
+        {
+            this._element.src = src;
+        }
+    }
+
+    setClassName(className)
+    {
+        if(this._element)
+        {
+            this._element.className = className;
+        }
+    }
+
     addBehavior(behavior)
     {
         this._behaviors.push(behavior);

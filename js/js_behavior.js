@@ -19,9 +19,9 @@ class JSBehavior extends BaseObject
 
     onCollisionLogic()
     {
-        for( i in this._collEventAndFuncs)
+        for(var i in this._collEventAndFuncs)
         {
-            f = this._collEventAndFuncs[i];
+            let f = this._collEventAndFuncs[i];
             if(f[0](this))
             {
                 f[1](this);
@@ -64,6 +64,11 @@ class JSBehavior extends BaseObject
     get Active()
     {
         return this._active;
+    }
+
+    get GameObj()
+    {
+        return this._gameObject;
     }
 }
 

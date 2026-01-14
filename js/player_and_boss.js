@@ -10,6 +10,7 @@ class Player extends Character
         gameObject.setTop("90%");
         gameObject.setLeft("50%");
         this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/player_die.png'})
+        this.bulletColEvent = null;
     }
 
     update()
@@ -26,26 +27,35 @@ class Player extends Character
 
         // 创建三发子弹
         for(let i = -1; i <= 1; i++) {
-            const bullet = document.createElement('img');
-            bullet.src = './src/img/our_bullet2.png';
-            bullet.className = 'bullet';
-
+            let bulletEle = document.createElement('img');
+            //bulletEle.src = './src/img/our_bullet2.png';
+            //bulletEle.className = 'bullet';
+            let bulletObj = new GameObject(bulletEle);
+            let bullet = new Bullet(bulletObj);
+            bullet.GameObj.setSrc('./src/img/our_bullet2.png');
+            bullet.GameObj.setClassName('bullet');
             // 计算子弹位置，中间子弹在玩家正上方，两侧子弹略微偏移
             const bulletLeft = this.getLeftNum() + ((this._gameObject.Width / 3) / gameContainer.offsetWidth) * 100 + (i * spacing);//照理说应该是this.element.offsetWidth / 2更接近角色中心，但是经过测试这里除以3更接近角色中心，不知道为什么
-            bullet.style.left = bulletLeft + '%';
-            bullet.style.top = this.getTopNum() + '%';
+            bullet.GameObj.setLeft(bulletLeft + '%');
+            //bullet.style.left = bulletLeft + '%';
+            //bullet.style.top = this.getTopNum() + '%';
+            bullet.GameObj.setTop(this.getTopNum() + '%');
 
-            gameContainer.appendChild(bullet);
+            bullet.addCollisionEventAndFuncs(this._bulletColEvent);
+
+            gameContainer.appendChild(bullet.GameObj.Element);
 
             // 为两侧子弹添加横向运动
             const horizontalSpeed = i * 0.5 * 0.125 * 60; // 子弹横向扩散速度
 
-            bullets.push({
+            bullet.setSpeed(-120, horizontalSpeed);
+
+            /*bullets.push({
                 element: bullet,
                 top: this.getTopNum(),
                 left: bulletLeft,
                 horizontalSpeed: horizontalSpeed // 新增横向速度属性
-            });
+            });*/
         }
     }
 
@@ -92,6 +102,12 @@ class Player extends Character
             this.onDie();
         }
     }
+
+    setBulletColEvent(event)
+    {
+        console.log(event.length)
+        this._bulletColEvent = event;
+    }
 }
 
 class Boss extends Character
@@ -113,7 +129,7 @@ class Boss extends Character
         this.attackTime = 1000;
         this.Angle = 0;
         this.attackMode = 0;
-        this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/boss_die.png'})
+        this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/boss_die.png';gameStateMachine.input(GAME_EVENT_WIN);})
     }
 
     update()
