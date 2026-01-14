@@ -43,6 +43,17 @@ class Bullet extends JSBehavior
     {
         super.update();
         this.move();
+    }
+
+    lateUpdate()
+    {
+        super.lateUpdate();
+        //this.selfDestoryLogic();
+    }
+
+    fixUpdate()
+    {
+        super.fixUpdate();
         this.selfDestoryLogic();
     }
 

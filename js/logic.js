@@ -1,8 +1,5 @@
-
-
-function update()
+function updateAllJSBehavior()
 {
-    bgm.play().then(data=>{}).catch(err=>{});// 用户进行交互后才有bgm，别问，问就是HTML特性
     for(var i in JSBehaviors)
     {
         try
@@ -17,6 +14,50 @@ function update()
             console.log(e);
         }
     }
+}
+
+function fixUpdateAllJSBehavior()
+{
+    for(var i in JSBehaviors)
+    {
+        try
+        {
+            if(JSBehaviors[i].Active)
+            {
+                JSBehaviors[i].fixUpdate();
+            }
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    }
+}
+
+function lateUpdateAllJSBehavior()
+{
+    for(var i in JSBehaviors)
+    {
+        try
+        {
+            if(JSBehaviors[i].Active)
+            {
+                JSBehaviors[i].lateUpdate();
+            }
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    }
+}
+
+
+function update()
+{
+    bgm.play().then(data=>{}).catch(err=>{});// 用户进行交互后才有bgm，别问，问就是HTML特性
+    updateAllJSBehavior();
+    lateUpdateAllJSBehavior;
     MainMgr.Instance.setFPSVal((1 / deltaTime).toFixed(2));
 }
 
@@ -27,7 +68,7 @@ function gameLoop()
     sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
 }
 
-//setInterval(updateBullets, 10);
+setInterval(fixUpdateAllJSBehavior, 1 / 30 * 1000);
 gameLoop();
 
 //别看了，屎山，小时候不懂事写的

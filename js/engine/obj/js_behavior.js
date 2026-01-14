@@ -39,7 +39,7 @@ class JSBehavior extends BaseObject
 
     lateUpdate(){}
 
-    fixUpate(){}
+    fixUpdate(){}
 
     destroy()
     {
