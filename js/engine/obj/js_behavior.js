@@ -17,6 +17,11 @@ class JSBehavior extends BaseObject
         this._collEventAndFuncs.push(eventAndFunc);
     }
 
+    clearAllCollisionEventAndFuncs()
+    {
+        this._collEventAndFuncs.splice(0, this._collEventAndFuncs.length);
+    }
+
     onCollisionLogic()
     {
         for(var i in this._collEventAndFuncs)
@@ -49,7 +54,7 @@ class JSBehavior extends BaseObject
 
     setActive(active)
     {
-        if(active == self._active)
+        if(active == this._active)
         {
             return false;
         }

@@ -27,13 +27,4 @@ function isPhone() {
     return isPhone;
 }
 
-if(isPhone())
-{
-    alert('请将手机横过来');
-}
-else
-{
-    MainMgr.Instance.setAllPhoneBtnVis(false);
-}
-
 //LZX-VSCode-2026-01-14-008

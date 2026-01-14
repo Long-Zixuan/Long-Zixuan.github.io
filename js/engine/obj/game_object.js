@@ -176,7 +176,15 @@ class GameObject extends BaseObject
             return false;
         }
         this._active = active;
-        this.setVisible(active);
+        if(!active)
+        {
+            this._element.style.visibility = "hidden";
+        }
+        else
+        {
+            this.setVisible(this._visible);
+
+        }
         for(var i = this._behaviors.length - 1; i >= 0; i--)
         {
             this._behaviors[i].setActive(active);

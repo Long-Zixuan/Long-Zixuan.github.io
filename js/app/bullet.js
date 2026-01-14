@@ -9,7 +9,6 @@ class Bullet extends JSBehavior
 
     getTopNum()
     {
-        console.log(this._gameObject.Top);
         return parseFloat(this._gameObject.Top.toString().slice(0, this._gameObject.Top.toString().length - 1));
     }
 
@@ -35,7 +34,8 @@ class Bullet extends JSBehavior
     selfDestoryLogic()
     {
         if(this.getTopNum() <= 0 - this._gameObject.Height/gameContainer.offsetHeight * 100 || this.getLeftNum() < 0 - this._gameObject.Width/gameContainer.offsetWidth * 100 || this.getLeftNum() > 100 || this.getTopNum() > 100) {
-            this._gameObject.destroy();       
+            //this._gameObject.destroy();  
+            BulletsPool.Instance.returnBullet(this);     
         }
     }
 

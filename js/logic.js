@@ -58,9 +58,8 @@ function update()
     bgm.play().then(data=>{}).catch(err=>{});// 用户进行交互后才有bgm，别问，问就是HTML特性
     updateAllJSBehavior();
     lateUpdateAllJSBehavior;
-    MainMgr.Instance.setFPSVal((1 / deltaTime).toFixed(2));
 }
-
+//engine running time
 function gameLoop() 
 {        
     updateDeltaTime();

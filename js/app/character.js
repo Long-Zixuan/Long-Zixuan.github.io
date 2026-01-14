@@ -62,7 +62,6 @@ class Character extends JSBehavior
 
     getTopNum()
     {
-        console.log(this._gameObject.Top);
         return parseFloat(this._gameObject.Top.toString().slice(0, this._gameObject.Top.toString().length - 1));
     }
 

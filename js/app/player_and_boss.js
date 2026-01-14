@@ -27,13 +27,8 @@ class Player extends Character
 
         // 创建三发子弹
         for(let i = -1; i <= 1; i++) {
-            let bulletEle = document.createElement('img');
-            //bulletEle.src = './src/img/our_bullet2.png';
-            //bulletEle.className = 'bullet';
-            let bulletObj = new GameObject(bulletEle);
-            let bullet = new Bullet(bulletObj);
+            let bullet = BulletsPool.Instance.getBullet();
             bullet.GameObj.setSrc('./src/img/our_bullet2.png');
-            bullet.GameObj.setClassName('bullet');
             // 计算子弹位置，中间子弹在玩家正上方，两侧子弹略微偏移
             const bulletLeft = this.getLeftNum() + ((this._gameObject.Width / 3) / gameContainer.offsetWidth) * 100 + (i * spacing);//照理说应该是this.element.offsetWidth / 2更接近角色中心，但是经过测试这里除以3更接近角色中心，不知道为什么
             bullet.GameObj.setLeft(bulletLeft + '%');
@@ -105,7 +100,6 @@ class Player extends Character
 
     setBulletColEvent(event)
     {
-        console.log(event.length)
         this._bulletColEvent = event;
     }
 }
@@ -204,11 +198,8 @@ class Boss extends Character
             let createbulletCount = 20;
             for(let i = 0; i < createbulletCount; i++)
             {
-                const bossBullet = document.createElement('img');
-                bossBullet.src = './src/img/boss_bullet2.png';
-                bossBullet.className = 'bullet';
-                let bulletObj = new GameObject(bossBullet);
-                let bullet = new Bullet(bulletObj);
+                let bullet = BulletsPool.Instance.getBullet();
+                bullet.GameObj.setSrc('./src/img/boss_bullet2.png');
                 bullet.GameObj.setLeft(this.getLeftNum() + '%');
                 bullet.GameObj.setTop(this.getTopNum() + '%');
                 // bossBullet.style.left = this.getLeftNum() + '%';
@@ -216,7 +207,7 @@ class Boss extends Character
                 const horizontalSpeed = Math.cos(i / createbulletCount * 2 * Math.PI) * 0.25 * 2 * 60;
                 const verticalSpeed = Math.sin(i / createbulletCount * 2 * Math.PI) * 0.16 * 2 * 60;
 
-                gameContainer.appendChild(bossBullet);
+                gameContainer.appendChild(bullet.GameObj.Element);
 
                 bullet.setSpeed(verticalSpeed,horizontalSpeed);
                 bullet.addCollisionEventAndFuncs(this._bulletColEvent);
@@ -235,17 +226,14 @@ class Boss extends Character
             let createBulletCount = 20;
             for(let i = 0; i < createBulletCount; i++)
             {
-                const bossBullet = document.createElement('img');
-                bossBullet.src = './src/img/boss_bullet2.png';
-                bossBullet.className = 'bullet';
-                let bulletObj = new GameObject(bossBullet);
-                let bullet = new Bullet(bulletObj);
+                let bullet = BulletsPool.Instance.getBullet();
+                bullet.GameObj.setSrc('./src/img/boss_bullet2.png');
                 bullet.GameObj.setLeft(this.getLeftNum() + '%');
                 bullet.GameObj.setTop(this.getTopNum() + '%');
                 const horizontalSpeed = Math.cos(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.25 * 2 * 60;
                 const verticalSpeed = Math.sin(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.16 * 2 * 60;
 
-                gameContainer.appendChild(bossBullet);
+                gameContainer.appendChild(bullet.GameObj.Element);
 
                 bullet.setSpeed(verticalSpeed,horizontalSpeed);
                 bullet.addCollisionEventAndFuncs(this._bulletColEvent);

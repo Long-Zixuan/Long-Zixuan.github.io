@@ -192,7 +192,8 @@ playerBulColEvent = [(bullet)=>{
                     },(bullet)=>{
                         boss.hurt(1);
                         MainMgr.Instance.setBossHealth(boss.Health);
-                        bullet.GameObj.destroy();
+                        BulletsPool.Instance.returnBullet(bullet);
+                        //bullet.GameObj.destroy();
                     }
                 ];
 player.setBulletColEvent(playerBulColEvent);
@@ -202,7 +203,8 @@ bossBulColEvent = [(bullet)=>{
                     },(bullet)=>{
                         player.hurt(1);
                         MainMgr.Instance.setPlayerHealth(player.Health);
-                        bullet.GameObj.destroy();
+                        BulletsPool.Instance.returnBullet(bullet);
+                        //bullet.GameObj.destroy();
                     }
                 ];
 boss.setBulletColEvent(bossBulColEvent);
@@ -258,6 +260,16 @@ function showDialogBar(text,bottomText,textMode)
 
     typeWriter();
 }
+
+if(isPhone())
+{
+    alert('请将手机横过来');
+}
+else
+{
+    MainMgr.Instance.setAllPhoneBtnVis(false);
+}
+
 function backgroundCreateAndMoveLogic()
 {
     if(gameStateMachine.getCurState() != GAME_STATE_RUNNING)

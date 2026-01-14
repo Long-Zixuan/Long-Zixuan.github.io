@@ -41,6 +41,12 @@ class MainMgr extends JSBehavior
         this.gameDialogBar.setBottom("0px");
         this.gameDialogBar.setLeft("0px");
         this.gameDialogBar.setVisible(false);
+        this.setAllPhoneBtnVis(false);
+    }
+
+    update()
+    {
+        this.setFPSVal((1 / deltaTime).toFixed(2));
     }
 
     setBossHealth(value)
