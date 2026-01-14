@@ -44,10 +44,13 @@ class Character extends JSBehavior
 
     onDie()
     {
-        this._isDead = true;
-        for(i in this._dieDelegates)
+        if(!this._isDead)
         {
-            this._dieDelegates[i](this);
+            for(var i in this._dieDelegates)
+            {
+                this._dieDelegates[i](this);
+            }
+            this._isDead = true;
         }
     }
 
@@ -68,3 +71,5 @@ class Character extends JSBehavior
         return parseFloat(this._gameObject.getLeft.toString().slice(0, this._gameObject.getLeft.toString().length - 1));
     }
 }
+
+//LZX-VSCode-2026-01-14-001

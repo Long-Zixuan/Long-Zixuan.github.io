@@ -9,6 +9,7 @@ class Player extends Character
         this.shootCooldown = 150;
         gameObject.setTop("90%");
         gameObject.setLeft("50%");
+        this.addDieDelegate((obj)=>{obj._gameObject.getElement.src = './src/img/player_die.png'})
     }
 
     update()
@@ -16,12 +17,6 @@ class Player extends Character
         super.update();
         this.move();
         this.attack();
-    }
-
-    setPos(top,left)
-    {
-        this._gameObject.setTop(top + "%");
-        this._gameObject.setLeft(left + "%");
     }
 
     createBullets() 
@@ -88,7 +83,6 @@ class Player extends Character
         // 更新角色位置
         this._gameObject.setLeft(left + '%');
         this._gameObject.setTop(top + '%');
-        //console.log(this.element.offsetWidth/gameContainer.offsetWidth);
     }
 
     checkHealth()
@@ -99,3 +93,149 @@ class Player extends Character
         }
     }
 }
+
+class Boss extends Character
+{
+    constructor(gameObject,stateMachine = null) 
+    {
+        super(gameObject,stateMachine);
+        gameObject.setTop("5%");
+        gameObject.setLeft("50%");
+        this.verticalSpeed = 0.25 * 60;
+        this.horizontalSpeed = 0.16 * 60;
+        this.verticalSpeedRate = 1;
+        this.horizontalSpeedRate = 1;
+        this.lastDirChangeTime = Date.now();
+        this.lastAttackModeChangeTime = Date.now();
+        this.lastAttackTime = Date.now();
+        this.attackModeChangeTime = 5000;
+        this.changeDirTime = 150;
+        this.attackTime = 1000;
+        this.Angle = 0;
+        this.attackMode = 0;
+        this.addDieDelegate((obj)=>{obj._gameObject.getElement.src = './src/img/boss_die.png'})
+    }
+
+    update()
+    {
+        super.update();
+        this.move();
+        this.attack();
+    }
+    
+
+    move()
+    {
+        this.changeDir();
+        let left = this.getLeftNum();
+        let top = this.getTopNum();
+        if(top < 100 - (this._gameObject.getHeight / gameContainer.offsetHeight) * 100 && this.verticalSpeedRate > 0)
+            {
+                top += this.verticalSpeed * this.verticalSpeedRate * deltaTime;
+            }
+            if(this.top > 0 && this.verticalSpeedRate < 0)
+            {
+                top += this.verticalSpeed* this.verticalSpeedRate * deltaTime;
+            }
+            if(left < 100 - (this._gameObject.getWidth / gameContainer.offsetWidth) * 100 && this.horizontalSpeedRate > 0)
+            {
+                left += this.horizontalSpeed* this.horizontalSpeedRate * deltaTime;
+            }
+            if(left > 0 && this.horizontalSpeedRate < 0)
+            {
+                left += this.horizontalSpeed * this.horizontalSpeedRate * deltaTime;
+            }
+            // 更新boss位置
+            this._gameObject.setTop(top + '%');
+            this._gameObject.setLeft(left + '%');
+    }
+    changeDir()
+    {
+        let currentTime = Date.now();
+        if(currentTime - this.lastDirChangeTime < this.changeDirTime){return;}
+        this.lastDirChangeTime = currentTime;
+        this.verticalSpeedRate = 1 - 2 * Math.random();
+        this.horizontalSpeedRate = 1 - 2 * Math.random();
+    }
+
+    attack()
+    {
+        this.attackModeChange();
+        if(gameStateMachine.getCurState() != GAME_EVENT_RUN){return;}
+
+        let currentTime = Date.now();
+        if(currentTime - this.lastAttackTime < this.attackTime){return;}
+        this.lastAttackTime = currentTime;
+
+        //if(bossBullets.length >= 70){return;}
+
+        if(this.attackMode <= 0.45) 
+        {
+            let createbulletCount = 20;
+            for(let i = 0; i < createbulletCount; i++)
+            {
+                const bossBullet = document.createElement('img');
+                bossBullet.src = './src/img/boss_bullet2.png';
+                bossBullet.className = 'bullet';
+                bossBullet.style.left = this.getLeftNum() + '%';
+                bossBullet.style.top = this.getTopNum() + '%';
+                const horizontalSpeed = Math.cos(i / createbulletCount * 2 * Math.PI) * 0.25 * 2 * 60;
+                const verticalSpeed = Math.sin(i / createbulletCount * 2 * Math.PI) * 0.16 * 2 * 60;
+
+                gameContainer.appendChild(bossBullet);
+
+                bossBullets.push({
+                    element: bossBullet,
+                    top: this.getTopNum(),
+                    left: this.getLeftNum(),
+                    horizontalSpeed: horizontalSpeed,
+                    verticalSpeed: verticalSpeed
+                });
+            }
+        }
+        else if(this.attackMode <= 0.9)
+        {
+            let createBulletCount = 20;
+            for(let i = 0; i < createBulletCount; i++)
+            {
+                const bossBullet = document.createElement('img');
+                bossBullet.src = './src/img/boss_bullet2.png';
+                bossBullet.className = 'bullet';
+                bossBullet.style.left = this.getLeftNum() + '%';
+                bossBullet.style.top = this.getTopNum() + '%';
+                const horizontalSpeed = Math.cos(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.25 * 2 * 60;
+                const verticalSpeed = Math.sin(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.16 * 2 * 60;
+
+                gameContainer.appendChild(bossBullet);
+
+                bossBullets.push({
+                    element: bossBullet,
+                    top: this.getTopNum(),
+                    left: this.getLeftNum(),
+                    horizontalSpeed: horizontalSpeed,
+                    verticalSpeed: verticalSpeed
+                });
+            }
+            this.Angle += 1;
+            this.Angle = this.Angle % 4;
+
+        }
+    }
+    attackModeChange()
+    {
+        let currentTime = Date.now();
+        if(currentTime - this.lastAttackModeChangeTime < this.attackModeChangeTime){return;}
+        this.lastAttackModeChangeTime = currentTime;
+        this.attackMode = Math.random();
+    }
+
+    checkHealth()
+    {
+        if(this._health <= 0)
+        {
+            this.onDie();
+        }
+    }
+}
+
+//LZX-VSCode-2026-01-14-002

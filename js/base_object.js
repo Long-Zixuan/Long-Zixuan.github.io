@@ -15,3 +15,5 @@ class BaseObject
         this._active = active;
     }
 }
+
+//LZX-VSCode-2026-01-14-003

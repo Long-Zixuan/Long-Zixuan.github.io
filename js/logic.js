@@ -178,7 +178,7 @@ const playerElement = document.getElementById('player');
         bossAttackMode = Math.random();
     }
 
-    class Boss
+    /*class Boss
     {
         constructor(element, left, top, health, verticalSpeed, horizontalSpeed, verticalSpeedRate, horizontalSpeedRate,changeDirTime, attackModeChangeTime, attackTime)
         {
@@ -315,9 +315,10 @@ const playerElement = document.getElementById('player');
             this.left = left;
             this.top = top;
         }
-    }
+    }*/
 
-    let boss = new Boss(bossElement, bossLeft, bossTop, startBossHealth, bossVerticalSpeed, bossHorizontalSpeed, verticalSpeedRate, horizontalSpeedRate, 150, 5000 ,1000);
+    let bossObj = new GameObject(bossElement);
+    let boss = new Boss(bossObj);
 
 
     /*class Player
@@ -466,10 +467,10 @@ const playerElement = document.getElementById('player');
                 bullets.splice(i, 1);
 
                 //bossHealth -= 1;
-                boss.health -= 1;
-                bossHealthElement.textContent = boss.health;
+                boss.hurt(1);
+                bossHealthElement.textContent = boss.getHealth;
             }
-            if(boss.health == startBossHealth / 2 && !hadTellPlayer)
+            if(boss.getHealth == startBossHealth / 2 && !hadTellPlayer)
             {
                 /*for(key in keys)
                 {
@@ -482,7 +483,7 @@ const playerElement = document.getElementById('player');
                 dialogNniFrameId = requestAnimationFrame(bossHalfHealthLogic);
                 hadTellPlayer = true;
             }
-            if(boss.health <= 0) 
+            if(boss.isDead) 
             {
                 gameStateMachine.input(GAME_EVENT_WIN);
                 return;
@@ -648,18 +649,13 @@ const playerElement = document.getElementById('player');
     {
         bgm.pause();
         showDialogBar("你赢了!你剩余血量："+player.getHealth);
-        boss.element.src = './src/img/boss_die.png';
-        //restartButton.style.bottom = '10px';
-        //restartButton.style.left = '50%';
-        //gameEndTextElement.textContent = "你赢了!你剩余血量："+player.health;
-        
     }
 
 
     function dieLogic()
     {
         bgm.pause();
-        showDialogBar("你ga了。Boss剩余血量："+boss.health);
+        showDialogBar("你ga了。Boss剩余血量："+boss.getHealth);
         playerElement.src = './src/img/player_die.png';
         //restartButton.style.bottom = '10px';
         //restartButton.style.left = '50%';
@@ -787,8 +783,9 @@ const playerElement = document.getElementById('player');
         player.setTop(playerTop + "%");
         player.setLeft(playerLeft + "%");
         player.setHealth(startPlayerHealth);
-        boss.setPos(bossTop,bossLeft);
-        boss.health = startBossHealth;
+        boss.setTop(bossTop + "%");
+        boss.setLeft(bossLeft + "%");
+        boss.setHealth(startBossHealth);
         hideDialogBar();
         boss.element.src = './src/img/boss.gif';
         playerElement.scr = './src/img/character1.gif';
@@ -805,7 +802,7 @@ const playerElement = document.getElementById('player');
             bullet.element.remove();
             bossBullets.splice(i, 1);
         }
-        bossHealthElement.textContent = boss.health;
+        bossHealthElement.textContent = boss.getHealth;
         playerHealthElement.textContent = player.getHealth;
     }
 
