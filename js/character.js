@@ -56,19 +56,19 @@ class Character extends JSBehavior
 
     get isDead() { return this._isDead; }
 
-    get getHealth() { return this._health; }
+    get Health() { return this._health; }
 
     _initStateMachine(){}
 
     getTopNum()
     {
-        console.log(this._gameObject.getTop);
-        return parseFloat(this._gameObject.getTop.toString().slice(0, this._gameObject.getTop.toString().length - 1));
+        console.log(this._gameObject.Top);
+        return parseFloat(this._gameObject.Top.toString().slice(0, this._gameObject.Top.toString().length - 1));
     }
 
     getLeftNum()
     {
-        return parseFloat(this._gameObject.getLeft.toString().slice(0, this._gameObject.getLeft.toString().length - 1));
+        return parseFloat(this._gameObject.Left.toString().slice(0, this._gameObject.Left.toString().length - 1));
     }
 }
 

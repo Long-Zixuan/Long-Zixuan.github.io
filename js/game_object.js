@@ -32,23 +32,23 @@ class GameObject extends BaseObject
         
     }
 
-    get getTop()
+    get Top()
     {
         return this._top;
     }
 
-    get getLeft()
+    get Left()
     {
         return this._left;
     }
 
 
-    get getWidth()
+    get Width()
     {
         return this._width;
     }
 
-    get getHeight()
+    get Height()
     {
         return this._height;
     }
@@ -131,9 +131,14 @@ class GameObject extends BaseObject
         this.setActive(this._active);
     }
 
-    get getElement()
+    get Element()
     {
         return this._element;
+    }
+
+    get Rect()
+    {
+        return this._element.getBoundingClientRect();
     }
 
     setActive(active)

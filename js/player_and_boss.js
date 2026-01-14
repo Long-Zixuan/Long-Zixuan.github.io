@@ -9,7 +9,7 @@ class Player extends Character
         this.shootCooldown = 150;
         gameObject.setTop("90%");
         gameObject.setLeft("50%");
-        this.addDieDelegate((obj)=>{obj._gameObject.getElement.src = './src/img/player_die.png'})
+        this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/player_die.png'})
     }
 
     update()
@@ -31,7 +31,7 @@ class Player extends Character
             bullet.className = 'bullet';
 
             // 计算子弹位置，中间子弹在玩家正上方，两侧子弹略微偏移
-            const bulletLeft = this.getLeftNum() + ((this._gameObject.getWidth / 3) / gameContainer.offsetWidth) * 100 + (i * spacing);//照理说应该是this.element.offsetWidth / 2更接近角色中心，但是经过测试这里除以3更接近角色中心，不知道为什么
+            const bulletLeft = this.getLeftNum() + ((this._gameObject.Width / 3) / gameContainer.offsetWidth) * 100 + (i * spacing);//照理说应该是this.element.offsetWidth / 2更接近角色中心，但是经过测试这里除以3更接近角色中心，不知道为什么
             bullet.style.left = bulletLeft + '%';
             bullet.style.top = this.getTopNum() + '%';
 
@@ -68,14 +68,14 @@ class Player extends Character
         {
             left -= this.horizontalSpeed * deltaTime;
         }
-        if(keys['ArrowRight'] && left < 100 - this._gameObject.getWidth/gameContainer.offsetWidth * 100) 
+        if(keys['ArrowRight'] && left < 100 - this._gameObject.Width/gameContainer.offsetWidth * 100) 
         {
             left += this.horizontalSpeed * deltaTime;
         }
         if(keys['ArrowUp'] && top > 0) {
             top -= this.verticalSpeed * deltaTime;
         }
-        if(keys['ArrowDown'] && top < 100 - this._gameObject.getHeight/gameContainer.offsetHeight * 100) 
+        if(keys['ArrowDown'] && top < 100 - this._gameObject.Height/gameContainer.offsetHeight * 100) 
         {
             top += this.verticalSpeed * deltaTime;
         }
@@ -113,7 +113,7 @@ class Boss extends Character
         this.attackTime = 1000;
         this.Angle = 0;
         this.attackMode = 0;
-        this.addDieDelegate((obj)=>{obj._gameObject.getElement.src = './src/img/boss_die.png'})
+        this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/boss_die.png'})
     }
 
     update()
@@ -129,7 +129,7 @@ class Boss extends Character
         this.changeDir();
         let left = this.getLeftNum();
         let top = this.getTopNum();
-        if(top < 100 - (this._gameObject.getHeight / gameContainer.offsetHeight) * 100 && this.verticalSpeedRate > 0)
+        if(top < 100 - (this._gameObject.Height / gameContainer.offsetHeight) * 100 && this.verticalSpeedRate > 0)
             {
                 top += this.verticalSpeed * this.verticalSpeedRate * deltaTime;
             }
@@ -137,7 +137,7 @@ class Boss extends Character
             {
                 top += this.verticalSpeed* this.verticalSpeedRate * deltaTime;
             }
-            if(left < 100 - (this._gameObject.getWidth / gameContainer.offsetWidth) * 100 && this.horizontalSpeedRate > 0)
+            if(left < 100 - (this._gameObject.Width / gameContainer.offsetWidth) * 100 && this.horizontalSpeedRate > 0)
             {
                 left += this.horizontalSpeed* this.horizontalSpeedRate * deltaTime;
             }

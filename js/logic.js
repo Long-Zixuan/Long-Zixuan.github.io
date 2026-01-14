@@ -239,9 +239,9 @@ const playerElement = document.getElementById('player');
 
                 //bossHealth -= 1;
                 boss.hurt(1);
-                bossHealthElement.textContent = boss.getHealth;
+                bossHealthElement.textContent = boss.Health;
             }
-            if(boss.getHealth == startBossHealth / 2 && !hadTellPlayer)
+            if(boss.Health == startBossHealth / 2 && !hadTellPlayer)
             {
                 /*for(key in keys)
                 {
@@ -284,7 +284,7 @@ const playerElement = document.getElementById('player');
                 bossBullets.splice(i, 1);
 
                 player.hurt(1);
-                playerHealthElement.textContent = player.getHealth;
+                playerHealthElement.textContent = player.Health;
 
             }
             if(player.isDead) 
@@ -419,14 +419,14 @@ const playerElement = document.getElementById('player');
     function winLogic()
     {
         bgm.pause();
-        showDialogBar("你赢了!你剩余血量："+player.getHealth);
+        showDialogBar("你赢了!你剩余血量："+player.Health);
     }
 
 
     function dieLogic()
     {
         bgm.pause();
-        showDialogBar("你ga了。Boss剩余血量："+boss.getHealth);
+        showDialogBar("你ga了。Boss剩余血量："+boss.Health);
         playerElement.src = './src/img/player_die.png';
         //restartButton.style.bottom = '10px';
         //restartButton.style.left = '50%';
@@ -573,8 +573,8 @@ const playerElement = document.getElementById('player');
             bullet.element.remove();
             bossBullets.splice(i, 1);
         }
-        bossHealthElement.textContent = boss.getHealth;
-        playerHealthElement.textContent = player.getHealth;
+        bossHealthElement.textContent = boss.Health;
+        playerHealthElement.textContent = player.Health;
     }
 
     function cancelDialogAni() //这个函数其实对修复游戏播放对话强制退出后，暂停一下依然会继续播放对话这个bug没什么用，但是留着也许未来有用
