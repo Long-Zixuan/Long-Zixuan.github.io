@@ -60,6 +60,11 @@ class JSBehavior extends BaseObject
         super.setActive(active);
         return true;
     }
+
+    get Active()
+    {
+        return this._active;
+    }
 }
 
 //LZX-VSCode-2026-01-13-004

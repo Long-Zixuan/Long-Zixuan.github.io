@@ -418,8 +418,22 @@ const playerElement = document.getElementById('player');
     function update()
     {
         bgm.play().then(data=>{}).catch(err=>{});// 用户进行交互后才有bgm，别问，问就是HTML特性
-        player.update();
-        boss.update();
+        // player.update();
+        // boss.update();
+        for(var i in JSBehaviors)
+        {
+            try
+            {
+                if(JSBehaviors[i].Active)
+                {
+                    JSBehaviors[i].update();
+                }
+            }
+            catch(e)
+            {
+                console.log(e);
+            }
+        }
         updateBullets();
         MainMgr.Instance.setFPSVal((1 / deltaTime).toFixed(2));
     }
