@@ -44,23 +44,41 @@ class GameObject extends BaseObject
 
     get Top()
     {
+        //return this._element.style.top;
         return this._top;
+    }
+
+    get Bottom()
+    {
+        //return this._element.style.bottom;
+        return this._bottom;
     }
 
     get Left()
     {
+        //return this._element.style.left;
         return this._left;
+    }
+
+    get Right()
+    {
+        //return this._element.style.right;
+        return this._right;
     }
 
 
     get Width()
     {
-        return this._width;
+        return this._element.getBoundingClientRect().width;
+        //return this._element.style.offsetWidth;
+        //return this._width;
     }
 
     get Height()
     {
-        return this._height;
+        return this._element.getBoundingClientRect().height;
+        //return this._element.style.offsetHeight;
+        //return this._height;
     }
 
     setTop(top)
