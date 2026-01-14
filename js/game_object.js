@@ -1,24 +1,21 @@
-class GameObject
+class GameObject extends BaseObject
 {
     constructor(element = null)
     {
         this._active = true;
         this._visible = true;
-        if(this._img.hasAttribute("style"))
+        this._behaviors = [];
+        if(element)
         {
             this._element = element;
-            this._left = this._element.style.left;
-            this._top = this._element.style.top;
-            this._width = this._element.style.offsetWidth;
-            this._height = this._element.style.offsetHeight;
-        }
-        else if(element)
-        {
-            this._element = element.element;
-            this._left = this._element.style.left;
-            this._top = this._element.style.top;
-            this._width = this._element.style.offsetWidth;
-            this._height = this._element.style.offsetHeight;
+            this._top = element.style.top;
+            this._left = element.style.left;
+            this._zIndex = element.style.zIndex;
+            this._bottom = element.style.bottom;
+            this._right = element.style.right;
+            this._width = element.offsetWidth;
+            this._height = element.offsetHeight;
+
         }
         else
         {
@@ -27,17 +24,11 @@ class GameObject
             this._top = 0;
             this._width = 0;
             this._height = 0;
+            this._zIndex = 0;
+            this._bottom = 0;
+            this._right = 0;
         }
         
-    }
-
-    setLeft(left)
-    {
-        this._left = left;
-        if(this._element)
-        {
-            this._element.style.left = left;
-        }
     }
 
     setTop(top)
@@ -49,12 +40,12 @@ class GameObject
         }
     }
 
-    setWidth(width)
-    { 
-        this._width = width;
+    setLeft(left)
+    {
+        this._left = left;
         if(this._element)
         {
-            this._element.style.width = width;
+            this._element.style.left = left;
         }
     }
 
@@ -63,7 +54,25 @@ class GameObject
         this._height = height;
         if(this._element)
         {
-            this._element.style.height = height;
+            this._element.offsetHeight = height;
+        }
+    }
+
+    setZIndex(zIndex)
+    {
+        this._zIndex = zIndex;
+        if(this._element)
+        {
+            this._element.style.zIndex = zIndex;
+        }
+    }
+
+    setWidth(width)
+    {
+        this._width = width;
+        if(this._element)
+        {
+            this._element.style.offsetWidth = width;
         }
     }
 
@@ -76,17 +85,33 @@ class GameObject
         }
     }
 
+    setActive(active)
+    {
+        super.setActive(active);
+        for(i in this._behaviors)
+        {
+            b = this._behaviors[i];
+            b.setActive(active);
+        }
+    }
+
     setElement(element)
     {
-        if(!this._img.hasAttribute("style"))
-        {
-            element = element.element;
-        }
         this._element = element;
-        this._left = this._element.style.left;
-        this._top = this._element.style.top;
-        this._width = this._element.style.offsetWidth;
-        this._height = this._element.style.offsetHeight;
+        this._element.style.position = "absolute";
+        this._element.style.top = this._top;
+        this._element.style.left = this._left;
+        this._element.style.zIndex = this._zIndex;
+        this._element.style.bottom = this._bottom;
+        this._element.style.right = this._right;
+        this._element.offsetWidth = this._width;
+        this._element.offsetHeight = this._height;
+        this.setActive(this._active);
+    }
+
+    get getElement()
+    {
+        return this._element;
     }
 
     setActive(active)
@@ -96,8 +121,26 @@ class GameObject
             return false;
         }
         this._active = active;
-        this.setActive(active);
+        this.setVisible(active);
+        for(var i = this._behaviors.length - 1; i >= 0; i--)
+        {
+            this._behaviors[i].setActive(active);
+        }
         return true;
+    }
+
+    addBehavior(behavior)
+    {
+        this._behaviors.push(behavior);
+    }
+
+    removeBehavior(behavior)
+    {
+        var index = this._behaviors.indexOf(behavior);
+        if(index != -1)
+        {
+            this._behaviors.splice(index, 1);
+        }
     }
 
     destroy()
@@ -105,6 +148,10 @@ class GameObject
         if(this._element)
         {
             this._element.remove();
+        }
+        for(var i = this._behaviors.length - 1; i >= 0; i--)
+        {
+            this._behaviors[i].destroy();
         }
         delete this;
     }

@@ -1,9 +1,12 @@
-class JSBehavior extends GameObject
+class JSBehavior extends BaseObject
 {
     _collEventAndFuncs = [];
-    constructor(element = null)
+    constructor(gameObject)
     {
-        super(element);
+        this._gameObject = gameObject;
+        this._gameObject.addBehavior(this);
+        this._active = gameObject.getActive();
+        this._visible = gameObject.getIsVisible();
         JSBehaviors.push(this);
     }
 
@@ -39,12 +42,12 @@ class JSBehavior extends GameObject
     destroy()
     {
         JSBehaviors.splice(JSBehaviors.indexOf(this), 1);
-        super.destroy();
+        this._gameObject.removeBehavior(this);
     }
 
     setActive(active)
     {
-        if(!super.setActive(active))
+        if(active == self._active)
         {
             return false;
         }
@@ -52,6 +55,7 @@ class JSBehavior extends GameObject
         {
             this.awake();
         }
+        super.setActive(active);
         return true;
     }
 }

@@ -1,8 +1,8 @@
 class Character extends JSBehavior
 {
-    constructor(element,stateMachine = null)
+    constructor(gameObject,stateMachine = null)
     {
-        super(element);
+        super(gameObject);
         this._isDead = false;
         this._health = 100;
         if(stateMachine)
@@ -56,4 +56,14 @@ class Character extends JSBehavior
     get getHealth() { return this._health; }
 
     _initStateMachine(){}
+
+    getTopNum()
+    {
+        return parseFloat(this._top.slice(0, this._top.length - 1));
+    }
+
+    getLeftNum()
+    {
+        return parseFloat(this._left.slice(0, this._left.length - 1));
+    }
 }
