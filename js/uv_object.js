@@ -5,5 +5,6 @@ class UVObject extends GameObject
         this._paddingU = null;
         this._paddingV = null;
         super(element);
+        if(element.had)
     }
 }
