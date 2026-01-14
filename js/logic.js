@@ -1,29 +1,8 @@
 const playerElement = document.getElementById('player');
     const bossElement = document.getElementById('boss');
     const gameContainer = document.getElementById('gameContainer');
-    /*const bossHealthElement = document.getElementById('bossHealthValue');
-    const playerHealthElement = document.getElementById('playerHealthValue');
-    const fpsDisplayElement = document.getElementById('fpsValue');
-    const restartButton = document.getElementById('restart-button');
-    const pauseButton = document.getElementById('pause-button');
-    const restartButtonTextElement = document.getElementById('ButtonText');
-    const pauseButtonTextElement = document.getElementById('PauseText');
-    const gameEndTextElement = document.getElementById('gameEndMsgText');
-
-    const gameDiaLogElement = document.getElementById('gameDialogBar');*/
 
     const bgm = document.getElementById("bgMusic");
-
-    /*const unSupportBroswerMSGEle = document.getElementById('UnSupportBroswerMSG');
-    unSupportBroswerMSGEle.textContent = "";
-
-    const lKeyBtn = document.getElementById('lKeyBtn');
-    const rKeyBtn = document.getElementById('rKeyBtn');
-    const fKeyBtn = document.getElementById('fKeyBtn');
-    const bKeyBtn = document.getElementById('bKeyBtn');
-    const sKeyBtn = document.getElementById('sKeyBtn');*/
-
-    //const bossBulletsCount = document.getElementById('bossBulletsCount');//Debug
 
     MainMgr.init();
 
@@ -75,7 +54,6 @@ const playerElement = document.getElementById('player');
     const RUNNING = {
         "onEnter":()=>{
             MainMgr.Instance.setPauseButtonText("暂停");
-            //pauseButtonTextElement.textContent = "暂停";
         },
         "onExit":()=>{
             
@@ -112,7 +90,6 @@ const playerElement = document.getElementById('player');
     const PAUSE = {
        "onEnter":()=>{
             MainMgr.Instance.setPauseButtonText("继续");
-            //pauseButtonTextElement.textContent = "继续";
         },
         "onExit":()=>{
             cancelDialogAni();
@@ -153,7 +130,6 @@ const playerElement = document.getElementById('player');
       
 
     document.addEventListener('keydown', (e) => {
-        //hideAllPhoneBtn()
         MainMgr.Instance.setAllPhoneBtnVis(false);
         keys[e.key] = true;
         if(e.key === ' ') {
@@ -214,7 +190,6 @@ const playerElement = document.getElementById('player');
     function updateBullets()
     {
         /*Debug End*/
-        //bossBulletsCount.textContent = bossBullets.length;
         console.log("Boss bullets count:\t" + bossBullets.length);
         console.log("Player bullets count:\t" + bullets.length);
         console.log(" ");
@@ -242,10 +217,8 @@ const playerElement = document.getElementById('player');
                 bullet.element.remove();
                 bullets.splice(i, 1);
 
-                //bossHealth -= 1;
                 boss.hurt(1);
                 MainMgr.instance.setBossHealth(boss.Health);
-                //bossHealthElement.textContent = boss.Health;
             }
             if(boss.Health == startBossHealth / 2 && !hadTellPlayer)
             {
@@ -290,7 +263,6 @@ const playerElement = document.getElementById('player');
                 bossBullets.splice(i, 1);
 
                 player.hurt(1);
-                //playerHealthElement.textContent = player.Health;
                 MainMgr.Instance.setPlayerHealth(player.Health);
 
             }
@@ -308,37 +280,29 @@ const playerElement = document.getElementById('player');
         if(gameStateMachine.getCurState() == GAME_STATE_PAUSE && bottomText == null)
         {
             MainMgr.Instance.setRestartButtonText("继续游戏");
-            //restartButtonTextElement.textContent = "继续游戏";
         }
         if((gameStateMachine.getCurState() == GAME_STATE_WIN || gameStateMachine.getCurState() == GAME_STATE_DIE) && bottomText == null )
         {
             MainMgr.Instance.setRestartButtonText("重新开始");
-            //restartButtonTextElement.textContent = "重新开始";
         }
 
-        
-        // gameDiaLogElement.style.bottom = "0px";
-        // gameDiaLogElement.style.left = "0px";
         MainMgr.Instance.setDiaLogBarVis(true);
 
         if(gameStateMachine.getCurState() == GAME_STATE_PAUSE && text == '')
         {
             MainMgr.Instance.setGameEndText("游戏已暂停");
-            //gameEndTextElement.textContent = "游戏已暂停";
             return;
         }
 
         if(textMode == false)
         {
             MainMgr.Instance.setGameEndText(text);
-            //gameEndTextElement.textContent = text;
             return;
         }
 
         let index = 0;
 
         MainMgr.Instance.setGameEndText("");
-        //gameEndTextElement.textContent = "";
 
         let msg = "";
 
@@ -349,7 +313,6 @@ const playerElement = document.getElementById('player');
             }
             if (index < text.length) {
                 msg += text.charAt(index);
-                //gameEndTextElement.textContent += text.charAt(index);
                 MainMgr.Instance.setGameEndText(msg);
                 index++;
                 setTimeout(typeWriter, 100); // 调整速度
@@ -392,8 +355,6 @@ const playerElement = document.getElementById('player');
     function hideDialogBar()
     {
         MainMgr.Instance.setDiaLogBarVis(false);
-        // gameDiaLogElement.style.bottom = "-1000px";
-        // gameDiaLogElement.style.left = "-1000px";
     }
 
     function pauseGame()
@@ -445,10 +406,6 @@ const playerElement = document.getElementById('player');
     {
         bgm.pause();
         showDialogBar("你ga了。Boss剩余血量："+boss.Health);
-        playerElement.src = './src/img/player_die.png';
-        //restartButton.style.bottom = '10px';
-        //restartButton.style.left = '50%';
-        //gameEndTextElement.textContent = "你ga了。Boss剩余血量："+boss.health;
     }
 
     function bossHalfHealthLogic()
@@ -465,7 +422,6 @@ const playerElement = document.getElementById('player');
         boss.update();
         updateBullets();
         MainMgr.Instance.setFPSVal((1 / deltaTime).toFixed(2));
-        //fpsDisplayElement.textContent = (1 / deltaTime).toFixed(2);
     }
 
     function gameLoop() 
@@ -491,7 +447,6 @@ const playerElement = document.getElementById('player');
     else
     {
         MainMgr.Instance.setAllPhoneBtnVis(false);
-        //hideAllPhoneBtn()
     }
 
     MainMgr.Instance.restartButton.addClickListener(function() {
@@ -524,50 +479,6 @@ const playerElement = document.getElementById('player');
     setInterval(backgroundCreateAndMoveLogic, 3000);
     backgroundCreateAndMoveLogic();
 
-    /*function hideAllPhoneBtn()
-    {
-        if(lKeyBtn.style.left == "-1000px")
-        {
-            return;
-        }
-        lKeyBtn.style.left = "-1000px";
-        lKeyBtn.style.top = "-1000px";
-
-        rKeyBtn.style.left = "-1000px";
-        rKeyBtn.style.top = "-1000px";
-
-        fKeyBtn.style.left = "-1000px";
-        fKeyBtn.style.top = "-1000px";
-
-        bKeyBtn.style.left = "-1000px";
-        bKeyBtn.style.top = "-1000px";
-
-        sKeyBtn.style.right = "-1000px";
-        sKeyBtn.style.top = "-1000px";
-    }
-
-    function showAllPhoneBtn()
-    {
-        if(lKeyBtn.style.left == "50px")
-        {
-            return;
-        }
-        lKeyBtn.style.left = "50px";
-        lKeyBtn.style.top = "50%";
-
-        rKeyBtn.style.left = "150px";
-        rKeyBtn.style.top = "50%";
-
-        fKeyBtn.style.left = "100px";
-        fKeyBtn.style.top = "45%";
-
-        bKeyBtn.style.left = "100px";
-        bKeyBtn.style.top = "50%";
-
-        sKeyBtn.style.right = "50px";
-        sKeyBtn.style.top = "50%";
-    }*/
-
     function reStart()
     {
         //这个封装真的是。。。。当年真的是脑子瓦特了
@@ -594,9 +505,7 @@ const playerElement = document.getElementById('player');
             bossBullets.splice(i, 1);
         }
         MainMgr.Instance.setBossHealth(boss.Health);
-        //bossHealthElement.textContent = boss.Health;
         MainMgr.Instance.setPlayerHealth(player.Health);
-        //playerHealthElement.textContent = player.Health;
     }
 
     function cancelDialogAni() //这个函数其实对修复游戏播放对话强制退出后，暂停一下依然会继续播放对话这个bug没什么用，但是留着也许未来有用
