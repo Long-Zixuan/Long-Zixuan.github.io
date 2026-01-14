@@ -1,3 +1,4 @@
+![LoongLy Software](https://gitee.com/zixuan_long/Img/raw/master/LS3_LOW_PIX.png)
 ![ico](https://github.com/Long-Zixuan/FortyThousand/blob/master/FortyThousand2.0/src/boss1.png)
 
 # 四万弹幕祭
@@ -7,3 +8,6 @@
 ↑↓←→控制角色移动，空格键开火，数字键12345678控制开火方向，Esc键暂停游戏  
 没怎么认真学过HTML和CSS以及JS，就是现学做着玩的  
 感谢崔大美术无私的帮我绘制插画，制作动画（素材和《四万弹幕祭 Easy_X版》是一样的）  
+后来实习的时候重构了一遍，结构式暂且还是有些问题（当然相比初版好太多了）  
+一方面引擎和游戏逻辑并没有彻底分离，还是有耦合的情况，另一方面某些类耦合度还是比较高  
+算了，以后慢慢设计吧  
