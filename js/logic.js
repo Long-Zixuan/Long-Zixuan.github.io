@@ -320,7 +320,7 @@ const playerElement = document.getElementById('player');
     let boss = new Boss(bossElement, bossLeft, bossTop, startBossHealth, bossVerticalSpeed, bossHorizontalSpeed, verticalSpeedRate, horizontalSpeedRate, 150, 5000 ,1000);
 
 
-    class Player
+    /*class Player
     {
         constructor(element, left, top, health, verticalSpeed, horizontalSpeed, shootCooldown)
         {
@@ -407,9 +407,10 @@ const playerElement = document.getElementById('player');
             this.element.style.top = this.top + '%';
             //console.log(this.element.offsetWidth/gameContainer.offsetWidth);
         }
-    }
-
-    let player = new Player(playerElement, playerLeft, playerTop, startPlayerHealth, playerVerticalSpeed, playerHorizontalSpeed, shootCooldown);
+    }*/
+    let playerObj = new GameObject(playerElement);
+    let player = new Player(playerObj);
+    //let player = new Player(playerElement, playerLeft, playerTop, startPlayerHealth, playerVerticalSpeed, playerHorizontalSpeed, shootCooldown);
 
     function isColliding(rect1, rect2) {
         return !(rect1.right < rect2.left ||
@@ -510,11 +511,11 @@ const playerElement = document.getElementById('player');
                 bossBullet.element.remove();
                 bossBullets.splice(i, 1);
 
-                player.health -= 1;
-                playerHealthElement.textContent = player.health;
+                player.hurt(1);
+                playerHealthElement.textContent = player.getHealth;
 
             }
-            if(player.health <= 0) 
+            if(player.isDead) 
             {
                 gameStateMachine.input(GAME_EVENT_DIE);
                 return;
@@ -646,7 +647,7 @@ const playerElement = document.getElementById('player');
     function winLogic()
     {
         bgm.pause();
-        showDialogBar("你赢了!你剩余血量："+player.health);
+        showDialogBar("你赢了!你剩余血量："+player.getHealth);
         boss.element.src = './src/img/boss_die.png';
         //restartButton.style.bottom = '10px';
         //restartButton.style.left = '50%';
@@ -709,8 +710,8 @@ const playerElement = document.getElementById('player');
     restartButton.addEventListener('click', function() {
         if(gameStateMachine.getCurState() == GAME_STATE_DIE || gameStateMachine.getCurState() == GAME_STATE_WIN)
         {
-            gameStateMachine.input(GAME_EVENT_RESTART)
-            //location.reload();
+            //gameStateMachine.input(GAME_EVENT_RESTART)
+            location.reload();
         }
         if(gameStateMachine.getCurState() == GAME_STATE_PAUSE)
         {
@@ -783,8 +784,9 @@ const playerElement = document.getElementById('player');
     function reStart()
     {
         //这个封装真的是。。。。当年真的是脑子瓦特了
-        player.setPos(playerTop,playerLeft);
-        player.health = startPlayerHealth;
+        player.setTop(playerTop + "%");
+        player.setLeft(playerLeft + "%");
+        player.setHealth(startPlayerHealth);
         boss.setPos(bossTop,bossLeft);
         boss.health = startBossHealth;
         hideDialogBar();
@@ -804,7 +806,7 @@ const playerElement = document.getElementById('player');
             bossBullets.splice(i, 1);
         }
         bossHealthElement.textContent = boss.health;
-        playerHealthElement.textContent = player.health;
+        playerHealthElement.textContent = player.getHealth;
     }
 
     function cancelDialogAni() //这个函数其实对修复游戏播放对话强制退出后，暂停一下依然会继续播放对话这个bug没什么用，但是留着也许未来有用

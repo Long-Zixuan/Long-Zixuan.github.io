@@ -1,12 +1,14 @@
 class JSBehavior extends BaseObject
 {
-    _collEventAndFuncs = [];
+   
     constructor(gameObject)
     {
+        super();
         this._gameObject = gameObject;
         this._gameObject.addBehavior(this);
         this._active = gameObject.getActive();
-        this._visible = gameObject.getIsVisible();
+        this._visible = gameObject.isVisible;
+        this._collEventAndFuncs = [];
         JSBehaviors.push(this);
     }
 

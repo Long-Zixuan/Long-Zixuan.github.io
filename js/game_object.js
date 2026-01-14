@@ -2,6 +2,7 @@ class GameObject extends BaseObject
 {
     constructor(element = null)
     {
+        super();
         this._active = true;
         this._visible = true;
         this._behaviors = [];
@@ -29,6 +30,27 @@ class GameObject extends BaseObject
             this._right = 0;
         }
         
+    }
+
+    get getTop()
+    {
+        return this._top;
+    }
+
+    get getLeft()
+    {
+        return this._left;
+    }
+
+
+    get getWidth()
+    {
+        return this._width;
+    }
+
+    get getHeight()
+    {
+        return this._height;
     }
 
     setTop(top)

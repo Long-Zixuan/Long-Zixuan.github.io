@@ -59,11 +59,12 @@ class Character extends JSBehavior
 
     getTopNum()
     {
-        return parseFloat(this._top.slice(0, this._top.length - 1));
+        console.log(this._gameObject.getTop);
+        return parseFloat(this._gameObject.getTop.toString().slice(0, this._gameObject.getTop.toString().length - 1));
     }
 
     getLeftNum()
     {
-        return parseFloat(this._left.slice(0, this._left.length - 1));
+        return parseFloat(this._gameObject.getLeft.toString().slice(0, this._gameObject.getLeft.toString().length - 1));
     }
 }
