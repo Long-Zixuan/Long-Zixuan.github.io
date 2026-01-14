@@ -22,16 +22,16 @@ class MainMgr extends JSBehavior
     constructor(gameObj)
     {
         super(gameObj);
-        this.bossHealthText = GameObject.createWithEleId('bossHealthValue');
-        this.playerHealthText = GameObject.createWithEleId('playerHealthValue');
-        this.fpsText = GameObject.createWithEleId('fpsValue');
-        this.restartButton = GameObject.createWithEleId('restart-button');
-        this.pauseButton = GameObject.createWithEleId('pause-button');
-        this.restartButtonText = GameObject.createWithEleId('ButtonText');
-        this.pauseButtonText = GameObject.createWithEleId('PauseText');
-        this.gameEndText = GameObject.createWithEleId('gameEndMsgText');
-        this.unSupportMSGText = GameObject.createWithEleId('UnSupportBroswerMSG');
-        this.unSupportMSGText.Element.textContent = "";
+        this.bossHealthText = Text.createWithEleId('bossHealthValue');
+        this.playerHealthText = Text.createWithEleId('playerHealthValue');
+        this.fpsText = Text.createWithEleId('fpsValue');
+        this.restartButton = Button.createWithEleId('restart-button');
+        this.pauseButton = Button.createWithEleId('pause-button');
+        this.restartButtonText = Text.createWithEleId('ButtonText');
+        this.pauseButtonText = Text.createWithEleId('PauseText');
+        this.gameEndText = Text.createWithEleId('gameEndMsgText');
+        this.unSupportMSGText = Text.createWithEleId('UnSupportBroswerMSG');
+        this.unSupportMSGText.setText("");
         this.lKeyBtn = GameObject.createWithEleId('lKeyBtn');
         this.rKeyBtn = GameObject.createWithEleId('rKeyBtn');
         this.fKeyBtn = GameObject.createWithEleId('fKeyBtn');
@@ -45,32 +45,32 @@ class MainMgr extends JSBehavior
 
     setBossHealth(value)
     {
-        this.bossHealthText.Element.textContent = value;
+        this.bossHealthText.setText(value);
     }
 
     setPlayerHealth(value)
     {
-        this.playerHealthText.Element.textContent = value;
+        this.playerHealthText.setText(value);
     }
 
     setFPSVal(value)
     {
-        this.fpsText.Element.textContent = value;
+        this.fpsText.setText(value);
     }
 
     setRestartButtonText(value)
     {
-        this.restartButtonText.Element.textContent = value;
+        this.restartButtonText.setText(value);
     }
 
     setPauseButtonText(value)
     {
-        this.pauseButtonText.Element.textContent = value;
+        this.pauseButtonText.setText(value);
     }
 
     setGameEndText(value)
     {
-        this.gameEndText.Element.textContent = value;
+        this.gameEndText.setText(value);
     }
 
     setDiaLogBarVis(vis)

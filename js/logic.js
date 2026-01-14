@@ -494,7 +494,7 @@ const playerElement = document.getElementById('player');
         //hideAllPhoneBtn()
     }
 
-    MainMgr.Instance.restartButton.Element.addEventListener('click', function() {
+    MainMgr.Instance.restartButton.addClickListener(function() {
         if(gameStateMachine.getCurState() == GAME_STATE_DIE || gameStateMachine.getCurState() == GAME_STATE_WIN)
         {
             //gameStateMachine.input(GAME_EVENT_RESTART)
@@ -505,7 +505,7 @@ const playerElement = document.getElementById('player');
             resumeGame();
         }
     });
-    MainMgr.Instance.pauseButton.Element.addEventListener('click',pauseButtonLogic);
+    MainMgr.Instance.pauseButton.addClickListener(pauseButtonLogic);
 
     MainMgr.Instance.lKeyBtn.Element.addEventListener('touchstart', function(e) {keys['ArrowLeft'] = true; e.preventDefault();},{ passive: false });
     MainMgr.Instance.rKeyBtn.Element.addEventListener('touchstart', function(e) {keys['ArrowRight'] = true; e.preventDefault();},{ passive: false });
