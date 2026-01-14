@@ -5,11 +5,6 @@ class Button extends GameObject
         super(gameObject);
     }
 
-    static createWithEleId(id)
-    {
-        return new Button(document.getElementById(id));
-    }
-
     addClickListener(func)
     {
         this._element.addEventListener("click", func);

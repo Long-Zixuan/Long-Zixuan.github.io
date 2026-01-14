@@ -5,11 +5,6 @@ class Text extends GameObject
         super(gameObject);
     }
 
-    static createWithEleId(id)
-    {
-        return new Text(document.getElementById(id));
-    }
-    
     setText(text)
     {
         this._element.textContent = text;

@@ -39,7 +39,7 @@ class GameObject extends BaseObject
 
     static createWithEleId(id)
     {
-        return new GameObject(document.getElementById(id));
+        return new this(document.getElementById(id));
     }
 
     get Top()
