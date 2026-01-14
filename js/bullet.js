@@ -32,10 +32,18 @@ class Bullet extends JSBehavior
         this._hSpeed = hSpeed;
     }
 
+    selfDestoryLogic()
+    {
+        if(this.getTopNum() <= 0 - this._gameObject.Height/gameContainer.offsetHeight * 100 || this.getLeftNum() < 0 - this._gameObject.Width/gameContainer.offsetWidth * 100 || this.getLeftNum() > 100 || this.getTopNum() > 100) {
+            this._gameObject.destroy();       
+        }
+    }
+
     update()
     {
         super.update();
         this.move();
+        this.selfDestoryLogic();
     }
 
 }
