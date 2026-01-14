@@ -9,7 +9,7 @@ class Player extends Character
         this.shootCooldown = 150;
         gameObject.setTop("90%");
         gameObject.setLeft("50%");
-        this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/player_die.png'})
+        this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/player_die.png';gameStateMachine.input(GAME_EVENT_DIE);})
         this.bulletColEvent = null;
     }
 
@@ -130,6 +130,7 @@ class Boss extends Character
         this.Angle = 0;
         this.attackMode = 0;
         this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/boss_die.png';gameStateMachine.input(GAME_EVENT_WIN);})
+        this._bulletColEvent = null;
     }
 
     update()
@@ -193,20 +194,27 @@ class Boss extends Character
                 const bossBullet = document.createElement('img');
                 bossBullet.src = './src/img/boss_bullet2.png';
                 bossBullet.className = 'bullet';
-                bossBullet.style.left = this.getLeftNum() + '%';
-                bossBullet.style.top = this.getTopNum() + '%';
+                let bulletObj = new GameObject(bossBullet);
+                let bullet = new Bullet(bulletObj);
+                bullet.GameObj.setLeft(this.getLeftNum() + '%');
+                bullet.GameObj.setTop(this.getTopNum() + '%');
+                // bossBullet.style.left = this.getLeftNum() + '%';
+                // bossBullet.style.top = this.getTopNum() + '%';
                 const horizontalSpeed = Math.cos(i / createbulletCount * 2 * Math.PI) * 0.25 * 2 * 60;
                 const verticalSpeed = Math.sin(i / createbulletCount * 2 * Math.PI) * 0.16 * 2 * 60;
 
                 gameContainer.appendChild(bossBullet);
 
-                bossBullets.push({
-                    element: bossBullet,
-                    top: this.getTopNum(),
-                    left: this.getLeftNum(),
-                    horizontalSpeed: horizontalSpeed,
-                    verticalSpeed: verticalSpeed
-                });
+                bullet.setSpeed(verticalSpeed,horizontalSpeed);
+                bullet.addCollisionEventAndFuncs(this._bulletColEvent);
+
+                // bossBullets.push({
+                //     element: bossBullet,
+                //     top: this.getTopNum(),
+                //     left: this.getLeftNum(),
+                //     horizontalSpeed: horizontalSpeed,
+                //     verticalSpeed: verticalSpeed
+                // });
             }
         }
         else if(this.attackMode <= 0.9)
@@ -217,20 +225,25 @@ class Boss extends Character
                 const bossBullet = document.createElement('img');
                 bossBullet.src = './src/img/boss_bullet2.png';
                 bossBullet.className = 'bullet';
-                bossBullet.style.left = this.getLeftNum() + '%';
-                bossBullet.style.top = this.getTopNum() + '%';
+                let bulletObj = new GameObject(bossBullet);
+                let bullet = new Bullet(bulletObj);
+                bullet.GameObj.setLeft(this.getLeftNum() + '%');
+                bullet.GameObj.setTop(this.getTopNum() + '%');
                 const horizontalSpeed = Math.cos(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.25 * 2 * 60;
                 const verticalSpeed = Math.sin(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.16 * 2 * 60;
 
                 gameContainer.appendChild(bossBullet);
 
-                bossBullets.push({
-                    element: bossBullet,
-                    top: this.getTopNum(),
-                    left: this.getLeftNum(),
-                    horizontalSpeed: horizontalSpeed,
-                    verticalSpeed: verticalSpeed
-                });
+                bullet.setSpeed(verticalSpeed,horizontalSpeed);
+                bullet.addCollisionEventAndFuncs(this._bulletColEvent);
+
+                // bossBullets.push({
+                //     element: bossBullet,
+                //     top: this.getTopNum(),
+                //     left: this.getLeftNum(),
+                //     horizontalSpeed: horizontalSpeed,
+                //     verticalSpeed: verticalSpeed
+                // });
             }
             this.Angle += 1;
             this.Angle = this.Angle % 4;
@@ -251,6 +264,11 @@ class Boss extends Character
         {
             this.onDie();
         }
+    }
+
+    setBulletColEvent(bulletColEvent)
+    {
+        this._bulletColEvent = bulletColEvent;
     }
 }
 

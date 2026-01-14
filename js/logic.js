@@ -182,6 +182,16 @@ const playerElement = document.getElementById('player');
                     ];
     player.setBulletColEvent(playerBulColEvent);
 
+    bossBulColEvent = [(bullet)=>{
+                            return isColliding(bullet.GameObj.Rect, player.GameObj.Rect);
+                        },(bullet)=>{
+                            player.hurt(1);
+                            MainMgr.Instance.setPlayerHealth(player.Health);
+                            bullet.GameObj.destroy();
+                        }
+                    ];
+    boss.setBulletColEvent(bossBulColEvent);
+
     function sleep(ms) 
     {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -445,7 +455,7 @@ const playerElement = document.getElementById('player');
                 console.log(e);
             }
         }
-        updateBullets();
+        //updateBullets();
         MainMgr.Instance.setFPSVal((1 / deltaTime).toFixed(2));
     }
 
