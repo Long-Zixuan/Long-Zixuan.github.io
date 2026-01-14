@@ -1,7 +1,7 @@
 const playerElement = document.getElementById('player');
     const bossElement = document.getElementById('boss');
     const gameContainer = document.getElementById('gameContainer');
-    const bossHealthElement = document.getElementById('bossHealthValue');
+    /*const bossHealthElement = document.getElementById('bossHealthValue');
     const playerHealthElement = document.getElementById('playerHealthValue');
     const fpsDisplayElement = document.getElementById('fpsValue');
     const restartButton = document.getElementById('restart-button');
@@ -10,20 +10,22 @@ const playerElement = document.getElementById('player');
     const pauseButtonTextElement = document.getElementById('PauseText');
     const gameEndTextElement = document.getElementById('gameEndMsgText');
 
-    const gameDiaLogElement = document.getElementById('gameDialogBar');
+    const gameDiaLogElement = document.getElementById('gameDialogBar');*/
 
     const bgm = document.getElementById("bgMusic");
 
-    const unSupportBroswerMSGEle = document.getElementById('UnSupportBroswerMSG');
+    /*const unSupportBroswerMSGEle = document.getElementById('UnSupportBroswerMSG');
     unSupportBroswerMSGEle.textContent = "";
 
     const lKeyBtn = document.getElementById('lKeyBtn');
     const rKeyBtn = document.getElementById('rKeyBtn');
     const fKeyBtn = document.getElementById('fKeyBtn');
     const bKeyBtn = document.getElementById('bKeyBtn');
-    const sKeyBtn = document.getElementById('sKeyBtn');
+    const sKeyBtn = document.getElementById('sKeyBtn');*/
 
     //const bossBulletsCount = document.getElementById('bossBulletsCount');//Debug
+
+    MainMgr.init();
 
     let playerLeft = 50;
     let playerTop = 90;
@@ -72,7 +74,8 @@ const playerElement = document.getElementById('player');
 
     const RUNNING = {
         "onEnter":()=>{
-            pauseButtonTextElement.textContent = "暂停";
+            MainMgr.Instance.setPauseButtonText("暂停");
+            //pauseButtonTextElement.textContent = "暂停";
         },
         "onExit":()=>{
             
@@ -108,7 +111,8 @@ const playerElement = document.getElementById('player');
 
     const PAUSE = {
        "onEnter":()=>{
-            pauseButtonTextElement.textContent = "继续";
+            MainMgr.Instance.setPauseButtonText("继续");
+            //pauseButtonTextElement.textContent = "继续";
         },
         "onExit":()=>{
             cancelDialogAni();
@@ -149,7 +153,8 @@ const playerElement = document.getElementById('player');
       
 
     document.addEventListener('keydown', (e) => {
-        hideAllPhoneBtn()
+        //hideAllPhoneBtn()
+        MainMgr.Instance.setAllPhoneBtnVis(false);
         keys[e.key] = true;
         if(e.key === ' ') {
             isSpacePressed = true;
@@ -239,7 +244,8 @@ const playerElement = document.getElementById('player');
 
                 //bossHealth -= 1;
                 boss.hurt(1);
-                bossHealthElement.textContent = boss.Health;
+                MainMgr.instance.setBossHealth(boss.Health);
+                //bossHealthElement.textContent = boss.Health;
             }
             if(boss.Health == startBossHealth / 2 && !hadTellPlayer)
             {
@@ -284,7 +290,8 @@ const playerElement = document.getElementById('player');
                 bossBullets.splice(i, 1);
 
                 player.hurt(1);
-                playerHealthElement.textContent = player.Health;
+                //playerHealthElement.textContent = player.Health;
+                MainMgr.Instance.setPlayerHealth(player.Health);
 
             }
             if(player.isDead) 
@@ -300,32 +307,40 @@ const playerElement = document.getElementById('player');
     {
         if(gameStateMachine.getCurState() == GAME_STATE_PAUSE && bottomText == null)
         {
-            restartButtonTextElement.textContent = "继续游戏";
+            MainMgr.Instance.setRestartButtonText("继续游戏");
+            //restartButtonTextElement.textContent = "继续游戏";
         }
         if((gameStateMachine.getCurState() == GAME_STATE_WIN || gameStateMachine.getCurState() == GAME_STATE_DIE) && bottomText == null )
         {
-            restartButtonTextElement.textContent = "重新开始";
+            MainMgr.Instance.setRestartButtonText("重新开始");
+            //restartButtonTextElement.textContent = "重新开始";
         }
 
         
-        gameDiaLogElement.style.bottom = "0px";
-        gameDiaLogElement.style.left = "0px";
+        // gameDiaLogElement.style.bottom = "0px";
+        // gameDiaLogElement.style.left = "0px";
+        MainMgr.Instance.setDiaLogBarVis(true);
 
         if(gameStateMachine.getCurState() == GAME_STATE_PAUSE && text == '')
         {
-            gameEndTextElement.textContent = "游戏已暂停";
+            MainMgr.Instance.setGameEndText("游戏已暂停");
+            //gameEndTextElement.textContent = "游戏已暂停";
             return;
         }
 
         if(textMode == false)
         {
-            gameEndTextElement.textContent = text;
+            MainMgr.Instance.setGameEndText(text);
+            //gameEndTextElement.textContent = text;
             return;
         }
 
         let index = 0;
 
-        gameEndTextElement.textContent = "";
+        MainMgr.Instance.setGameEndText("");
+        //gameEndTextElement.textContent = "";
+
+        let msg = "";
 
         function typeWriter() {
             if(gameStateMachine.getCurState() == GAME_STATE_RUNNING)
@@ -333,7 +348,9 @@ const playerElement = document.getElementById('player');
                 return;
             }
             if (index < text.length) {
-                gameEndTextElement.textContent += text.charAt(index);
+                msg += text.charAt(index);
+                //gameEndTextElement.textContent += text.charAt(index);
+                MainMgr.Instance.setGameEndText(msg);
                 index++;
                 setTimeout(typeWriter, 100); // 调整速度
             }
@@ -374,8 +391,9 @@ const playerElement = document.getElementById('player');
 
     function hideDialogBar()
     {
-        gameDiaLogElement.style.bottom = "-1000px";
-        gameDiaLogElement.style.left = "-1000px";
+        MainMgr.Instance.setDiaLogBarVis(false);
+        // gameDiaLogElement.style.bottom = "-1000px";
+        // gameDiaLogElement.style.left = "-1000px";
     }
 
     function pauseGame()
@@ -446,7 +464,8 @@ const playerElement = document.getElementById('player');
         player.update();
         boss.update();
         updateBullets();
-        fpsDisplayElement.textContent = (1 / deltaTime).toFixed(2);
+        MainMgr.Instance.setFPSVal((1 / deltaTime).toFixed(2));
+        //fpsDisplayElement.textContent = (1 / deltaTime).toFixed(2);
     }
 
     function gameLoop() 
@@ -471,10 +490,11 @@ const playerElement = document.getElementById('player');
     }
     else
     {
-        hideAllPhoneBtn()
+        MainMgr.Instance.setAllPhoneBtnVis(false);
+        //hideAllPhoneBtn()
     }
 
-    restartButton.addEventListener('click', function() {
+    MainMgr.Instance.restartButton.Element.addEventListener('click', function() {
         if(gameStateMachine.getCurState() == GAME_STATE_DIE || gameStateMachine.getCurState() == GAME_STATE_WIN)
         {
             //gameStateMachine.input(GAME_EVENT_RESTART)
@@ -485,26 +505,26 @@ const playerElement = document.getElementById('player');
             resumeGame();
         }
     });
-    pauseButton.addEventListener('click',pauseButtonLogic);
+    MainMgr.Instance.pauseButton.Element.addEventListener('click',pauseButtonLogic);
 
-    lKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowLeft'] = true; e.preventDefault();},{ passive: false });
-    rKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowRight'] = true; e.preventDefault();},{ passive: false });
-    fKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowUp'] = true; e.preventDefault();},{ passive: false });
-    bKeyBtn.addEventListener('touchstart', function(e) {keys['ArrowDown'] = true; e.preventDefault();},{ passive: false });
+    MainMgr.Instance.lKeyBtn.Element.addEventListener('touchstart', function(e) {keys['ArrowLeft'] = true; e.preventDefault();},{ passive: false });
+    MainMgr.Instance.rKeyBtn.Element.addEventListener('touchstart', function(e) {keys['ArrowRight'] = true; e.preventDefault();},{ passive: false });
+    MainMgr.Instance.fKeyBtn.Element.addEventListener('touchstart', function(e) {keys['ArrowUp'] = true; e.preventDefault();},{ passive: false });
+    MainMgr.Instance.bKeyBtn.Element.addEventListener('touchstart', function(e) {keys['ArrowDown'] = true; e.preventDefault();},{ passive: false });
 
-    lKeyBtn.addEventListener('touchend', function(e) {keys['ArrowLeft'] = false; });
-    rKeyBtn.addEventListener('touchend', function(e) {keys['ArrowRight'] = false; });
-    fKeyBtn.addEventListener('touchend', function(e) {keys['ArrowUp'] = false; });
-    bKeyBtn.addEventListener('touchend', function(e) {keys['ArrowDown'] = false; });
-    sKeyBtn.addEventListener('touchstart', function(e) {isSpacePressed = true; e.preventDefault();},{ passive: false });
-    sKeyBtn.addEventListener('touchend', function(e) {isSpacePressed = false; });
+    MainMgr.Instance.lKeyBtn.Element.addEventListener('touchend', function(e) {keys['ArrowLeft'] = false; });
+    MainMgr.Instance.rKeyBtn.Element.addEventListener('touchend', function(e) {keys['ArrowRight'] = false; });
+    MainMgr.Instance.fKeyBtn.Element.addEventListener('touchend', function(e) {keys['ArrowUp'] = false; });
+    MainMgr.Instance.bKeyBtn.Element.addEventListener('touchend', function(e) {keys['ArrowDown'] = false; });
+    MainMgr.Instance.sKeyBtn.Element.addEventListener('touchstart', function(e) {isSpacePressed = true; e.preventDefault();},{ passive: false });
+    MainMgr.Instance.sKeyBtn.Element.addEventListener('touchend', function(e) {isSpacePressed = false; });
 
-    document.addEventListener('touchstart',function(e){showAllPhoneBtn();});
+    document.addEventListener('touchstart',function(e){MainMgr.Instance.setAllPhoneBtnVis(true);});
 
     setInterval(backgroundCreateAndMoveLogic, 3000);
     backgroundCreateAndMoveLogic();
 
-    function hideAllPhoneBtn()
+    /*function hideAllPhoneBtn()
     {
         if(lKeyBtn.style.left == "-1000px")
         {
@@ -546,7 +566,7 @@ const playerElement = document.getElementById('player');
 
         sKeyBtn.style.right = "50px";
         sKeyBtn.style.top = "50%";
-    }
+    }*/
 
     function reStart()
     {
@@ -573,8 +593,10 @@ const playerElement = document.getElementById('player');
             bullet.element.remove();
             bossBullets.splice(i, 1);
         }
-        bossHealthElement.textContent = boss.Health;
-        playerHealthElement.textContent = player.Health;
+        MainMgr.Instance.setBossHealth(boss.Health);
+        //bossHealthElement.textContent = boss.Health;
+        MainMgr.Instance.setPlayerHealth(player.Health);
+        //playerHealthElement.textContent = player.Health;
     }
 
     function cancelDialogAni() //这个函数其实对修复游戏播放对话强制退出后，暂停一下依然会继续播放对话这个bug没什么用，但是留着也许未来有用

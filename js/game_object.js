@@ -32,6 +32,16 @@ class GameObject extends BaseObject
         
     }
 
+    static createEmpty()
+    {
+        return new GameObject();
+    }
+
+    static createWithEleId(id)
+    {
+        return new GameObject(document.getElementById(id));
+    }
+
     get Top()
     {
         return this._top;
@@ -77,6 +87,24 @@ class GameObject extends BaseObject
         if(this._element)
         {
             this._element.offsetHeight = height;
+        }
+    }
+
+    setBottom(bottom)
+    {
+        this._bottom = bottom;
+        if(this._element)
+        {
+            this._element.style.bottom = bottom;
+        }
+    }
+
+    setRight(right)
+    {
+        this._right = right;
+        if(this._element)
+        {
+            this._element.style.right = right;
         }
     }
 
