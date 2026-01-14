@@ -111,8 +111,8 @@ class Boss extends Character
         super(gameObject,stateMachine);
         gameObject.setTop("5%");
         gameObject.setLeft("50%");
-        this.verticalSpeed = 0.25 * 60;
-        this.horizontalSpeed = 0.16 * 60;
+        this.verticalSpeed = 0.16 * 60;
+        this.horizontalSpeed = 0.25 * 60;
         this.verticalSpeedRate = 1;
         this.horizontalSpeedRate = 1;
         this.lastDirChangeTime = Date.now();
@@ -178,7 +178,7 @@ class Boss extends Character
         let currentTime = Date.now();
         if(currentTime - this.lastDirChangeTime < this.changeDirTime){return;}
         this.lastDirChangeTime = currentTime;
-        this.verticalSpeedRate = 1 - 2 * Math.random();
+        this.verticalSpeedRate = 0.5 - 2 * Math.random();
         this.horizontalSpeedRate = 1 - 2 * Math.random();
     }
 
