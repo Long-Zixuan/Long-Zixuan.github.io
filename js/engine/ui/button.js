@@ -10,3 +10,5 @@ class Button extends GameObject
         this._element.addEventListener("click", func);
     }
 }
+
+//LZX-VSCode-2026-01-14-009

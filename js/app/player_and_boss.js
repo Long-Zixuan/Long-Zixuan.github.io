@@ -131,6 +131,19 @@ class Boss extends Character
         this.attackMode = 0;
         this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/boss_die.png';gameStateMachine.input(GAME_EVENT_WIN);})
         this._bulletColEvent = null;
+        this._halfHealthDelegate = [];
+        this.addHalfHealthDelegate((boss)=>{
+            if(!hadTellPlayer)
+            {
+                dialogNniFrameId = requestAnimationFrame(bossHalfHealthLogic);
+                hadTellPlayer = true;
+            }
+        });
+    }
+
+    addHalfHealthDelegate(delegate)
+    {
+        this._halfHealthDelegate.push(delegate);
     }
 
     update()
@@ -260,6 +273,13 @@ class Boss extends Character
 
     checkHealth()
     {
+        if(this._health <= 50)
+        {
+            for(var i in this._halfHealthDelegate)
+            {
+                this._halfHealthDelegate[i](this);
+            }
+        }
         if(this._health <= 0)
         {
             this.onDie();

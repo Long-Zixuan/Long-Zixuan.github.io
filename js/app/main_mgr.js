@@ -87,3 +87,4 @@ class MainMgr extends JSBehavior
         this.sKeyBtn.setVisible(vis);
     }
 }
+//LZX-VSCode-2026-01-14-006

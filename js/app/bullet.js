@@ -47,3 +47,5 @@ class Bullet extends JSBehavior
     }
 
 }
+
+//LZX-VSCode-2026-01-14-005
