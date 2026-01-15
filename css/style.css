@@ -59,28 +59,28 @@
 
 #playerHealth {
     position: absolute;
-    top: 10px;
+    top: 2vh;
     left: 10px;
     color: #F9E4C5;
-    font-size: 20px;
+    font-size: 3vh;
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
 #bossHealth {
     position: absolute;
-    top: 50px;
+    top: 6vh;
     left: 10px;
     color: #F9E4C5;
-    font-size: 20px;
+    font-size: 3vh;
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
 #fps {
     position: absolute;
-    top: 100px;
+    top: 10vh;
     left: 10px;
     color: #F9E4C5;
-    font-size: 10px;
+    font-size: 2vh;
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
@@ -90,7 +90,7 @@
     bottom: 60px;
     left: 10px;
     color: #F9E4C5;
-    font-size: 20px;
+    font-size: 3vh;
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
@@ -100,7 +100,7 @@
     bottom: 40px;
     left: 10px;
     color: #F9E4C5;
-    font-size: 20px;
+    font-size: 3vh;
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
@@ -114,7 +114,7 @@
     top: 5%;
     left: 3%;
     color: #F9E4C5;
-    font-size: 1hv;
+    font-size: 3vh;
     z-index: 101;
     font-weight: bold;
     font-family: Arial, "Microsoft YaHei", sans-serif;
@@ -149,7 +149,7 @@
     border: none; /* 无边框 */
     border-radius: 5px; /* 圆角 */
     cursor: pointer; /* 鼠标指针样式 */
-    font-size: 18px; /* 字体大小 */
+    font-size: 2.5vh; /* 字体大小 */
     font-weight: bold; /* 加粗字体 */
     z-index: 100;
 }
@@ -169,7 +169,7 @@
     border: none; /* 无边框 */
     border-radius: 5px; /* 圆角 */
     cursor: pointer; /* 鼠标指针样式 */
-    font-size: 14px; /* 字体大小 */
+    font-size: 2vh; /* 字体大小 */
     font-weight: bold; /* 加粗字体 */
     z-index: 100;
 }
@@ -184,7 +184,7 @@
     bottom: 10px;
     left: 10px;
     color: #F9E4C5;
-    font-size: 20px;
+    font-size: 3vh;
     z-index: 100;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
@@ -195,7 +195,7 @@
     bottom: 40%;
     right: 35%;
     color: #F9E4C5;
-    font-size: 60px;
+    font-size: 10vh;
     z-index: 1000;
     font-family: Arial, "Microsoft YaHei", sans-serif;
 }
@@ -206,7 +206,7 @@
     bottom: 10px;
     right: 10px;
     width: 20vw;
-    font-size: 20px;
+    font-size: 3vh;
     z-index: 100;
 }
 #bgMusic
@@ -227,7 +227,7 @@ audio::-webkit-media-controls-timeline {
 #lKeyBtn{
     position: absolute; /* 绝对定位 */
     top: 50%;
-    left: 50px; 
+    left: 6%; 
     transform: translateX(-50%); /* 水平居中 */
     padding: 0.6% 1.2%; /* 内边距 */
     background-color: #66ccff; /* 背景颜色 */
@@ -235,14 +235,14 @@ audio::-webkit-media-controls-timeline {
     border: none; /* 无边框 */
     border-radius: 5px; /* 圆角 */
     cursor: pointer; /* 鼠标指针样式 */
-    font-size: 14px; /* 字体大小 */
+    font-size: 2.5vh; /* 字体大小 */
     font-weight: bold; /* 加粗字体 */
     z-index: 100;
 }
 #bKeyBtn{
     position: absolute; /* 绝对定位 */
     top: 50%;
-    left: 100px; 
+    left: 11%; 
     transform: translateX(-50%); /* 水平居中 */
     padding: 0.6% 1.2%; /* 内边距 */
     background-color: #66ccff; /* 背景颜色 */
@@ -250,14 +250,14 @@ audio::-webkit-media-controls-timeline {
     border: none; /* 无边框 */
     border-radius: 5px; /* 圆角 */
     cursor: pointer; /* 鼠标指针样式 */
-    font-size: 14px; /* 字体大小 */
+    font-size: 2.5vh; /* 字体大小 */
     font-weight: bold; /* 加粗字体 */
     z-index: 100;
 }
 #rKeyBtn{
     position: absolute; /* 绝对定位 */
     top: 50%;
-    left: 150px; 
+    left: 16%; 
     transform: translateX(-50%); /* 水平居中 */
     padding: 0.6% 1.2%; /* 内边距 */
     background-color: #66ccff; /* 背景颜色 */
@@ -265,14 +265,14 @@ audio::-webkit-media-controls-timeline {
     border: none; /* 无边框 */
     border-radius: 5px; /* 圆角 */
     cursor: pointer; /* 鼠标指针样式 */
-    font-size: 14px; /* 字体大小 */
+    font-size: 2.5vh; /* 字体大小 */
     font-weight: bold; /* 加粗字体 */
     z-index: 100;
 }
 #fKeyBtn{
     position: absolute; /* 绝对定位 */
     top: 45%;
-    left: 100px; 
+    left: 11%; 
     transform: translateX(-50%); /* 水平居中 */
     padding: 0.6% 1.2%; /* 内边距 */
     background-color: #66ccff; /* 背景颜色 */
@@ -280,14 +280,14 @@ audio::-webkit-media-controls-timeline {
     border: none; /* 无边框 */
     border-radius: 5px; /* 圆角 */
     cursor: pointer; /* 鼠标指针样式 */
-    font-size: 14px; /* 字体大小 */
+    font-size: 2.5vh; /* 字体大小 */
     font-weight: bold; /* 加粗字体 */
     z-index: 100;
 }
 #sKeyBtn{
     position: absolute; /* 绝对定位 */
     top: 50%;
-    right: 50px; 
+    right: 5%; 
     transform: translateX(-50%); /* 水平居中 */
     padding: 0.6% 1.2%; /* 内边距 */
     background-color: #66ccff; /* 背景颜色 */
@@ -295,7 +295,7 @@ audio::-webkit-media-controls-timeline {
     border: none; /* 无边框 */
     border-radius: 5px; /* 圆角 */
     cursor: pointer; /* 鼠标指针样式 */
-    font-size: 14px; /* 字体大小 */
+    font-size: 2.5vh; /* 字体大小 */
     font-weight: bold; /* 加粗字体 */
     z-index: 100;
 }
