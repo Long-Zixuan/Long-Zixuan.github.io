@@ -41,7 +41,10 @@ class MainMgr extends JSBehavior
         this.gameDialogBar.setBottom("0px");
         this.gameDialogBar.setLeft("0px");
         this.gameDialogBar.setVisible(false);
-        this.setAllPhoneBtnVis(false);
+        if(!isPhone())
+        {
+            this.setAllPhoneBtnVis(false);
+        }
     }
 
     update()

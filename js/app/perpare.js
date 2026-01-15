@@ -1,3 +1,11 @@
+if(isPhone())
+{
+    alert('请将手机横过来');
+}
+else
+{
+    MainMgr.Instance.setAllPhoneBtnVis(false);
+}
 const playerElement = document.getElementById('player');
 const bossElement = document.getElementById('boss');
 const gameContainer = document.getElementById('gameContainer');
@@ -259,15 +267,6 @@ function showDialogBar(text,bottomText,textMode)
     }
 
     typeWriter();
-}
-
-if(isPhone())
-{
-    alert('请将手机横过来');
-}
-else
-{
-    MainMgr.Instance.setAllPhoneBtnVis(false);
 }
 
 function backgroundCreateAndMoveLogic()
