@@ -1,12 +1,12 @@
 function updateAllJSBehavior()
 {
-    for(var i in JSBehaviors)
+    for(var len = JSBehaviors.length - 1;len >= 0 ; len--)
     {
         try
         {
-            if(JSBehaviors[i].Active)
+            if(JSBehaviors[len].Active)
             {
-                JSBehaviors[i].update();
+                JSBehaviors[len].update();
             }
         }
         catch(e)
@@ -18,13 +18,13 @@ function updateAllJSBehavior()
 
 function fixUpdateAllJSBehavior()
 {
-    for(var i in JSBehaviors)
+    for(var len = JSBehaviors.length - 1;len >= 0 ; len--)
     {
         try
         {
-            if(JSBehaviors[i].Active)
+            if(JSBehaviors[len].Active)
             {
-                JSBehaviors[i].fixUpdate();
+                JSBehaviors[len].fixUpdate();
             }
         }
         catch(e)
@@ -36,13 +36,13 @@ function fixUpdateAllJSBehavior()
 
 function lateUpdateAllJSBehavior()
 {
-    for(var i in JSBehaviors)
+    for(var len = JSBehaviors.length - 1;len >= 0 ; len--)
     {
         try
         {
-            if(JSBehaviors[i].Active)
+            if(JSBehaviors[len].Active)
             {
-                JSBehaviors[i].lateUpdate();
+                JSBehaviors[len].lateUpdate();
             }
         }
         catch(e)
