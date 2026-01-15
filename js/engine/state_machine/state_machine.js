@@ -20,19 +20,17 @@ class StateMachine
             console.log("ERROR!:Invalid state");
             return false;
         }
-        for(var i in this._stateTrans[this._curState])
+        var t = this._stateTrans[this._curState];
+        if(!t.hasOwnProperty(event))
         {
-            if(this._stateTrans[this._curState][i]["event"] == event)
-            {
-                var isChange = this._changeState(this._stateTrans[this._curState][i]);
-                if(!isChange)
-                {
-                    return false;
-                }
-                return true;
-            }
+            return false;
         }
-        return false;
+        var isChange = this._changeState(this._stateTrans[this._curState][event]);
+        if(!isChange)
+        {
+            return false;
+        }
+        return true;
     }
 
     _changeState(trans)
@@ -84,15 +82,9 @@ class StateMachine
     {
         if(!this._stateTrans.hasOwnProperty(fromState))
         {
-            this._stateTrans[fromState] = [];
+            this._stateTrans[fromState] = {};
         }
-        this._stateTrans[fromState].push(
-            {
-                "toState":toState,
-                "event":event,
-                "action":act
-            }
-        );
+        this._stateTrans[fromState][event] = {"toState":toState, "action":act};
     }
 
     getCurState()
