@@ -52,6 +52,43 @@ function lateUpdateAllJSBehavior()
     }
 }
 
+function awakeAllJSBehavior()
+{
+    for(var len = JSBehaviors.length - 1;len >= 0 ; len--)
+    {
+        try
+        {
+            if(JSBehaviors[len].Active)
+            {
+                JSBehaviors[len].awake();
+            }
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    }
+}
+
+function startAllJSBehavior()
+{
+    for(var len = JSBehaviors.length - 1;len >= 0 ; len--)
+    {
+        try
+        {
+            if(JSBehaviors[len].Active)
+            {
+                JSBehaviors[len].start();
+            }
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    }
+}
+
+
 
 function update()
 {
@@ -66,6 +103,9 @@ function gameLoop()
     gameStateMachine.update();
     sleep(1 / GAME_FRAME_RATE * 1000).then(() => {requestAnimationFrame(gameLoop);});
 }
+
+awakeAllJSBehavior();
+startAllJSBehavior();
 
 setInterval(fixUpdateAllJSBehavior, 1 / 30 * 1000);
 gameLoop();
