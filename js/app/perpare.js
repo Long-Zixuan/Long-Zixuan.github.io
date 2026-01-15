@@ -192,7 +192,7 @@ playerBulColEvent = [(bullet)=>{
                     },(bullet)=>{
                         boss.hurt(1);
                         MainMgr.Instance.setBossHealth(boss.Health);
-                        BulletsPool.Instance.returnBullet(bullet);
+                        bullet.Destory();
                         //bullet.GameObj.destroy();
                     }
                 ];
@@ -203,7 +203,7 @@ bossBulColEvent = [(bullet)=>{
                     },(bullet)=>{
                         player.hurt(1);
                         MainMgr.Instance.setPlayerHealth(player.Health);
-                        BulletsPool.Instance.returnBullet(bullet);
+                        bullet.Destory();
                         //bullet.GameObj.destroy();
                     }
                 ];

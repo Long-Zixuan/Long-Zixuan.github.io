@@ -27,4 +27,37 @@ function isPhone() {
     return isPhone;
 }
 
+// function getClassName(ins)
+// {
+//     return /function(.+)\(/.exec(ins + "")[1];
+//     /*var s = ins.toString();
+//     if(s.indexOf("function") == -1)
+//     {
+//         return null;
+//     }
+//     s = s.replace("function", "");
+//     var index = s.indexOf("(");
+//     s = s.substring(0, index);
+//     s.replace(" ","");
+//     return s;*/
+// }
+
+function cloneJSBehavior(jsObj,className) 
+{
+    //var className = getClassName(jsObj);
+    if(className == null)
+    {
+        return null;
+    }
+    var gameObj = jsObj.GameObj;
+    var eleClass = gameObj.Element.className;
+    var eleSrc = gameObj.Element.src;
+    var ele = document.createElement('img');
+    var cloneGameObj = new GameObject(ele);
+    cloneGameObj.setClassName(eleClass);
+    cloneGameObj.setSrc(eleSrc);
+    return eval("new " + className + "(cloneGameObj)");
+    //return Object.assign({}, obj);
+}
+
 //LZX-VSCode-2026-01-14-008

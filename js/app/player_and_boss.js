@@ -11,6 +11,12 @@ class Player extends Character
         gameObject.setLeft("50%");
         this.addDieDelegate((obj)=>{obj._gameObject.Element.src = './src/img/player_die.png';gameStateMachine.input(GAME_EVENT_DIE);})
         this.bulletColEvent = null;
+        var bulEle = document.createElement('img');
+        var bulGameObj = new GameObject(bulEle);
+        var bulletPrefab = new Bullet(bulGameObj);
+        bulletPrefab.GameObj.setSrc('./src/img/our_bullet2.png');
+        bulletPrefab.GameObj.setClassName('bullet');
+        this.bulletsPool = new JSObjPool("Bullet",bulletPrefab, 50);
     }
 
     update()
@@ -27,8 +33,8 @@ class Player extends Character
 
         // 创建三发子弹
         for(let i = -1; i <= 1; i++) {
-            let bullet = BulletsPool.Instance.getBullet();
-            bullet.GameObj.setSrc('./src/img/our_bullet2.png');
+            let bullet = this.bulletsPool.getJSObj();
+            bullet.setPool(this.bulletsPool);
             // 计算子弹位置，中间子弹在玩家正上方，两侧子弹略微偏移
             const bulletLeft = this.getLeftNum() + ((this._gameObject.Width / 3) / gameContainer.offsetWidth) * 100 + (i * spacing);//照理说应该是this.element.offsetWidth / 2更接近角色中心，但是经过测试这里除以3更接近角色中心，不知道为什么
             bullet.GameObj.setLeft(bulletLeft + '%');
@@ -37,8 +43,6 @@ class Player extends Character
             bullet.GameObj.setTop(this.getTopNum() + '%');
 
             bullet.addCollisionEventAndFuncs(this._bulletColEvent);
-
-            gameContainer.appendChild(bullet.GameObj.Element);
 
             // 为两侧子弹添加横向运动
             const horizontalSpeed = i * 0.5 * 0.125 * 60; // 子弹横向扩散速度
@@ -133,6 +137,12 @@ class Boss extends Character
                 hadTellPlayer = true;
             }
         });
+        var bulEle = document.createElement('img');
+        var bulGameObj = new GameObject(bulEle);
+        var bulletPrefab = new Bullet(bulGameObj);
+        bulletPrefab.GameObj.setSrc('./src/img/boss_bullet2.png');
+        bulletPrefab.GameObj.setClassName('bullet');
+        this.bulletsPool = new JSObjPool("Bullet",bulletPrefab, 50);
     }
 
     addHalfHealthDelegate(delegate)
@@ -198,16 +208,13 @@ class Boss extends Character
             let createbulletCount = 20;
             for(let i = 0; i < createbulletCount; i++)
             {
-                let bullet = BulletsPool.Instance.getBullet();
-                bullet.GameObj.setSrc('./src/img/boss_bullet2.png');
+                let bullet = this.bulletsPool.getJSObj();
                 bullet.GameObj.setLeft(this.getLeftNum() + '%');
                 bullet.GameObj.setTop(this.getTopNum() + '%');
                 // bossBullet.style.left = this.getLeftNum() + '%';
                 // bossBullet.style.top = this.getTopNum() + '%';
                 const horizontalSpeed = Math.cos(i / createbulletCount * 2 * Math.PI) * 0.25 * 2 * 60;
                 const verticalSpeed = Math.sin(i / createbulletCount * 2 * Math.PI) * 0.16 * 2 * 60;
-
-                gameContainer.appendChild(bullet.GameObj.Element);
 
                 bullet.setSpeed(verticalSpeed,horizontalSpeed);
                 bullet.addCollisionEventAndFuncs(this._bulletColEvent);
@@ -226,14 +233,11 @@ class Boss extends Character
             let createBulletCount = 20;
             for(let i = 0; i < createBulletCount; i++)
             {
-                let bullet = BulletsPool.Instance.getBullet();
-                bullet.GameObj.setSrc('./src/img/boss_bullet2.png');
+                let bullet = this.bulletsPool.getJSObj();
                 bullet.GameObj.setLeft(this.getLeftNum() + '%');
                 bullet.GameObj.setTop(this.getTopNum() + '%');
                 const horizontalSpeed = Math.cos(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.25 * 2 * 60;
                 const verticalSpeed = Math.sin(i / createBulletCount * 0.5 * Math.PI + this.Angle/2 * Math.PI) * 0.16 * 2 * 60;
-
-                gameContainer.appendChild(bullet.GameObj.Element);
 
                 bullet.setSpeed(verticalSpeed,horizontalSpeed);
                 bullet.addCollisionEventAndFuncs(this._bulletColEvent);

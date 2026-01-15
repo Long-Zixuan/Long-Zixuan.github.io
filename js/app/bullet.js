@@ -5,6 +5,12 @@ class Bullet extends JSBehavior
         super(gameObject, stateMachine);
         this._vSpeed = 0;
         this._hSpeed = 0;
+        this._pool = null;
+    }
+
+    setPool(pool)
+    {
+        this._pool = pool;
     }
 
     getTopNum()
@@ -35,8 +41,18 @@ class Bullet extends JSBehavior
     {
         if(this.getTopNum() <= 0 - this._gameObject.Height/gameContainer.offsetHeight * 100 || this.getLeftNum() < 0 - this._gameObject.Width/gameContainer.offsetWidth * 100 || this.getLeftNum() > 100 || this.getTopNum() > 100) {
             //this._gameObject.destroy();  
-            BulletsPool.Instance.returnBullet(this);     
+            this.Destory()
         }
+    }
+
+    Destory()
+    {
+        if(this._pool)
+            {
+                this._pool.returnJSObj(this);
+                return;
+            }  
+            this._gameObject.destroy();
     }
 
     update()
