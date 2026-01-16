@@ -75,6 +75,67 @@ class JSBehavior extends BaseObject
     {
         return this._gameObject;
     }
+
+    get Top()
+    {
+        return this._gameObject.Top;
+    }
+
+    get Bottom()
+    {
+        return this._gameObject.Bottom;
+    }
+
+    get Left()
+    {
+        return this._gameObject.Left;
+    }
+
+    get Right()
+    {
+        return this._gameObject.Left;
+    }
+
+
+    get Width()
+    {
+        return this._gameObject.Width;
+    }
+
+    get Height()
+    {
+        return this._gameObject.Height;
+    }
+
+    get Rect()
+    {
+        return this._gameObject.Rect;
+    }
+
+    setTop(top)
+    {
+        this._gameObject.setTop(top);
+    }
+
+    setLeft(left)
+    {
+        this._gameObject.setLeft(left);
+    }
+
+    setHeight(height)
+    {
+        this._gameObject.setHeight(height);
+    }
+
+    setBottom(bottom)
+    {
+        this._gameObject.setBottom(bottom);
+    }
+
+    setRight(right)
+    {
+        this._gameObject.setRight(right);
+    }
 }
 
 //LZX-VSCode-2026-01-13-004
