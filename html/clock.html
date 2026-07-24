@@ -183,6 +183,7 @@
         
         const h1 = document.querySelector('h1');
         const h2 = document.querySelector('h2');
+        const aQ = document.querySelector('a');
        
         let i = 1;
         let colMax = 255;
@@ -197,6 +198,7 @@
             body.style.backgroundColor = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
             h1.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
             h2.style.color = `rgb(${colMax - colCount + colMin}, ${colMax - colCount + colMin}, 255)`;
+            aQ.style.backgroundColor = `rgba(${colCount}, ${colCount}, 255, 0.8)`;
 
              let now = new Date();
             let year = now.getFullYear();
