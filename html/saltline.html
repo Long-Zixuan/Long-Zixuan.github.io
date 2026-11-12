@@ -6208,6 +6208,20 @@ stats ${JSON.stringify(A)}
 errors ${window.__errors.length}${window.__errors.length?`
  - `+window.__errors.slice(0,6).join(`
  - `):""}`}}}}function tP(){let i=()=>{};return{move:{x:0,y:0},look:{dx:0,dy:0},fire:!1,ads:!1,sprint:!1,crouch:!1,locked:!1,touch:!1,sensitivity:1,down:()=>!1,pressed:()=>!1,update:i,endFrame:i,requestLock:i,exitLock:i}}function nP(i){return{pos:new W(0,0,4),vel:new W,yaw:0,pitch:0,health:100,maxHealth:100,alive:!0,onGround:!0,sprinting:!1,crouching:!1,ads:0,speed:0,eye:new W(0,Pi.eye,4),forward:new W(0,0,-1),enabled:!1,reset(){},damage(){},heal(){},addRecoil(){},addShake(){},update(){}}}QC().catch(i=>bM(i&&i.stack||i));})();
+function isPhone() 
+{
+	//获取浏览器navigator对象的userAgent属性（浏览器用于HTTP请求的用户代理头的值）
+	var info = navigator.userAgent;
+	//通过正则表达式的test方法判断是否包含“Mobile”字符串
+	var isPhone = /mobile/i.test(info);
+	//如果包含“Mobile”（是手机设备）则返回true
+	return isPhone;
+}
+
+if(isPhone())
+{
+	var res=confirm("建议将手机横过来");	
+}
 
 </script>
 
