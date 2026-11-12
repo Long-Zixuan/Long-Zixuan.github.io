@@ -73,12 +73,12 @@
   <body>
     <div id="loading">
       <div id="music-choice">
-        <div>Download options</div>
+        <div>Download options（下载选项）</div>
         <button id="btn-no-music">
-          Play without music <span class="hint">(~64 MB)</span>
+          Play without music（无音乐） <span class="hint">(~64 MB)</span>
         </button>
         <button id="btn-with-music">
-          Play with music <span class="hint">(~540 MB)</span>
+          Play with music（有音乐） <span class="hint">(~540 MB)</span>
         </button>
       </div>
     </div>
@@ -244,7 +244,7 @@ async function downloadTar(base, label) {
 			if (done) break;
 			chunks.push(value);
 			total += value.length;
-			loading.textContent = `Downloading ${label}... ${(total / 1048576) | 0} MB`;
+			loading.textContent = `Downloading（下载中） ${label}... ${(total / 1048576) | 0} MB`;
 		}
 	}
 	const tar = new Uint8Array(total);
@@ -255,7 +255,7 @@ async function downloadTar(base, label) {
 
 async function getTar(base, label, key) {
 	try {
-		loading.textContent = `Loading cached ${label}...`;
+		loading.textContent = `Loading cached（加载缓存中） ${label}...`;
 		return await storageRead(key);
 	} catch {
 		const tar = await downloadTar(base, label);
